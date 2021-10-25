@@ -1,12 +1,17 @@
 <?php
 declare(strict_types=1);
 
-use App\Application\Actions\User\ListUsersAction;
-use App\Application\Actions\User\ViewUserAction;
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
+use App\Application\Actions\Auction\ViewAuctionAction;
 use Slim\App;
 use Slim\Interfaces\RouteCollectorProxyInterface as Group;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
+
+use App\Application\Actions\User\ListUsersAction;
+use App\Application\Actions\User\ViewUserAction;
+
+use App\Application\Actions\Auction\ListAuctionsAction;
+
 use Slim\Views\PhpRenderer;
 
 
@@ -19,8 +24,11 @@ return function (App $app) {
     });
 
 
+    // TODO Wrap all routes into groups, use only Action classes to dispatch responses for cleaner code
+
     // Template renderer add-on
     $renderer = new PhpRenderer("views");
+
 
     $app->get('/', function (Request $request, Response $response) use ($renderer) {
         // $response->getBody()->write('Hello world!');
@@ -37,6 +45,11 @@ return function (App $app) {
     });
 
 
+    $app->group('/auctions', function (Group $group) {
+        $group->get('', ListAuctionsAction::class);
+        $group->get('/{id}', ViewAuctionAction::class);
+    });
+
     // TODO ANY NEW ROUTES BELONG HERE
-    // SEPARATE WITH LOGICAL WHITESPACE TO CREATE MNEMONIC GROUPINGS OF ROUTES (hlavne micko!!!)
+    // SEPARATE WITH LOGICAL WHITESPACE TO CREATE MNEMONIC GROUPINGS OF ROUTES
 };

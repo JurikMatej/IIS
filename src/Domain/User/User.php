@@ -94,7 +94,7 @@ class User implements JsonSerializable
 
 
     /**
-     * Static factory method - instantiate Users from object array returned by database layer
+     * Static factory method - instantiate Users from obj array returned by database layer
      *
      * @param array $UserRecords
      * @return array
@@ -113,7 +113,7 @@ class User implements JsonSerializable
 
 
     /**
-     * Static factory method - instantiate User from object returned by database layer
+     * Static factory method - instantiate User from obj returned by database layer
      *
      * @param object $UserRecord
      * @return User
@@ -123,8 +123,6 @@ class User implements JsonSerializable
         // TODO Typecheck instead of try catch ?? DBRecords should always be Objects
         try
         {
-            print_r($UserRecord);
-
             return new User(
                 $id         = (int) $UserRecord->id,
                 $firstName  = $UserRecord->first_name,
@@ -140,13 +138,13 @@ class User implements JsonSerializable
         }
         catch (Exception $e)
         {
+            // TODO 5XX Internal server error
             exit("Could not parse user records from database in: __FILE__, __FUNCTION__ !");
         }
     }
 
 
     /**
-     * Debug method only
      * @return mixed|void
      */
     public function jsonSerialize()

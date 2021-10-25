@@ -19,6 +19,7 @@ class RemoteUserRepository implements UserRepository
      */
     private $db_conn;
 
+
     /**
      * RemoteUserRepository constructor.
      *
@@ -30,9 +31,7 @@ class RemoteUserRepository implements UserRepository
     }
 
     /**
-     * @brief Fetch all users
-     *
-     * @return array
+     * @inheritDoc
      */
     public function findAll(): array
     {
@@ -44,6 +43,9 @@ class RemoteUserRepository implements UserRepository
         return User::fromDbRecordArray($all_users);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function findUserOfId(int $id): User
     {
         $user_of_id_stmt = $this->db_conn->prepare(self::SQL_GET_USER_OF_ID);
@@ -65,14 +67,15 @@ class RemoteUserRepository implements UserRepository
         $this->db_conn = null;
     }
 
+
     /* QUERY CONSTANTS' SECTION */
 
     /**
      * Query for user with their assigned role
      */
     const SQL_GET_ALL_USERS = "
-        SELECT * FROM `user`
-            INNER JOIN `user_role`
+        SELECT * FROM user
+            INNER JOIN user_role
                 ON user.role_id = user_role.id;
     ";
 
