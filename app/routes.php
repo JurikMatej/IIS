@@ -18,14 +18,15 @@ return function (App $app) {
         return $response;
     });
 
+
     // Template renderer add-on
     $renderer = new PhpRenderer("views");
-
 
     $app->get('/', function (Request $request, Response $response) use ($renderer) {
         // $response->getBody()->write('Hello world!');
         // return $response;
-        return $renderer->render($response, "user/index.php", []);
+        return $renderer->render($response, "user/index.php", [
+        ]);
     });
     
 
@@ -36,6 +37,6 @@ return function (App $app) {
     });
 
 
-    // TODO ANY NEW ROUTES FROM BELONG HERE 
+    // TODO ANY NEW ROUTES BELONG HERE
     // SEPARATE WITH LOGICAL WHITESPACE TO CREATE MNEMONIC GROUPINGS OF ROUTES (hlavne micko!!!)
 };

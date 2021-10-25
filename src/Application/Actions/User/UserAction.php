@@ -6,6 +6,7 @@ namespace App\Application\Actions\User;
 use App\Application\Actions\Action;
 use App\Domain\User\UserRepository;
 use Psr\Log\LoggerInterface;
+use Slim\Views\PhpRenderer;
 
 // TODO Actions are the C of MVC - Action base class has utility methods, ModelAction adds protected modelRepository
 //      and concrete action dispatcher lies in separate conviniently named file (e.g. ListUsersAction.php) where the
@@ -20,6 +21,13 @@ abstract class UserAction extends Action
      */
     protected $userRepository;
 
+
+    /**
+     * @var PhpRenderer
+     */
+    protected $userViewRenderer;
+
+
     /**
      * @param LoggerInterface $logger
      * @param UserRepository $userRepository
@@ -29,5 +37,6 @@ abstract class UserAction extends Action
     ) {
         parent::__construct($logger);
         $this->userRepository = $userRepository;
+        $this->userViewRenderer = new PhpRenderer("views/user");
     }
 }
