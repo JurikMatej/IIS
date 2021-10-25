@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 24, 2021 at 09:51 PM
+-- Generation Time: Oct 25, 2021 at 02:07 PM
 -- Server version: 10.1.36-MariaDB
 -- PHP Version: 7.2.10
 
@@ -137,14 +137,14 @@ CREATE TABLE `user` (
   `password` varchar(255) COLLATE utf8mb4_slovak_ci NOT NULL,
   `address` varchar(255) COLLATE utf8mb4_slovak_ci NOT NULL,
   `registered_since` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `user_role_id` int(10) UNSIGNED NOT NULL
+  `role_id` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_slovak_ci;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `first_name`, `last_name`, `mail`, `password`, `address`, `registered_since`, `user_role_id`) VALUES
+INSERT INTO `user` (`id`, `first_name`, `last_name`, `mail`, `password`, `address`, `registered_since`, `role_id`) VALUES
 (1, 'Matej', 'Jurik', 'matej.jurik@neexistujem.com', 'tvarims@zes0mhasH', 'Doma', '2021-10-24 19:40:25', 1),
 (2, 'Marek', 'Micek', 'micko@mail.com', 'HaShAkoHrom456@xD', 'Tiez doma, pohodicka', '2021-10-24 19:44:06', 2),
 (3, 'Peter', 'Rucek', 'petrik@mail.com', 'hasHUJEMcelyDen123', 'Nepoviem', '2021-10-24 19:44:43', 3);
@@ -152,20 +152,20 @@ INSERT INTO `user` (`id`, `first_name`, `last_name`, `mail`, `password`, `addres
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user_roles`
+-- Table structure for table `user_role`
 --
 
-CREATE TABLE `user_roles` (
+CREATE TABLE `user_role` (
   `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_slovak_ci NOT NULL,
-  `authorization_level` int(10) UNSIGNED NOT NULL
+  `role` varchar(255) COLLATE utf8mb4_slovak_ci NOT NULL,
+  `authority_level` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_slovak_ci;
 
 --
--- Dumping data for table `user_roles`
+-- Dumping data for table `user_role`
 --
 
-INSERT INTO `user_roles` (`id`, `name`, `authorization_level`) VALUES
+INSERT INTO `user_role` (`id`, `role`, `authority_level`) VALUES
 (1, 'Admin', 4),
 (2, 'Auctioneer', 3),
 (3, 'User', 2),
@@ -243,7 +243,7 @@ ALTER TABLE `auction_type`
 -- AUTO_INCREMENT for table `bid`
 --
 ALTER TABLE `bid`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `user`
