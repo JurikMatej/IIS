@@ -12,6 +12,10 @@ use App\Infrastructure\DBConnection;
 use PDO;
 
 
+/**
+ * Class RemoteAuctionRepository
+ * @package App\Infrastructure\Persistence\Auction
+ */
 class RemoteAuctionRepository implements AuctionRepository
 {
     /**
@@ -47,10 +51,7 @@ class RemoteAuctionRepository implements AuctionRepository
             // TODO Slow solution - overloads network on large amount of auction records
             // Consider using more complex SLQ commands to let the DB
             // build complete auction data
-            $this->findAuctionPhotos($auction); // add photos in relation
-            $this->findAuctionAuthor($auction); // add auction author
-            $this->findAuctionApprover($auction); // add auciton approver
-            $this->findAuctionWinner($auction); // add auction winner
+            $this->expandForeignReferences($auction);
         }
 
         return $all_auctions;
@@ -66,13 +67,24 @@ class RemoteAuctionRepository implements AuctionRepository
         $auction_of_id_result = $auction_of_id_stmt->fetch();
 
         $auction_of_id = Auction::fromDbRecord($auction_of_id_result);
-        $this->findAuctionPhotos($auction_of_id); // add photos in relation
-        $this->findAuctionAuthor($auction_of_id); // add auction author
-        $this->findAuctionApprover($auction_of_id); // add auciton approver
-        $this->findAuctionWinner($auction_of_id); // add auction winner
 
-        return $auction_of_id;
+        return $this->expandForeignReferences($auction_of_id);
     }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function expandForeignReferences(Auction $auction): Auction
+    {
+        $this->findAuctionPhotos($auction);     // add photos in relation
+        $this->findAuctionAuthor($auction);     // add auction author
+        $this->findAuctionApprover($auction);   // add auction approver
+        $this->findAuctionWinner($auction);     // add auction winner
+
+        return $auction;
+    }
+
 
     /**
      * @inheritDoc
@@ -81,19 +93,19 @@ class RemoteAuctionRepository implements AuctionRepository
     {
         $auction_photos_stmt = $this->db_conn->prepare(self::SQL_GET_AUCTION_PHOTOS);
         $auction_photos_stmt->execute(['id' => $auction->getId()]);
-        $photos_object = $auction_photos_stmt->fetchAll();
+        $photo_objects = $auction_photos_stmt->fetchAll();
 
-        $photos_array = [];
-        if ($photos_object)
+        $photo_array = [];
+        if ($photo_objects)
         {
             // Transform $photos_object into more readable array form
-            foreach ($photos_object as $photo)
+            foreach ($photo_objects as $photo_object)
             {
-                $photos_array[] = $photo->path;
+                $photo_array[] = $photo_object->path;
             }
         }
 
-        $auction->setPhotos($photos_array);
+        $auction->setPhotos($photo_array);
         return $auction;
     }
 

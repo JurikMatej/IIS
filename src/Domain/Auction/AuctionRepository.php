@@ -20,6 +20,15 @@ interface AuctionRepository
 
 
     /**
+     * Expand Auction foreign keys to actual objects in relation
+     *
+     * @param Auction $auction
+     * @return Auction
+     */
+    public function expandForeignReferences(Auction $auction): Auction;
+
+
+    /**
      * @param Auction $auction
      * @return Auction
      */
