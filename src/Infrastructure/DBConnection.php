@@ -26,23 +26,20 @@ class DBConnection
      */
     private $conn;
 
-
-    // TODO Create env variable system to store secrets in
-
     /**
-     * @const string
+     * @var string
      */
-    private const DB_DSN = 'mysql:host=localhost;dbname=auctionsystem'; // Testing phase only
+    private $db_dsn;
 
     /**
      * @var string
      */
-    private $db_user = "root"; // Testing phase only
+    private $db_user;
 
     /**
      * @var string
      */
-    private $db_pass = ""; // Testing phase only
+    private $db_pass;
 
 
     /**
@@ -52,6 +49,10 @@ class DBConnection
      */
     private final function __construct()
     {
+        $this->db_dsn  = $_ENV['DB_DSN'];
+        $this->db_user = $_ENV['DB_USER'];
+        $this->db_pass = $_ENV['DB_PASS'];
+
         try
         {
             $this->establishConnection();
@@ -63,10 +64,12 @@ class DBConnection
         }
     }
 
-
+    /**
+     * @brief Create a new PDO connection object and assign it to member variable
+     */
     private function establishConnection()
     {
-        $this->conn = new PDO(self::DB_DSN, $this->db_user, $this->db_pass);
+        $this->conn = new PDO($this->db_dsn, $this->db_user, $this->db_pass);
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $this->conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
     }

@@ -8,16 +8,25 @@ use App\Application\Settings\SettingsInterface;
 use DI\ContainerBuilder;
 use Slim\Factory\AppFactory;
 use Slim\Factory\ServerRequestCreatorFactory;
+use Dotenv\Dotenv;
 
 require __DIR__ . '/../vendor/autoload.php';
+
+
+/** Register 3rd party libs */
+$dotenv = Dotenv::createImmutable(__DIR__ . '/..', '.env');
+$dotenv->load();
+$dotenv->required(['DB_DSN', 'DB_USER'])->notEmpty();
+$dotenv->required(['APP_DEBUG', 'APP_DISPLAY_ERROR_DETAILS'])->notEmpty()->isBoolean();
+$dotenv->required(['DB_PASS']);
 
 
 /** CREATE APP CONFIG */
 // Instantiate PHP-DI ContainerBuilder
 $containerBuilder = new ContainerBuilder();
 
-// TODO change literal to environment variable APP_DEBUG=
-if (false) { // Should be set to true in production 
+$debug_mode = (bool) $_ENV['APP_DEBUG'];
+if (!$debug_mode) {
 	$containerBuilder->enableCompilation(__DIR__ . '/../var/cache');
 }
 

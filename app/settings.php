@@ -12,8 +12,7 @@ return function (ContainerBuilder $containerBuilder) {
     $containerBuilder->addDefinitions([
         SettingsInterface::class => function () {
             return new Settings([
-                // TODO Switch to true for production
-                'displayErrorDetails' => true, // Should be set to false in production 
+                'displayErrorDetails' => (bool) $_ENV['APP_DISPLAY_ERROR_DETAILS'],
                 'logError'            => false,
                 'logErrorDetails'     => false,
                 'logger' => [
