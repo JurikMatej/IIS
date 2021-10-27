@@ -2,6 +2,8 @@
 declare(strict_types=1);
 
 use App\Application\Actions\Auction\ViewAuctionAction;
+use App\Application\Actions\Bid\ListBidsAction;
+use App\Application\Actions\Bid\ViewBidAction;
 use Slim\App;
 use Slim\Interfaces\RouteCollectorProxyInterface as Group;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -49,6 +51,17 @@ return function (App $app) {
         $group->get('', ListAuctionsAction::class);
         $group->get('/{id}', ViewAuctionAction::class);
     });
+
+
+    // DEBUG ONLY GROUP
+    // TODO Only create this group under APP_DEBUG condition
+    if (true)
+    {
+        $app->group('/bids', function (Group $group) {
+            $group->get('', ListBidsAction::class);
+            $group->get('/{id}', ViewBidAction::class);
+        });
+    }
 
     // TODO ANY NEW ROUTES BELONG HERE
     // SEPARATE WITH LOGICAL WHITESPACE TO CREATE MNEMONIC GROUPINGS OF ROUTES

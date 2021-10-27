@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+use App\Domain\Bid\BidRepository;
+use App\Infrastructure\Persistence\Bid\RemoteBidRepository;
 use DI\ContainerBuilder;
 
 use App\Domain\User\UserRepository;
@@ -20,5 +22,6 @@ return function (ContainerBuilder $containerBuilder) {
 
         UserRepository::class => \DI\autowire(RemoteUserRepository::class),
         AuctionRepository::class => \DI\autowire(RemoteAuctionRepository::class),
+        BidRepository::class => \DI\autowire(RemoteBidRepository::class)
     ]);
 };
