@@ -23,26 +23,26 @@ interface AuctionRepository
      * @param Auction $auction
      * @return Auction
      */
-    public function findAuctionPhotos(Auction $auction);
+    public function findAuctionPhotos(Auction $auction): Auction;
 
 
     /**
      * @param Auction $auction
      * @return Auction
      */
-    public function findAuctionAuthor(Auction $auction);
+    public function findAuctionAuthor(Auction $auction): Auction;
 
 
     /**
      * @param Auction $auction
      * @return Auction
      */
-    public function findAuctionApprover(Auction $auction);
+    public function findAuctionApprover(Auction $auction): Auction;
 
 
     /**
      * @param Auction $auction
      * @return Auction
      */
-    public function findAuctionWinner(Auction $auction);
+    public function findAuctionWinner(Auction $auction): Auction;
 }

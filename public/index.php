@@ -16,7 +16,7 @@ require __DIR__ . '/../vendor/autoload.php';
 // Instantiate PHP-DI ContainerBuilder
 $containerBuilder = new ContainerBuilder();
 
-// TODO rewirite to true for production
+// TODO change literal to environment variable APP_DEBUG=
 if (false) { // Should be set to true in production 
 	$containerBuilder->enableCompilation(__DIR__ . '/../var/cache');
 }

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Domain\User;
 
+use App\Domain\DomainInterfaces\DBRecordConstructable;
 use DateTime;
 use Exception;
 
@@ -11,7 +12,7 @@ use JsonSerializable; // Left here for possible implementation later
 // TODO This is the User table Model - all other models should lie under ~/src/Domain
 //      Model has its Entity class, any exceptions and it's own Repository interface
 
-class User implements JsonSerializable
+class User implements JsonSerializable, DBRecordConstructable
 {
     /**
      * @var int|null
@@ -96,16 +97,16 @@ class User implements JsonSerializable
     /**
      * Static factory method - instantiate Users from obj array returned by database layer
      *
-     * @param array $UserRecords
+     * @param array $userRecords
      * @return array
      */
-    public static function fromDbRecordArray(array $UserRecords) : array
+    public static function fromDbRecordArray(array $userRecords) : array
     {
         $result = [];
 
-        foreach ($UserRecords as $UserRecord)
+        foreach ($userRecords as $userRecord)
         {
-            $result[] = self::fromDbRecord($UserRecord);
+            $result[] = self::fromDbRecord($userRecord);
         }
 
         return $result;
@@ -115,25 +116,25 @@ class User implements JsonSerializable
     /**
      * Static factory method - instantiate User from obj returned by database layer
      *
-     * @param object $UserRecord
+     * @param object $userRecord
      * @return User
      */
-    public static function fromDbRecord(object $UserRecord) : User
+    public static function fromDbRecord(object $userRecord) : User
     {
-        // TODO Typecheck instead of try catch ?? DBRecords should always be Objects
+        // TODO Type-check instead of try catch ?? DBRecords should always be Objects
         try
         {
             return new User(
-                $id         = (int) $UserRecord->id,
-                $firstName  = $UserRecord->first_name,
-                $lastName   = $UserRecord->last_name,
-                $mail       = $UserRecord->mail,
-                $password   = $UserRecord->password,
-                $address    = $UserRecord->address,
+                $id         = (int) $userRecord->id,
+                $firstName  = $userRecord->first_name,
+                $lastName   = $userRecord->last_name,
+                $mail       = $userRecord->mail,
+                $password   = $userRecord->password,
+                $address    = $userRecord->address,
                 // TODO Export datetime format to global definitions
-                $registered_since = DateTime::createFromFormat("Y-m-d H:i:s", $UserRecord->registered_since),
-                $role       = $UserRecord->role,
-                $authority_level = (int) $UserRecord->authority_level
+                $registered_since = DateTime::createFromFormat("Y-m-d H:i:s", $userRecord->registered_since),
+                $role       = $userRecord->role,
+                $authority_level = (int) $userRecord->authority_level
             );
         }
         catch (Exception $e)

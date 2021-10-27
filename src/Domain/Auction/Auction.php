@@ -3,13 +3,14 @@ declare(strict_types=1);
 
 namespace App\Domain\Auction;
 
+use App\Domain\DomainInterfaces\DBRecordConstructable;
 use App\Domain\User\User;
 use DateTime;
 use Exception;
 
 use JsonSerializable;
 
-class Auction implements JsonSerializable
+class Auction implements JsonSerializable, DBRecordConstructable
 {
     /**
      * @var int|null
@@ -156,16 +157,16 @@ class Auction implements JsonSerializable
     /**
      * Static factory method - instantiate Auctions from obj array returned by database layer
      *
-     * @param array $AuctionRecords
+     * @param array $auctionRecords
      * @return array
      */
-    public static function fromDbRecordArray(array $AuctionRecords) : array
+    public static function fromDbRecordArray(array $auctionRecords): array
     {
         $result = [];
 
-        foreach ($AuctionRecords as $AuctionRecord)
+        foreach ($auctionRecords as $auctionRecord)
         {
-            $result[] = self::fromDbRecord($AuctionRecord);
+            $result[] = self::fromDbRecord($auctionRecord);
         }
 
         return $result;
@@ -175,32 +176,32 @@ class Auction implements JsonSerializable
     /**
      * Static factory method - instantiate Auction from obj returned by database layer
      *
-     * @param object $AuctionRecord
+     * @param object $auctionRecord
      * @return Auction
      */
-    public static function fromDbRecord(object $AuctionRecord) : Auction
+    public static function fromDbRecord(object $auctionRecord): Auction
     {
         try
         {
             return new Auction(
-                $id = (int) $AuctionRecord->id,
-                $name = $AuctionRecord->name,
-                $date =  DateTime::createFromFormat("Y-m-d H:i:s", $AuctionRecord->date),
-                $description = $AuctionRecord->description,
-                $starting_bid = (int) $AuctionRecord->starting_bid,
-                $time_limit = (isset($AuctionRecord->time_limit)) ?
-                    DateTime::createFromFormat("H:i:s", $AuctionRecord->time_limit)
+                $id = (int) $auctionRecord->id,
+                $name = $auctionRecord->name,
+                $date =  DateTime::createFromFormat("Y-m-d H:i:s", $auctionRecord->date),
+                $description = $auctionRecord->description,
+                $starting_bid = (int) $auctionRecord->starting_bid,
+                $time_limit = (isset($auctionRecord->time_limit)) ?
+                    DateTime::createFromFormat("H:i:s", $auctionRecord->time_limit)
                     : null,
-                $minimum_bid_increase = (int) $AuctionRecord->minimum_bid_increase,
-                $bidding_interval = (isset($AuctionRecord->bidding_interval)) ?
-                    DateTime::createFromFormat("H:i:s", $AuctionRecord->bidding_interval)
+                $minimum_bid_increase = (int) $auctionRecord->minimum_bid_increase,
+                $bidding_interval = (isset($auctionRecord->bidding_interval)) ?
+                    DateTime::createFromFormat("H:i:s", $auctionRecord->bidding_interval)
                     : null,
-                $awaiting_approval = (bool) $AuctionRecord->awaiting_approval,
-                $author_id = (int) $AuctionRecord->author_id,
-                $ruleset = $AuctionRecord->ruleset,
-                $type = $AuctionRecord->type,
-                $approver_id = (int) $AuctionRecord->approver_id,
-                $winner_id = (int) $AuctionRecord->winner_id
+                $awaiting_approval = (bool) $auctionRecord->awaiting_approval,
+                $author_id = (int) $auctionRecord->author_id,
+                $ruleset = $auctionRecord->ruleset,
+                $type = $auctionRecord->type,
+                $approver_id = (int) $auctionRecord->approver_id,
+                $winner_id = (int) $auctionRecord->winner_id
             );
         }
         catch (Exception $e)
