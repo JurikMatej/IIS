@@ -70,9 +70,19 @@ class Auction implements JsonSerializable, DBRecordConstructable
     private $author_id;
 
     /**
+     * @var int
+     */
+    private $type_id;
+
+    /**
      * @var string
      */
     private $type;
+
+    /**
+     * @var int
+     */
+    private $ruleset_id;
 
     /**
      * @var string
@@ -116,8 +126,8 @@ class Auction implements JsonSerializable, DBRecordConstructable
      * @param DateTime|null $bidding_interval
      * @param bool $awaiting_approval
      * @param int $author_id
-     * @param string $type
-     * @param string $ruleset
+     * @param int $type_id
+     * @param int $ruleset_id
      * @param int|null $approver_id
      * @param int|null $winner_id
      */
@@ -132,8 +142,8 @@ class Auction implements JsonSerializable, DBRecordConstructable
         ?DateTime $bidding_interval,
         bool $awaiting_approval,
         int $author_id,
-        string $type,
-        string $ruleset,
+        int $type_id,
+        int $ruleset_id,
         ?int $approver_id,
         ?int $winner_id)
     {
@@ -147,8 +157,8 @@ class Auction implements JsonSerializable, DBRecordConstructable
         $this->bidding_interval = $bidding_interval;
         $this->awaiting_approval = $awaiting_approval;
         $this->author_id = $author_id;
-        $this->type = $type;
-        $this->ruleset = $ruleset;
+        $this->type_id = $type_id;
+        $this->ruleset_id = $ruleset_id;
         $this->approver_id = $approver_id; // TODO rename xD
         $this->winner_id = $winner_id;
     }
@@ -198,8 +208,8 @@ class Auction implements JsonSerializable, DBRecordConstructable
                     : null,
                 $awaiting_approval = (bool) $auctionRecord->awaiting_approval,
                 $author_id = (int) $auctionRecord->author_id,
-                $ruleset = $auctionRecord->ruleset,
-                $type = $auctionRecord->type,
+                $ruleset_id = (int) $auctionRecord->ruleset_id,
+                $type_id = (int) $auctionRecord->type_id,
                 $approver_id = (int) $auctionRecord->approver_id,
                 $winner_id = (int) $auctionRecord->winner_id
             );
@@ -220,15 +230,17 @@ class Auction implements JsonSerializable, DBRecordConstructable
         return [
             "id" => $this->id,
             "name" => $this->name,
-            "date" => $this->date,
+            "date" => $this->getFormattedDate(),
             "description" => $this->description,
             "starting_bid" => $this->starting_bid,
-            "time_limit" => $this->time_limit,
+            "time_limit" => $this->getFormattedTimeLimit(),
             "minimum_bid_increase" => $this->minimum_bid_increase,
-            "bidding_interval" => $this->bidding_interval,
+            "bidding_interval" => $this->getFormattedBiddingInterval(),
             "author_id" => $this->author_id,
             "author" => $this->author,
+            "type_id" => $this->type_id,
             "type" => $this->type,
+            "ruleset_id" => $this->ruleset_id,
             "ruleset" => $this->ruleset,
             "approver_id" => $this->approver_id,
             "approver" => $this->approver,
@@ -282,6 +294,16 @@ class Auction implements JsonSerializable, DBRecordConstructable
     }
 
     /**
+     * @return string|null
+     */
+    public function getFormattedDate(): ?string
+    {
+        return ($this->date !== null) ?
+            $this->date->format('Y-m-d H:i:s')
+            : null;
+    }
+
+    /**
      * @param DateTime $date
      */
     public function setDate(DateTime $date): void
@@ -330,6 +352,16 @@ class Auction implements JsonSerializable, DBRecordConstructable
     }
 
     /**
+     * @return string|null
+     */
+    public function getFormattedTimeLimit(): ?string
+    {
+        return ($this->time_limit !== null) ?
+            $this->time_limit->format('H:i:s')
+            : null;
+    }
+
+    /**
      * @param DateTime|null $time_limit
      */
     public function setTimeLimit(?DateTime $time_limit): void
@@ -362,6 +394,16 @@ class Auction implements JsonSerializable, DBRecordConstructable
     }
 
     /**
+     * @return string|null
+     */
+    public function getFormattedBiddingInterval(): ?string
+    {
+        return ($this->bidding_interval !== null) ?
+            $this->bidding_interval->format('H:i:s')
+            : null;
+    }
+
+    /**
      * @param DateTime|null $bidding_interval
      */
     public function setBiddingInterval(?DateTime $bidding_interval): void
@@ -386,6 +428,22 @@ class Auction implements JsonSerializable, DBRecordConstructable
     }
 
     /**
+     * @return int
+     */
+    public function getTypeId(): int
+    {
+        return $this->type_id;
+    }
+
+    /**
+     * @param int $type_id
+     */
+    public function setTypeId(int $type_id): void
+    {
+        $this->type_id = $type_id;
+    }
+
+    /**
      * @return string
      */
     public function getType(): string
@@ -399,6 +457,22 @@ class Auction implements JsonSerializable, DBRecordConstructable
     public function setType(string $type): void
     {
         $this->type = $type;
+    }
+
+    /**
+     * @return int
+     */
+    public function getRulesetId(): int
+    {
+        return $this->ruleset_id;
+    }
+
+    /**
+     * @param int $ruleset_id
+     */
+    public function setRulesetId(int $ruleset_id): void
+    {
+        $this->ruleset_id = $ruleset_id;
     }
 
     /**
@@ -468,7 +542,7 @@ class Auction implements JsonSerializable, DBRecordConstructable
     /**
      * @return int
      */
-    public function getAuthorId()
+    public function getAuthorId(): int
     {
         return $this->author_id;
     }
@@ -484,7 +558,7 @@ class Auction implements JsonSerializable, DBRecordConstructable
     /**
      * @return int|null
      */
-    public function getApproverId()
+    public function getApproverId(): ?int
     {
         return $this->approver_id;
     }
@@ -500,7 +574,7 @@ class Auction implements JsonSerializable, DBRecordConstructable
     /**
      * @return int|null
      */
-    public function getWinnerId()
+    public function getWinnerId(): ?int
     {
         return $this->winner_id;
     }

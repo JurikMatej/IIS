@@ -37,6 +37,22 @@ class RemoteBidRepository implements BidRepository
     /**
      * @inheritDoc
      */
+    public function save(Bid $bid): void
+    {
+        // TODO: Implement save() method.
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function delete(int $bid_id): void
+    {
+        // TODO: Implement delete() method.
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function findAll(): array
     {
         $all_bids_stmt = $this->db_conn->prepare(self::SQL_GET_ALL_BIDS);

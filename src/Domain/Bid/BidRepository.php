@@ -7,6 +7,20 @@ namespace App\Domain\Bid;
 interface BidRepository
 {
     /**
+     * Insert or update a Bid
+     *
+     * @param Bid $bid
+     */
+    public function save(Bid $bid): void;
+
+    /**
+     * Delete Bid of id
+     *
+     * @param int $bid_id
+     */
+    public function delete(int $bid_id): void;
+
+    /**
      * @return Bid[]
      */
     public function findAll(): array;

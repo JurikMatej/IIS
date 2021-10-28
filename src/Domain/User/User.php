@@ -45,7 +45,7 @@ class User implements JsonSerializable, DBRecordConstructable
     private $address;
 
     /**
-     * @var DateTime
+     * @var DateTime|null
      */
     private $registered_since;
 
@@ -67,7 +67,7 @@ class User implements JsonSerializable, DBRecordConstructable
      * @param string    $mail
      * @param string    $password
      * @param string    $address
-     * @param DateTime  $registered_since
+     * @param DateTime|null  $registered_since
      * @param string    $role
      * @param int       $authority_level
      */
@@ -78,7 +78,7 @@ class User implements JsonSerializable, DBRecordConstructable
         string $mail,
         string $password,
         string $address,
-        DateTime $registered_since,
+        ?DateTime $registered_since,
         string $role,
         int $authority_level)
     {
@@ -121,7 +121,6 @@ class User implements JsonSerializable, DBRecordConstructable
      */
     public static function fromDbRecord(object $userRecord) : User
     {
-        // TODO Type-check instead of try catch ?? DBRecords should always be Objects
         try
         {
             return new User(
@@ -131,7 +130,6 @@ class User implements JsonSerializable, DBRecordConstructable
                 $mail       = $userRecord->mail,
                 $password   = $userRecord->password,
                 $address    = $userRecord->address,
-                // TODO Export datetime format to global definitions
                 $registered_since = DateTime::createFromFormat("Y-m-d H:i:s", $userRecord->registered_since),
                 $role       = $userRecord->role,
                 $authority_level = (int) $userRecord->authority_level
@@ -157,7 +155,7 @@ class User implements JsonSerializable, DBRecordConstructable
             "mail" => $this->mail,
             "password" => $this->password,
             "address" => $this->address,
-            "registeredSince" => $this->registered_since->format('Y-m-d H:i:s'),
+            "registeredSince" => $this->getFormattedRegisteredSince(),
             "role"=> $this->role,
             "authority_level" => $this->authority_level
         ];
@@ -247,6 +245,16 @@ class User implements JsonSerializable, DBRecordConstructable
     public function getRegisteredSince(): DateTime
     {
         return $this->registered_since;
+    }
+
+    /**
+     * @return ?string
+     */
+    public function getFormattedRegisteredSince(): ?string
+    {
+        return ($this->registered_since !== null) ?
+            $this->registered_since->format("Y-m-d H:i:s")
+            : null;
     }
 
     /**

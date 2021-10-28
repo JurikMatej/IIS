@@ -16,7 +16,6 @@ use App\Application\Actions\Auction\ListAuctionsAction;
 
 use Slim\Views\PhpRenderer;
 
-
 // TODO Refer to https://github.com/slimphp/PHP-View to return or create views
 
 return function (App $app) {
@@ -25,8 +24,6 @@ return function (App $app) {
         return $response;
     });
 
-
-    // TODO Wrap all routes into groups, use only Action classes to dispatch responses for cleaner code
 
     // Template renderer add-on
     $renderer = new PhpRenderer("views");
@@ -40,7 +37,6 @@ return function (App $app) {
     });
     
 
-    // TODO example of Action/Controller usage
     $app->group('/users', function (Group $group) {
         $group->get('', ListUsersAction::class);
         $group->get('/{id}', ViewUserAction::class);
@@ -54,15 +50,11 @@ return function (App $app) {
 
 
     // DEBUG ONLY GROUP
-    // TODO Only create this group under APP_DEBUG condition
-    if (true)
+    if ($_ENV['APP_DEBUG'])
     {
         $app->group('/bids', function (Group $group) {
             $group->get('', ListBidsAction::class);
             $group->get('/{id}', ViewBidAction::class);
         });
     }
-
-    // TODO ANY NEW ROUTES BELONG HERE
-    // SEPARATE WITH LOGICAL WHITESPACE TO CREATE MNEMONIC GROUPINGS OF ROUTES
 };

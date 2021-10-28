@@ -33,6 +33,22 @@ class RemoteUserRepository implements UserRepository
     /**
      * @inheritDoc
      */
+    public function save(User $user): void
+    {
+        // TODO: Implement save() method.
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function delete(int $user_id): void
+    {
+        // TODO: Implement delete() method.
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function findAll(): array
     {
         $all_users_stmt = $this->db_conn->prepare(self::SQL_GET_ALL_USERS);
