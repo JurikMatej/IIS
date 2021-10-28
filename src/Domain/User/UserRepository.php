@@ -13,6 +13,12 @@ interface UserRepository
     public function save(User $user): void;
 
     /**
+     * @param int|null $user_id
+     * @return bool
+     */
+    public function userExists(?int $user_id): bool;
+
+    /**
      * Delete User of id
      *
      * @param int $user_id

@@ -159,7 +159,7 @@ class Auction implements JsonSerializable, DBRecordConstructable
         $this->author_id = $author_id;
         $this->type_id = $type_id;
         $this->ruleset_id = $ruleset_id;
-        $this->approver_id = $approver_id; // TODO rename xD
+        $this->approver_id = $approver_id;
         $this->winner_id = $winner_id;
     }
 

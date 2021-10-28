@@ -9,8 +9,6 @@ use Exception;
 
 use JsonSerializable; // Left here for possible implementation later
 
-// TODO This is the User table Model - all other models should lie under ~/src/Domain
-//      Model has its Entity class, any exceptions and it's own Repository interface
 
 class User implements JsonSerializable, DBRecordConstructable
 {
@@ -22,12 +20,12 @@ class User implements JsonSerializable, DBRecordConstructable
     /**
      * @var string
      */
-    private $firstName;
+    private $first_name;
 
     /**
      * @var string
      */
-    private $lastName;
+    private $last_name;
 
     /**
      * @var string
@@ -50,6 +48,11 @@ class User implements JsonSerializable, DBRecordConstructable
     private $registered_since;
 
     /**
+     * @var int
+     */
+    private $role_id;
+
+    /**
      * @var string
      */
     private $role;
@@ -61,36 +64,33 @@ class User implements JsonSerializable, DBRecordConstructable
 
 
     /**
-     * @param int|null  $id
-     * @param string    $firstName
-     * @param string    $lastName
-     * @param string    $mail
-     * @param string    $password
-     * @param string    $address
-     * @param DateTime|null  $registered_since
-     * @param string    $role
-     * @param int       $authority_level
+     * @param int|null $id
+     * @param string $first_name
+     * @param string $last_name
+     * @param string $mail
+     * @param string $password
+     * @param string $address
+     * @param DateTime|null $registered_since
+     * @param int $role_id
      */
     public function __construct(
         ?int $id,
-        string $firstName, 
-        string $lastName,
+        string $first_name,
+        string $last_name,
         string $mail,
         string $password,
         string $address,
         ?DateTime $registered_since,
-        string $role,
-        int $authority_level)
+        int $role_id)
     {
         $this->id = $id;
-        $this->firstName = ucfirst($firstName);
-        $this->lastName = ucfirst($lastName);
+        $this->first_name = ucfirst($first_name);
+        $this->last_name = ucfirst($last_name);
         $this->mail     = $mail;
         $this->setPassword($password);
         $this->address  = $address;
         $this->registered_since = $registered_since; // ?
-        $this->role     = $role;
-        $this->authority_level = $authority_level;        
+        $this->role_id  = $role_id;
     }
 
 
@@ -131,8 +131,7 @@ class User implements JsonSerializable, DBRecordConstructable
                 $password   = $userRecord->password,
                 $address    = $userRecord->address,
                 $registered_since = DateTime::createFromFormat("Y-m-d H:i:s", $userRecord->registered_since),
-                $role       = $userRecord->role,
-                $authority_level = (int) $userRecord->authority_level
+                $role_id       = (int) $userRecord->role_id
             );
         }
         catch (Exception $e)
@@ -150,13 +149,14 @@ class User implements JsonSerializable, DBRecordConstructable
     {
         return [
             "id" => $this->id,
-            "firstName" => $this->firstName,
-            "lastName" => $this->lastName,
+            "first_name" => $this->first_name,
+            "last_name" => $this->last_name,
             "mail" => $this->mail,
             "password" => $this->password,
             "address" => $this->address,
-            "registeredSince" => $this->getFormattedRegisteredSince(),
-            "role"=> $this->role,
+            "registered_since" => $this->getFormattedRegisteredSince(),
+            "role_id"=> $this->role_id,
+            "role" => $this->role,
             "authority_level" => $this->authority_level
         ];
     }
@@ -178,7 +178,7 @@ class User implements JsonSerializable, DBRecordConstructable
      */
     public function getFirstName(): string
     {
-        return $this->firstName;
+        return $this->first_name;
     }
 
     /**
@@ -186,7 +186,7 @@ class User implements JsonSerializable, DBRecordConstructable
      */
     public function getLastName(): string
     {
-        return $this->lastName;
+        return $this->last_name;
     }
 
     /**
@@ -266,9 +266,25 @@ class User implements JsonSerializable, DBRecordConstructable
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getRole(): string
+    public function getRoleId(): int
+    {
+        return $this->role_id;
+    }
+
+    /**
+     * @param int $role_id
+     */
+    public function setRoleId(int $role_id): void
+    {
+        $this->role_id = $role_id;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getRole(): ?string // TODO rewrite to string after bugfix
     {
         return $this->role;
     }
