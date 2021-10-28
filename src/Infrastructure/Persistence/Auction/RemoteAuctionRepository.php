@@ -34,6 +34,7 @@ class RemoteAuctionRepository implements AuctionRepository
         $this->db_conn = DBConnection::getInstance();
     }
 
+
     /**
      * @inheritDoc
      *
@@ -49,6 +50,7 @@ class RemoteAuctionRepository implements AuctionRepository
             $this->update($auction);
     }
 
+
     /**
      * @inheritDoc
      */
@@ -62,12 +64,13 @@ class RemoteAuctionRepository implements AuctionRepository
         return $auction_stmt->rowCount() !== 0;
     }
 
+
     /**
      * @param Auction $auction
      */
     private function insert(Auction $auction): void
     {
-        $insert_stmt = $this->db_conn
+        $this->db_conn
             ->prepare(self::SQL_INSERT_AUCTION)
             ->execute([
                 'name'          =>  $auction->getName(),
@@ -86,12 +89,13 @@ class RemoteAuctionRepository implements AuctionRepository
             ]);
     }
 
+
     /**
      * @param Auction $auction
      */
     private function update(Auction $auction): void
     {
-        $update_stmt = $this->db_conn
+        $this->db_conn
             ->prepare(self::SQL_UPDATE_AUCTION)
             ->execute([
                 'id'            =>  $auction->getId(),
@@ -111,12 +115,13 @@ class RemoteAuctionRepository implements AuctionRepository
             ]);
     }
 
+
     /**
      * @inheritDoc
      */
     public function delete(int $auction_id): void
     {
-        $delete_stmt = $this->db_conn
+        $this->db_conn
             ->prepare(self::SQL_DELETE_AUCTION)
             ->execute(['id' => $auction_id]);
     }
@@ -145,6 +150,7 @@ class RemoteAuctionRepository implements AuctionRepository
 
         return $all_auctions;
     }
+
 
     /**
      * @inheritDoc

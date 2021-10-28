@@ -34,21 +34,75 @@ class RemoteBidRepository implements BidRepository
             $this->db_conn = DBConnection::getInstance();
     }
 
+
     /**
      * @inheritDoc
      */
     public function save(Bid $bid): void
     {
-        // TODO: Implement save() method.
+        $bid_exists = $this->bidExists($bid->getId());
+
+        if (!$bid_exists)
+            $this->insert($bid);
+        else
+            $this->update($bid);
     }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function bidExists(?int $bid_id): bool
+    {
+        if ($bid_id === null) return false;
+
+        $bid_stmt = $this->db_conn->prepare(self::SQL_GET_BID_OF_ID);
+        $bid_stmt->execute(['id' => $bid_id]);
+
+        return $bid_stmt->rowCount() !== 0;
+    }
+
+
+    /**
+     * @param Bid $bid
+     */
+    private function insert(Bid $bid): void
+    {
+        $this->db_conn
+            ->prepare(self::SQL_INSERT_BID)
+            ->execute([
+                'value' => $bid->getValue(),
+                'auction_id' => $bid->getAuctionId(),
+                'user_id' => $bid->getUserId()
+            ]);
+    }
+
+    /**
+     * @param Bid $bid
+     */
+    private function update(Bid $bid): void
+    {
+        $this->db_conn
+            ->prepare(self::SQL_UPDATE_BID)
+            ->execute([
+                'id' => $bid->getId(),
+                'value' => $bid->getValue(),
+                'auction_id' => $bid->getAuctionId(),
+                'user_id' => $bid->getUserId()
+            ]);
+    }
+
 
     /**
      * @inheritDoc
      */
     public function delete(int $bid_id): void
     {
-        // TODO: Implement delete() method.
+        $this->db_conn
+            ->prepare(self::SQL_DELETE_BID)
+            ->execute(['id' => $bid_id]);
     }
+
 
     /**
      * @inheritDoc
@@ -66,6 +120,7 @@ class RemoteBidRepository implements BidRepository
 
         return $all_bids;
     }
+
 
     /**
      * @inheritDoc
@@ -152,17 +207,40 @@ class RemoteBidRepository implements BidRepository
 
     /* QUERY CONSTANTS' SECTION */
 
-    /**
-     * Query for all bids
-     */
-    const SQL_GET_ALL_BIDS = "
+    private const SQL_INSERT_BID = "
+        INSERT INTO bid
+            (
+             value, 
+             auction_id, 
+             user_id
+            )
+        VALUES 
+            (
+             :value, 
+             :auction_id, 
+             :user_id 
+            );
+    ";
+
+    private const SQL_UPDATE_BID = "
+        UPDATE bid
+        SET 
+            value = :value,
+            auction_id = :auction_id,
+            user_id = :user_id
+        WHERE bid.id = :id;
+    ";
+
+    private const SQL_DELETE_BID = "
+        DELETE FROM bid
+        WHERE bid.id = :id
+    ";
+
+    private const SQL_GET_ALL_BIDS = "
         SELECT * FROM bid;
     ";
 
-    /**
-     * Query for bid of :id
-     */
-    const SQL_GET_BID_OF_ID = "
+    private const SQL_GET_BID_OF_ID = "
         SELECT * FROM bid
         WHERE bid.id = :id;
     ";
@@ -170,7 +248,7 @@ class RemoteBidRepository implements BidRepository
     /**
      * Query for bid placing user
      */
-    const SQL_GET_BID_USER = "
+    private const SQL_GET_BID_USER = "
         SELECT * FROM user
             INNER JOIN user_role
                 ON user.role_id = user_role.id
@@ -180,7 +258,7 @@ class RemoteBidRepository implements BidRepository
     /**
      * Query for auction that bid was placed on
      */
-    const SQL_GET_BID_AUCTION = "
+    private const SQL_GET_BID_AUCTION = "
         SELECT * FROM auction
             INNER JOIN auction_type
                 ON auction.type_id = auction_type.id
@@ -192,7 +270,7 @@ class RemoteBidRepository implements BidRepository
     /**
      * Query for user of :id's bids
      */
-    const SQL_GET_USER_BIDS = "
+    private const SQL_GET_USER_BIDS = "
         SELECT * FROM bid 
         WHERE bid.user_id = :id
     ";
@@ -200,7 +278,7 @@ class RemoteBidRepository implements BidRepository
     /**
      * Query for auction of :id's bids
      */
-    const SQL_GET_AUCTION_BIDS = "
+    private const SQL_GET_AUCTION_BIDS = "
         SELECT * FROM bid
         WHERE bid.auction_id = :id
     ";

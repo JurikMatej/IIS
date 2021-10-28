@@ -14,6 +14,12 @@ interface BidRepository
     public function save(Bid $bid): void;
 
     /**
+     * @param int|null $bid_id
+     * @return bool
+     */
+    public function bidExists(?int $bid_id): bool;
+
+    /**
      * Delete Bid of id
      *
      * @param int $bid_id

@@ -15,7 +15,7 @@ interface AuctionRepository
 
 
     /**
-     * @param int $auction_id
+     * @param int|null $auction_id
      * @return bool
      */
     public function auctionExists(?int $auction_id): bool;
