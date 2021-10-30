@@ -4,317 +4,345 @@ declare(strict_types=1);
 namespace App\Domain\User;
 
 use App\Domain\DomainInterfaces\DBRecordConstructable;
+use App\Domain\DomainUtils\DomainUtils;
 use DateTime;
 use Exception;
 
-use JsonSerializable; // Left here for possible implementation later
+use JsonSerializable;
 
 
+/**
+ *
+ */
 class User implements JsonSerializable, DBRecordConstructable
 {
-    /**
-     * @var int|null
-     */
-    private $id;
+	/**
+	 * @var int|null
+	 */
+	private $id;
 
-    /**
-     * @var string
-     */
-    private $first_name;
+	/**
+	 * @var string
+	 */
+	private $first_name;
 
-    /**
-     * @var string
-     */
-    private $last_name;
+	/**
+	 * @var string
+	 */
+	private $last_name;
 
-    /**
-     * @var string
-     */
-    private $mail;
+	/**
+	 * @var string
+	 */
+	private $mail;
 
-    /**
-     * @var string
-     */
-    private $password;
+	/**
+	 * @var string
+	 */
+	private $password;
 
-    /**
-     * @var string
-     */
-    private $address;
+	/**
+	 * @var string
+	 */
+	private $address;
 
-    /**
-     * @var DateTime|null
-     */
-    private $registered_since;
+	/**
+	 * @var DateTime|null
+	 */
+	private $registered_since;
 
-    /**
-     * @var int
-     */
-    private $role_id;
+	/**
+	 * @var int
+	 */
+	private $role_id;
 
-    /**
-     * @var string
-     */
-    private $role;
+	/**
+	 * @var string
+	 */
+	private $role;
 
-    /**
-     * @var int
-     */
-    private $authority_level;
-
-
-    /**
-     * @param int|null $id
-     * @param string $first_name
-     * @param string $last_name
-     * @param string $mail
-     * @param string $password
-     * @param string $address
-     * @param DateTime|null $registered_since
-     * @param int $role_id
-     */
-    public function __construct(
-        ?int $id,
-        string $first_name,
-        string $last_name,
-        string $mail,
-        string $password,
-        string $address,
-        ?DateTime $registered_since,
-        int $role_id)
-    {
-        $this->id = $id;
-        $this->first_name = ucfirst($first_name);
-        $this->last_name = ucfirst($last_name);
-        $this->mail     = $mail;
-        $this->setPassword($password);
-        $this->address  = $address;
-        $this->registered_since = $registered_since; // ?
-        $this->role_id  = $role_id;
-    }
+	/**
+	 * @var int
+	 */
+	private $authority_level;
 
 
-    /**
-     * Static factory method - instantiate Users from obj array returned by database layer
-     *
-     * @param array $userRecords
-     * @return array
-     */
-    public static function fromDbRecordArray(array $userRecords) : array
-    {
-        $result = [];
-
-        foreach ($userRecords as $userRecord)
-        {
-            $result[] = self::fromDbRecord($userRecord);
-        }
-
-        return $result;
-    }
+	/**
+	 * @brief User constructor - private to ensure creation of User objects
+	 *                               through static factory methods
+	 */
+	private function __construct()
+	{
+	}
 
 
-    /**
-     * Static factory method - instantiate User from obj returned by database layer
-     *
-     * @param object $userRecord
-     * @return User
-     */
-    public static function fromDbRecord(object $userRecord) : User
-    {
-        try
-        {
-            return new User(
-                $id         = (int) $userRecord->id,
-                $firstName  = $userRecord->first_name,
-                $lastName   = $userRecord->last_name,
-                $mail       = $userRecord->mail,
-                $password   = $userRecord->password,
-                $address    = $userRecord->address,
-                $registered_since = DateTime::createFromFormat("Y-m-d H:i:s", $userRecord->registered_since),
-                $role_id       = (int) $userRecord->role_id
-            );
-        }
-        catch (Exception $e)
-        {
-            // TODO 5XX Internal server error
-            exit("Could not parse user records from database in: __FILE__, __FUNCTION__ !");
-        }
-    }
+	/**
+	 * @brief Static parameterless factory
+	 * @return User
+	 */
+	public static function create(): User
+	{
+		return new self();
+	}
 
 
-    /**
-     * @return mixed|void
-     */
-    public function jsonSerialize()
-    {
-        return [
-            "id" => $this->id,
-            "first_name" => $this->first_name,
-            "last_name" => $this->last_name,
-            "mail" => $this->mail,
-            "password" => $this->password,
-            "address" => $this->address,
-            "registered_since" => $this->getFormattedRegisteredSince(),
-            "role_id"=> $this->role_id,
-            "role" => $this->role,
-            "authority_level" => $this->authority_level
-        ];
-    }
+	/**
+	 * Static factory method - instantiate Users from obj array returned by database layer
+	 *
+	 * @param array $userRecords
+	 * @return array
+	 */
+	public static function fromDbRecordArray(array $userRecords): array
+	{
+		$result = [];
+
+		foreach ($userRecords as $userRecord) {
+			$result[] = self::fromDbRecord($userRecord);
+		}
+
+		return $result;
+	}
 
 
-    /* GETTERS & SETTERS SECTION */
+	/**
+	 * Static factory method - instantiate User from obj returned by database layer
+	 *
+	 * @param object $userRecord
+	 * @return User
+	 */
+	public static function fromDbRecord(object $userRecord): User
+	{
+		try {
+			return User::create()
+				->setId((int)$userRecord->id)
+				->setFirstName($userRecord->first_name)
+				->setLastName($userRecord->last_name)
+				->setMail($userRecord->mail)
+				->setPassword($userRecord->password)
+				->setAddress($userRecord->address)
+				->setRegisteredSince(DomainUtils::createDateTime($userRecord->registered_since))
+				->setRoleId((int)$userRecord->role_id)
+				->setRole($userRecord->user_role)
+				->setAuthorityLevel((int)$userRecord->user_authority_level);
+		} catch (Exception $e) {
+			// TODO 5XX Internal server error
+			exit("Could not parse user records from database in: __FILE__, __FUNCTION__ !");
+		}
+	}
 
 
-    /**
-     * @return int|null
-     */
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+	/**
+	 * @return array
+	 */
+	public function jsonSerialize()
+	{
+		return [
+			"id" => $this->id,
+			"first_name" => $this->first_name,
+			"last_name" => $this->last_name,
+			"mail" => $this->mail,
+			"password" => $this->password,
+			"address" => $this->address,
+			"registered_since" => $this->getFormattedRegisteredSince(),
+			"role_id" => $this->role_id,
+			"role" => $this->role,
+			"authority_level" => $this->authority_level
+		];
+	}
 
-    /**
-     * @return string
-     */
-    public function getFirstName(): string
-    {
-        return $this->first_name;
-    }
 
-    /**
-     * @return string
-     */
-    public function getLastName(): string
-    {
-        return $this->last_name;
-    }
+	/* FLUID STYLE GETTERS & SETTERS SECTION */
 
-    /**
-     * @return string
-     */
-    public function getMail(): string
-    {
-        return $this->mail;
-    }
+	/**
+	 * @return int|null
+	 */
+	public function getId(): ?int
+	{
+		return $this->id;
+	}
 
-    /**
-     * @param string $mail
-     */
-    public function setMail(string $mail): void
-    {
-        $this->mail = $mail;
-    }
+	/**
+	 * @param int|null $id
+	 * @return User
+	 */
+	public function setId(?int $id): User
+	{
+		$this->id = $id;
+		return $this;
+	}
 
-    /**
-     * @return string
-     */
-    public function getPassword(): string
-    {
-        return $this->password;
-    }
+	/**
+	 * @return string
+	 */
+	public function getFirstName(): string
+	{
+		return $this->first_name;
+	}
 
-    /**
-     * @param string $password
-     *
-     * // TODO Either hash password here or create a separate function
-     */
-    public function setPassword(string $password): void
-    {
-        $this->password = $password;
-    }
+	/**
+	 * @param string $first_name
+	 * @return User
+	 */
+	public function setFirstName(string $first_name): User
+	{
+		$this->first_name = ucfirst($first_name);
+		return $this;
+	}
 
-    /**
-     * @return string
-     */
-    public function getAddress(): string
-    {
-        return $this->address;
-    }
+	/**
+	 * @return string
+	 */
+	public function getLastName(): string
+	{
+		return $this->last_name;
+	}
 
-    /**
-     * @param string $address
-     */
-    public function setAddress(string $address): void
-    {
-        $this->address = $address;
-    }
+	/**
+	 * @param string $last_name
+	 * @return User
+	 */
+	public function setLastName(string $last_name): User
+	{
+		$this->last_name = ucfirst($last_name);
+		return $this;
+	}
 
-    /**
-     * @return DateTime
-     */
-    public function getRegisteredSince(): DateTime
-    {
-        return $this->registered_since;
-    }
+	/**
+	 * @return string
+	 */
+	public function getMail(): string
+	{
+		return $this->mail;
+	}
 
-    /**
-     * @return ?string
-     */
-    public function getFormattedRegisteredSince(): ?string
-    {
-        return ($this->registered_since !== null) ?
-            $this->registered_since->format("Y-m-d H:i:s")
-            : null;
-    }
+	/**
+	 * @param string $mail
+	 * @return User
+	 */
+	public function setMail(string $mail): User
+	{
+		$this->mail = $mail;
+		return $this;
+	}
 
-    /**
-     * @param DateTime $registered_since
-     */
-    public function setRegisteredSince(DateTime $registered_since): void
-    {
-        $this->registered_since = $registered_since;
-    }
+	/**
+	 * @return string
+	 */
+	public function getPassword(): string
+	{
+		return $this->password;
+	}
 
-    /**
-     * @return int
-     */
-    public function getRoleId(): int
-    {
-        return $this->role_id;
-    }
+	/**
+	 * @param string $password
+	 * @return User
+	 *
+	 * @todo A controller must hash pwd and set it via this func before
+	 *       inserting / updating to db (cannot hash in this func)
+	 */
+	public function setPassword(string $password): User
+	{
+		$this->password = $password;
+		return $this;
+	}
 
-    /**
-     * @param int $role_id
-     */
-    public function setRoleId(int $role_id): void
-    {
-        $this->role_id = $role_id;
-    }
+	/**
+	 * @return string
+	 */
+	public function getAddress(): string
+	{
+		return $this->address;
+	}
 
-    /**
-     * @return string|null
-     */
-    public function getRole(): ?string // TODO rewrite to string after bugfix
-    {
-        return $this->role;
-    }
+	/**
+	 * @param string $address
+	 * @return User
+	 */
+	public function setAddress(string $address): User
+	{
+		$this->address = $address;
+		return $this;
+	}
 
-    /**
-     * @param string $role
-     *
-     * // TODO Constraints to setting roles ??
-     */
-    public function setRole(string $role): void
-    {
-        $this->role = $role;
-    }
+	/**
+	 * @return DateTime
+	 */
+	public function getRegisteredSince(): DateTime
+	{
+		return $this->registered_since;
+	}
 
-    /**
-     * @return int
-     */
-    public function getAuthorityLevel(): int
-    {
-        return $this->authority_level;
-    }
+	/**
+	 * @return ?string
+	 */
+	public function getFormattedRegisteredSince(): ?string
+	{
+		return ($this->registered_since !== null) ?
+			$this->registered_since->format("Y-m-d H:i:s")
+			: null;
+	}
 
-    /**
-     * @param int $authority_level
-     *
-     * // TODO Constraints to setting authority level ??
-     */
-    public function setAuthorityLevel(int $authority_level): void
-    {
-        $this->authority_level = $authority_level;
-    }
+	/**
+	 * @param DateTime $registered_since
+	 * @return User
+	 */
+	public function setRegisteredSince(DateTime $registered_since): User
+	{
+		$this->registered_since = $registered_since;
+		return $this;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getRoleId(): int
+	{
+		return $this->role_id;
+	}
+
+	/**
+	 * @param int $role_id
+	 * @return User
+	 */
+	public function setRoleId(int $role_id): User
+	{
+		$this->role_id = $role_id;
+		return $this;
+	}
+
+	/**
+	 * @return string|null
+	 */
+	public function getRole(): string
+	{
+		return $this->role;
+	}
+
+	/**
+	 * @param string $role
+	 * @return User
+	 */
+	public function setRole(string $role): User
+	{
+		$this->role = $role;
+		return $this;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getAuthorityLevel(): int
+	{
+		return $this->authority_level;
+	}
+
+	/**
+	 * @param int $authority_level
+	 * @return User
+	 */
+	public function setAuthorityLevel(int $authority_level): User
+	{
+		$this->authority_level = $authority_level;
+		return $this;
+	}
 }
-

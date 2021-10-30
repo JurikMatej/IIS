@@ -39,41 +39,4 @@ interface AuctionRepository
      * @throws AuctionNotFoundException
      */
     public function findAuctionOfId(int $id): Auction;
-
-
-    /**
-     * Expand Auction foreign keys to actual objects in relation
-     *
-     * @param Auction $auction
-     * @return Auction
-     */
-    public function expandForeignReferences(Auction $auction): Auction;
-
-
-    /**
-     * @param Auction $auction
-     * @return Auction
-     */
-    public function findAuctionPhotos(Auction $auction): Auction;
-
-
-    /**
-     * @param Auction $auction
-     * @return Auction
-     */
-    public function findAuctionAuthor(Auction $auction): Auction;
-
-
-    /**
-     * @param Auction $auction
-     * @return Auction
-     */
-    public function findAuctionApprover(Auction $auction): Auction;
-
-
-    /**
-     * @param Auction $auction
-     * @return Auction
-     */
-    public function findAuctionWinner(Auction $auction): Auction;
 }

@@ -38,25 +38,6 @@ interface BidRepository
      */
     public function findBidOfId(int $id): Bid;
 
-    /**
-     * Expand Bid foreign keys to actual objects in relation
-     *
-     * @param Bid $bid
-     * @return Bid
-     */
-    public function expandBidForeignReferences(Bid $bid): Bid;
-
-    /**
-     * @param Bid $bid
-     * @return Bid
-     */
-    public function findBidUser(Bid $bid): Bid;
-
-    /**
-     * @param Bid $bid
-     * @return Bid
-     */
-    public function findBidAuction(Bid $bid): Bid;
 
     /**
      * @param int $user_id
@@ -69,6 +50,4 @@ interface BidRepository
      * @return array
      */
     public function findAllAuctionBids(int $auction_id): array;
-
-
 }
