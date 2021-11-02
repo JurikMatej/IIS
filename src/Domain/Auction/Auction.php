@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Auction;
 
+use App\Domain\AuctionPhoto\AuctionPhoto;
 use App\Domain\DomainInterfaces\DBRecordConstructable;
 use App\Domain\DomainUtils\DomainUtils;
 use App\Domain\User\User;
@@ -114,7 +115,7 @@ class Auction implements JsonSerializable, DBRecordConstructable
 	private $winner_id;
 
 	/**
-	 * @var array
+	 * @var AuctionPhoto[]
 	 */
 	private $photos;
 
@@ -212,7 +213,7 @@ class Auction implements JsonSerializable, DBRecordConstructable
 					->setRole($auctionRecord->winner_role)
 					->setAuthorityLevel((int)$auctionRecord->winner_authority_level);
 
-			return Auction::create()
+			return self::create()
 				->setId((int)$auctionRecord->id)
 				->setName($auctionRecord->name)
 				->setDate(DomainUtils::createDateTime($auctionRecord->date))
@@ -232,7 +233,7 @@ class Auction implements JsonSerializable, DBRecordConstructable
 				->setApprover($approver)
 				->setWinnerId((int)$auctionRecord->winner_id)
 				->setWinner($winner)
-				->setPhotos(DomainUtils::parseAuctionPhotosRecord($auctionRecord->auction_photos));
+				->setPhotos(AuctionPhoto::fromAuctionDbRecord($auctionRecord));
 		} catch (Exception $e) {
 			// TODO 5XX Internal server error
 			exit("Could not parse auction records from database in: __FILE__, __FUNCTION__ !");
@@ -241,7 +242,7 @@ class Auction implements JsonSerializable, DBRecordConstructable
 
 
 	/**
-	 * @return mixed|void
+	 * @return array
 	 */
 	public function jsonSerialize()
 	{
@@ -646,7 +647,7 @@ class Auction implements JsonSerializable, DBRecordConstructable
 	}
 
 	/**
-	 * @return array
+	 * @return AuctionPhoto[]
 	 */
 	public function getPhotos(): array
 	{
@@ -654,7 +655,7 @@ class Auction implements JsonSerializable, DBRecordConstructable
 	}
 
 	/**
-	 * @param array $photos
+	 * @param AuctionPhoto[] $photos
 	 * @return Auction
 	 */
 	public function setPhotos(array $photos): Auction

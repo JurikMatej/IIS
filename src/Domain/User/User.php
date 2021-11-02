@@ -113,7 +113,7 @@ class User implements JsonSerializable, DBRecordConstructable
 	public static function fromDbRecord(object $userRecord): User
 	{
 		try {
-			return User::create()
+			return self::create()
 				->setId((int)$userRecord->id)
 				->setFirstName($userRecord->first_name)
 				->setLastName($userRecord->last_name)

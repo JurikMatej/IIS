@@ -182,7 +182,7 @@ class Bid implements JsonSerializable, DBRecordConstructable
 
 
 			// Finally, create a Bid object to return
-			return Bid::create()
+			return self::create()
 				->setId((int)$bidRecord->id)
 				->setAuctionId((int)$bidRecord->bid_auction_id)
 				->setAuction($bid_auction)

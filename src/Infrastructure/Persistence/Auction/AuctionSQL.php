@@ -51,6 +51,19 @@ class AuctionSQL
 
 
 	/**
+	 * @brief Insert new auction photos
+	 *
+	 * Replace <@PHOTOS> with the actual values of required columns
+	 */
+	const INSERT_AUCTION_PHOTOS = "
+		INSERT INTO auction_photo
+			(path, auction_id) 
+		VALUES
+			<@PHOTOS>
+	";
+
+
+	/**
 	 * @brief Update an existing auction
 	 */
 	const UPDATE_AUCTION = "
@@ -71,6 +84,21 @@ class AuctionSQL
             winner_id = :winner_id
         WHERE auction.id = :id;
     ";
+
+
+	/**
+	 * @brief Update auction photos
+	 *
+	 * Replace <@PHOTO_IDS_CONSTRAINT> with the actual id constraints (id=photo[x]->id)
+	 */
+	const UPDATE_AUCTION_PHOTOS = "
+		UPDATE auction_photo
+		SET
+			path = :path,
+			auction_id = :auction_id
+		WHERE
+			<@PHOTO_IDS_CONSTRAINTS>
+	";
 
 
 	/**
@@ -130,6 +158,7 @@ class AuctionSQL
 				winner.role_id as winner_role_id,
 				winner_role.role as winner_role,
 				winner_role.authority_level as winner_authority_level,
+        	a_photo.auction_photo_id as auction_ids,
             a_photo.auction_photo_path as auction_photos
         FROM auction a
             INNER JOIN auction_type a_type
@@ -158,10 +187,11 @@ class AuctionSQL
             # Can have zero photos in relation
             LEFT JOIN (
                 SELECT
-                    GROUP_CONCAT(DISTINCT ap.path) as auction_photo_path,
-                    ap.auction_id as auction_id
-                FROM auction_photo ap
-                GROUP BY auction_id
+					GROUP_CONCAT(ap.id) as auction_photo_id,
+					GROUP_CONCAT(ap.path) as auction_photo_path,
+					ap.auction_id as auction_id
+				FROM auction_photo ap
+				GROUP BY auction_id
             ) as a_photo
                 ON a.id = a_photo.auction_id
         
@@ -217,6 +247,7 @@ class AuctionSQL
             winner.role_id as winner_role_id,
             winner_role.role as winner_role,
             winner_role.authority_level as winner_authority_level,
+            a_photo.auction_photo_id as auction_ids,
             a_photo.auction_photo_path as auction_photos
         FROM auction a
             INNER JOIN auction_type a_type
@@ -244,10 +275,11 @@ class AuctionSQL
         
             LEFT JOIN (
                 SELECT
-                    GROUP_CONCAT(DISTINCT ap.path) as auction_photo_path,
-                    ap.auction_id as auction_id
-                FROM auction_photo ap
-                GROUP BY auction_id
+					GROUP_CONCAT(ap.id) as auction_photo_id,
+					GROUP_CONCAT(ap.path) as auction_photo_path,
+					ap.auction_id as auction_id
+				FROM auction_photo ap
+				GROUP BY auction_id
             ) as a_photo
                 ON a.id = a_photo.auction_id
         
