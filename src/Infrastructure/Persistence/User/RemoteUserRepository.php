@@ -50,10 +50,10 @@ class RemoteUserRepository implements UserRepository
 	{
 		if ($user_id === null) return false;
 
-		$user_stmt = $this->db_conn->prepare(UserSQL::GET_USER_OF_ID);
+		$user_stmt = $this->db_conn->prepare(UserSQL::USER_EXISTS);
 		$user_stmt->execute(['id' => $user_id]);
 
-		return $user_stmt->rowCount() !== 0;
+		return (bool)$user_stmt->fetchColumn();
 	}
 
 

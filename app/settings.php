@@ -13,8 +13,8 @@ return function (ContainerBuilder $containerBuilder) {
         SettingsInterface::class => function () {
             return new Settings([
                 'displayErrorDetails' => (bool) $_ENV['APP_DISPLAY_ERROR_DETAILS'],
-                'logError'            => false,
-                'logErrorDetails'     => false,
+                'logError'            => (bool) $_ENV['APP_DISPLAY_ERROR_DETAILS'],
+                'logErrorDetails'     => (bool) $_ENV['APP_DISPLAY_ERROR_DETAILS'],
                 'logger' => [
                     'name' => 'AuctionSystem',
                     'path' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../logs/app.log',

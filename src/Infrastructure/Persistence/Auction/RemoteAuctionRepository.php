@@ -7,8 +7,9 @@ namespace App\Infrastructure\Persistence\Auction;
 use App\Domain\Auction\Auction;
 use App\Domain\Auction\AuctionNotFoundException;
 use App\Domain\Auction\AuctionRepository;
-use App\Domain\User\User;
+use App\Domain\AuctionPhoto\AuctionPhoto;
 use App\Infrastructure\DBConnection;
+use Exception;
 use PDO;
 
 
@@ -37,17 +38,38 @@ class RemoteAuctionRepository implements AuctionRepository
 
 	/**
 	 * @inheritDoc
-	 *
-	 * TODO implement saving photos
+	 * @throws Exception (TODO generate 5XX internal server error message & view)
 	 */
 	public function save(Auction $auction): void
 	{
 		$auction_exists = $this->auctionExists($auction->getId());
+		$wasInserted = false;
 
-		if (!$auction_exists)
-			$this->insert($auction);
-		else
-			$this->update($auction);
+		try {
+			$this->db_conn->beginTransaction();
+
+			if (!$auction_exists)
+			{
+				$this->insert($auction);
+				$wasInserted = true;
+			}
+			else
+			{
+				$this->update($auction);
+			}
+
+			// Save auction related photos
+			$photos = $auction->getPhotos();
+			if ($wasInserted)
+				$this->updateAuctionPhotosAfterNewAuctionInsert($photos);
+			$this->saveAuctionPhotos($photos);
+
+			$this->db_conn->commit();
+		} catch (Exception $e) {
+			$this->db_conn->rollBack();
+			// TODO see @throws
+			throw $e;
+		}
 	}
 
 
@@ -61,12 +83,13 @@ class RemoteAuctionRepository implements AuctionRepository
 		$auction_stmt = $this->db_conn->prepare(AuctionSQL::GET_AUCTION_OF_ID);
 		$auction_stmt->execute(['id' => $auction_id]);
 
-		return $auction_stmt->rowCount() !== 0;
+		return (bool)$auction_stmt->fetchColumn();
 	}
 
 
 	/**
 	 * @param Auction $auction
+	 * @pre Transaction mode must have begun
 	 */
 	private function insert(Auction $auction): void
 	{
@@ -92,6 +115,7 @@ class RemoteAuctionRepository implements AuctionRepository
 
 	/**
 	 * @param Auction $auction
+	 * @pre Database transaction has started
 	 */
 	private function update(Auction $auction): void
 	{
@@ -113,6 +137,112 @@ class RemoteAuctionRepository implements AuctionRepository
 				'approver_id' => $auction->getApproverId(),
 				'winner_id' => $auction->getWinnerId()
 			]);
+	}
+
+
+	/**
+	 * @param $auctionPhotos[]
+	 * @pre Database transaction has started
+	 */
+	private function saveAuctionPhotos(array $auctionPhotos): void
+	{
+		[$toInsert, $toUpdate] = $this->categorizeAuctionPhotosBySaveAction($auctionPhotos);
+
+		$insert_photo_stmt = $this->db_conn->prepare(AuctionSQL::INSERT_AUCTION_PHOTO);
+		$update_photo_stmt = $this->db_conn->prepare(AuctionSQL::UPDATE_AUCTION_PHOTO);
+
+		foreach ($toInsert as $newPhoto)
+		{
+			$insert_photo_stmt->execute([
+				"path" => $newPhoto->getPath(),
+				"auction_id" => $newPhoto->getAuctionId()
+			]);
+		}
+
+		foreach ($toUpdate as $editedPhoto)
+		{
+			$update_photo_stmt->execute([
+				"id" => $editedPhoto->getId(),
+				"path" => $editedPhoto->getPath()
+			]);
+		}
+	}
+
+
+	/**
+	 * @brief Find out which of the auction photos already exist and return an array of their IDs
+	 * @param array $auctionPhotos[]
+	 * @return array of AuctionPhoto arrays
+	 */
+	private function categorizeAuctionPhotosBySaveAction(array $auctionPhotos): array
+	{
+		$toInsert = [];
+		$toUpdate = [];
+
+		foreach ($auctionPhotos as $auctionPhoto)
+		{
+			// Photo created by user controller has null id
+			if ($auctionPhoto->getId() === null)
+			{
+				// Check whether a photo like that is already assigned to its auction
+				// and if not, insert it as new (otherwise ignore it)
+				if (!$this->auctionPhotoExists($auctionPhoto))
+				{
+					$toInsert[] = $auctionPhoto;
+				}
+				// Else toIgnore[] = $auctionPhoto; ;)
+			}
+
+			// ID already defined means record was selected from the database
+			else
+			{
+				$toUpdate[] = $auctionPhoto;
+			}
+		}
+
+		return [$toInsert, $toUpdate];
+	}
+
+
+	/**
+	 * @param $auctionPhoto
+	 * @return bool
+	 */
+	private function auctionPhotoExists($auctionPhoto): bool
+	{
+		$auction_has_photo_stmt = $this->db_conn->prepare(AuctionSQL::AUCTION_PHOTO_EXISTS);
+		$auction_has_photo_stmt->execute([
+			"path" => $auctionPhoto->getPath(),
+			"auction_id" => $auctionPhoto->getAuctionId()
+		]);
+
+		return (bool)$auction_has_photo_stmt->fetchColumn();
+	}
+
+
+	/**
+	 * @return int
+	 */
+	private function getLastInsertedAuctionId(): int
+	{
+		$last_auction_id_stmt = $this->db_conn->prepare(AuctionSQL::GET_LAST_AUCTION);
+		$last_auction_id_stmt->execute();
+
+		return (int)$last_auction_id_stmt->fetchColumn();
+	}
+
+
+	/**
+	 * @brief After a new auction is assigned its ID after insert, update its photos to reference
+	 * 		  that ID
+	 * @param AuctionPhoto[]
+	 */
+	private function updateAuctionPhotosAfterNewAuctionInsert(array $auctionPhotos): void
+	{
+		$newAuctionId = $this->getLastInsertedAuctionId();
+		foreach ($auctionPhotos as $auctionPhoto) {
+			$auctionPhoto->setAuctionId($newAuctionId);
+		}
 	}
 
 
@@ -150,9 +280,7 @@ class RemoteAuctionRepository implements AuctionRepository
 		$auction_of_id_result = $auction_of_id_stmt->fetch();
 
 		return Auction::fromDbRecord($auction_of_id_result);
-
 	}
-
 
 	/**
 	 * RemoteAuctionRepository destructor.

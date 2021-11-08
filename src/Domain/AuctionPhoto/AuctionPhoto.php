@@ -26,7 +26,7 @@ class AuctionPhoto implements JsonSerializable
 	private $path;
 
 	/**
-	 * @var int
+	 * @var int|null
 	 */
 	private $auction_id;
 
@@ -134,10 +134,10 @@ class AuctionPhoto implements JsonSerializable
 	}
 
 	/**
-	 * @param int $auction_id
+	 * @param ?int $auction_id
 	 * @return AuctionPhoto
 	 */
-	public function setAuctionId(int $auction_id): AuctionPhoto
+	public function setAuctionId(?int $auction_id): AuctionPhoto
 	{
 		$this->auction_id = $auction_id;
 		return $this;

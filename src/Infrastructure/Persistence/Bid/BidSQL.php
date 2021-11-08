@@ -281,6 +281,12 @@ class BidSQL
     ";
 
 
+	const BID_EXISTS = "
+		SELECT 1 from bid
+		where bid.id = :id;
+	";
+
+
 	/**
 	 * @brief Query for user of :id's bids
 	 */

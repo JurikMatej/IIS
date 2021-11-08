@@ -52,14 +52,12 @@ class AuctionSQL
 
 	/**
 	 * @brief Insert new auction photos
-	 *
-	 * Replace <@PHOTOS> with the actual values of required columns
 	 */
-	const INSERT_AUCTION_PHOTOS = "
+	const INSERT_AUCTION_PHOTO = "
 		INSERT INTO auction_photo
 			(path, auction_id) 
 		VALUES
-			<@PHOTOS>
+			(:path, :auction_id);
 	";
 
 
@@ -88,16 +86,14 @@ class AuctionSQL
 
 	/**
 	 * @brief Update auction photos
-	 *
-	 * Replace <@PHOTO_IDS_CONSTRAINT> with the actual id constraints (id=photo[x]->id)
+	 * @todo  update corresponding auction as well ?
 	 */
-	const UPDATE_AUCTION_PHOTOS = "
+	const UPDATE_AUCTION_PHOTO = "
 		UPDATE auction_photo
 		SET
-			path = :path,
-			auction_id = :auction_id
+			path = :path
 		WHERE
-			<@PHOTO_IDS_CONSTRAINTS>
+			id = :id;
 	";
 
 
@@ -287,4 +283,31 @@ class AuctionSQL
         
         ORDER BY a.id;
     ";
+
+
+	/**
+	 * @brief Get auction photo by id
+	 */
+	const GET_AUCTION_PHOTO_OF_ID = "
+		SELECT * FROM auction_photo
+		WHERE id = :id;
+	";
+
+
+	/**
+	 * @brief Get photo with the exact path and auction id
+	 */
+	const AUCTION_PHOTO_EXISTS = "
+		SELECT 1 FROM auction_photo
+		WHERE path = :path AND auction_id = :auction_id;
+	";
+
+
+	/**
+	 * @brief Get last inserted auction's ID (auto_increment id)
+	 */
+	const GET_LAST_AUCTION = "
+		SELECT MAX(id) as id
+		FROM auction;
+	";
 }

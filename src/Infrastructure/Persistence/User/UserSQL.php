@@ -101,4 +101,10 @@ class UserSQL
                 ON user.role_id = user_role.id
             WHERE user.id=:id;
     ";
+
+
+	public const USER_EXISTS = "
+		SELECT 1 FROM user
+		WHERE user.id = :id;
+	";
 }

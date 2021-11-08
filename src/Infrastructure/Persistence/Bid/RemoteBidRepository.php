@@ -56,10 +56,10 @@ class RemoteBidRepository implements BidRepository
 	{
 		if ($bid_id === null) return false;
 
-		$bid_stmt = $this->db_conn->prepare(BidSQL::GET_BID_OF_ID);
+		$bid_stmt = $this->db_conn->prepare(BidSQL::BID_EXISTS);
 		$bid_stmt->execute(['id' => $bid_id]);
 
-		return $bid_stmt->rowCount() !== 0;
+		return (bool)$bid_stmt->fetchColumn();
 	}
 
 
