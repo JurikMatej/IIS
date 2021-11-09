@@ -11,6 +11,8 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 use App\Application\Actions\User\ListUsersAction;
 use App\Application\Actions\User\ViewUserAction;
+use App\Application\Actions\User\EditUserAction;
+use App\Application\Actions\User\UpdateUserAction;
 
 use App\Application\Actions\Auction\ListAuctionsAction;
 
@@ -40,6 +42,8 @@ return function (App $app) {
     $app->group('/users', function (Group $group) {
         $group->get('', ListUsersAction::class);
         $group->get('/{id}', ViewUserAction::class);
+        $group->get('/{id}/edit', EditUserAction::class);
+        $group->post('/{id}/update', UpdateUserAction::class);
     });
 
 

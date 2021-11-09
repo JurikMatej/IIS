@@ -107,4 +107,12 @@ class UserSQL
 		SELECT 1 FROM user
 		WHERE user.id = :id;
 	";
+
+
+    public const GET_USER_ROLES = "
+        SELECT
+            user_role.role,
+            user_role.authority_level
+        FROM user_role;
+    ";
 }

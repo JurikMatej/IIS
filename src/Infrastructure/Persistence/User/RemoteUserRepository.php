@@ -91,7 +91,7 @@ class RemoteUserRepository implements UserRepository
 				'password' => $user->getPassword(),
 				'address' => $user->getAddress(),
 				'registered_since' => $user->getFormattedRegisteredSince(),
-				'role_id' => $user->getRole(),
+				'role_id' => $user->getRoleId(),
 			]);
 	}
 
@@ -130,6 +130,19 @@ class RemoteUserRepository implements UserRepository
 		$user_of_id = $user_of_id_stmt->fetch();
 
 		return User::fromDbRecord($user_of_id);
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getUserRoles()
+	{
+		$user_roles_stmt = $this->db_conn->prepare(UserSQL::GET_USER_ROLES);
+		$user_roles_stmt->execute();
+		$user_roles = $user_roles_stmt->fetchAll();
+
+		return $user_roles;
 	}
 
 
