@@ -18,7 +18,7 @@ class UpdateUserAction extends UserAction
 
         $this->logger->info("User of id `${userId}` was edited.");
 
-        $this->userViewRenderer->render($this->response, "update.php", ["user" => $user]);
+        // 
 
         $level = "";
         foreach ($user_roles as $role)
@@ -38,6 +38,8 @@ class UpdateUserAction extends UserAction
 
         $this->userRepository->save($user);
 
+        $this->userViewRenderer->render($this->response, "update.php", ["user" => $user]);
+        
         return $this->response;
     }
 }
