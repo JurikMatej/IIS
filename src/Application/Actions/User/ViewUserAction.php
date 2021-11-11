@@ -14,13 +14,11 @@ class ViewUserAction extends UserAction
     {
         $userId = (int) $this->resolveArg('id');
         $user = $this->userRepository->findUserOfId($userId);
-        $arr =$user->jsonSerialize();
-        $arr["userID"] = $userId;
 
         $this->logger->info("User of id `${userId}` was viewed.");
 
         $this->userViewRenderer->setLayout("index.php");
-        $this->userViewRenderer->render($this->response, "show.php", $arr);
+        $this->userViewRenderer->render($this->response, "show.php", ["user" => $user]);
         
         return $this->response;
         // return $this->respondWithData($user);

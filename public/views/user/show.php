@@ -2,13 +2,13 @@
 <!-- Singular user's details -->
 
 
-<h1> <?=$first_name?> <?=$last_name?> </h1>
-<p><?=$mail?></p>
-<p><?=$password?></p>
-<p><?=$address?></p>
-<p><?=$registered_since?></p>
-<p><?=$role?></p>
-<a href="<?=$userID?>/edit">Edit</a>
+<h1> <?=$user->getFirstName()?> <?=$user->getLastName()?> </h1>
+<p><?=$user->getMail()?></p>
+<p><?=$user->getPassword()?></p>
+<p><?=$user->getAddress()?></p>
+<p><?=$user->getFormattedRegisteredSince()?></p>
+<p><?=$user->getRole()?></p>
+<a href="<?=$user->getId()?>/edit">Edit</a>
 
 
 <!-- id" => $this->id,

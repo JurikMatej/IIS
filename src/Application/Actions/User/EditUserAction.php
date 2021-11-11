@@ -16,13 +16,11 @@ class EditUserAction extends UserAction
         $user = $this->userRepository->findUserOfId($userId);
         $user_roles = $this->userRepository->getUserRoles();
 
-        $arr = $user->jsonSerialize();
-        $arr["roles"] = $user_roles;
 
         $this->logger->info("User of id `${userId}` is being edited.");
 
         $this->userViewRenderer->setLayout("index.php");
-        $this->userViewRenderer->render($this->response, "edit.php", $arr);
+        $this->userViewRenderer->render($this->response, "edit.php", ["user" => $user, "roles" => $user_roles]);
         
         return $this->response;
     }

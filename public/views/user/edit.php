@@ -2,19 +2,19 @@
 <!-- Show form to edit singular user's details -->
 
 <form action="update" method="post">
-Name: <input type="text" name="name" value=<?=$first_name?>  ><br>
-Surname: <input type="text" name="surname" value=<?=$last_name?>  ><br>
-E-mail: <input type="text" name="email" value=<?=$mail?> ><br>
-Password: <input type="password" name="password" value=<?=$password?> ><br>
-Address: <input type="text" name="address" value=<?=$address?> ><br>
-Role: 
+<label for="name"> Name:</label> <input type="text" name="name" value=<?=$user->getFirstName()?>  ><br>
+<label for="surname"> Surname:</label> <input type="text" name="surname" value=<?=$user->getLastName()?>  ><br>
+<label for="email"> E-mail:</label> <input type="text" name="email" value=<?=$user->getMail()?> ><br>
+<label for="password"> Password:</label> <input type="password" name="password" value=<?=$user->getPassword()?> ><br>
+<label for="address"> Address:</label> <input type="text" name="address" value=<?=$user->getAddress()?> ><br>
+<label for="role"> Role:</label> 
 <select name="role"> 
     <?php foreach ($roles as $option): ?>
     <?php if ('Visitor'=== $option->role): ?>
         <?php  continue;?>
     <?php endif; ?>
     <option 
-        <?php if ($role === $option->role): ?>
+        <?php if ($user->getRole() === $option->role): ?>
             <?php  echo 'selected="selected"'?>
         <?php endif; ?>
         

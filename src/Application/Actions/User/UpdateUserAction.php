@@ -15,11 +15,10 @@ class UpdateUserAction extends UserAction
         $userId = (int) $this->resolveArg('id');
         $user = $this->userRepository->findUserOfId($userId);
         $user_roles = $this->userRepository->getUserRoles();
-        $arr["userID"] = $userId;
 
         $this->logger->info("User of id `${userId}` was edited.");
 
-        $this->userViewRenderer->render($this->response, "update.php", $arr);
+        $this->userViewRenderer->render($this->response, "update.php", ["user" => $user]);
 
         $level = "";
         foreach ($user_roles as $role)
