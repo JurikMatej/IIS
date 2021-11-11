@@ -13,6 +13,7 @@ use App\Application\Actions\User\ListUsersAction;
 use App\Application\Actions\User\ViewUserAction;
 use App\Application\Actions\User\EditUserAction;
 use App\Application\Actions\User\UpdateUserAction;
+use App\Application\Actions\User\CheckUserAction;
 
 use App\Application\Actions\Auction\ListAuctionsAction;
 
@@ -34,12 +35,13 @@ return function (App $app) {
     $app->get('/', function (Request $request, Response $response) use ($renderer) {
         // $response->getBody()->write('Hello world!');
         // return $response;
-        return $renderer->render($response, "user/index.php", [
+        return $renderer->render($response, "user/login.php", [
         ]);
     });
     
 
     $app->group('/users', function (Group $group) {
+        $group->post('/check', CheckUserAction::class);
         $group->get('', ListUsersAction::class);
         $group->get('/{id}', ViewUserAction::class);
         $group->get('/{id}/edit', EditUserAction::class);
