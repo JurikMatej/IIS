@@ -20,6 +20,13 @@ class ListAuctionsAction extends AuctionAction
 
         $this->logger->info("Auctions list was viewed.");
 
-        return $this->respondWithData($auctions);
+        $this->auctionViewRenderer->setLayout("index.php");
+        
+        $this->auctionViewRenderer->render($this->response,"show_all.php", ["auctions" => $auctions]);
+        
+        return $this->response;
     }
+
+    
+
 }
