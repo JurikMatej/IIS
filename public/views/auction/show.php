@@ -12,27 +12,28 @@
     {
         if ($auction->getWinnerId() == null)
         {
-            echo "</p> <p>Running";
+            echo "</p> <p style=\"color:green;\">Running";
         }
         else
         {
-            echo "</p> <p>Finished";
+            echo "</p> <p style=\"color:red;\">Finished";
             $finished = true;
         }
     }
     else 
     {
+        // Calculating finish time
         $date = new DateTime();
         $date->setTime(0, 0);
         $diff = $auction->getTimeLimit()->diff($date,true);
         $a = $datetime->add($diff);
         if ($a > new DateTime())
         {
-            echo "</p> <p>Runing until: " . $a->format("d.m.Y H:i:s");
+            echo "</p> <p style=\"color:green;\">Runing until: " . $a->format("d.m.Y H:i:s");
         }
         else
         {
-            echo "</p> <p>Finished on: " . $a->format("d.m.Y H:i:s");
+            echo "</p> <p style=\"color:red;\">Finished on: " . $a->format("d.m.Y H:i:s");
             $finished = true;
         }
     }
@@ -41,8 +42,13 @@
 <p>Starting bid: <?=$auction->getStartingBid()?> $</p>
 
 <?php 
-    if($auction->getTimeLimit() !== null && !$finished) 
-        echo " <p> Duration: " . $diff->format("%H:%i") . "</p>"; 
+    if($auction->getTimeLimit() !== null && !$finished)
+    {
+        // Calculating time left
+        $date = new DateTime();
+        $a = $auction->getDate()->diff($date,true);
+        echo " <p> Duration: " . $a->format("%d days and %H hours %i minutes left") . "</p>"; 
+    }
 
     if($auction->getMinimumBidIncrease() !== 0 && !$finished) 
         echo " <p> Minimum bid increase: " . $auction->getMinimumBidIncrease() . " $ </p>"; 

@@ -3,7 +3,12 @@
 
 <?php foreach ($auctions as $auction){ ?>
     
-<img src="<?php echo $auction->getPhotos()[0]->getPath();?>" alt="First photo of this auction" width="500" height="600">
+
+<?php
+    if ($auction->getPhotos() !== [])
+        echo "<img src=\"" . $auction->getPhotos()[0]->getPath()
+        . "\" alt=\"First photo of this auction\" width=\"500\" height=\"600\">";
+?>
 <h3><a href="/auctions/<?php echo $auction->getId()?>"> <?php echo $auction->getName();?> </a></h3>
 <h2> <?php 
     $datetime = $auction->getDate(); 
@@ -13,26 +18,27 @@
     {
         if ($auction->getWinnerId() == null)
         {
-            echo "</h2> <h2>Running";
+            echo "</h2> <h2 style=\"color:green;\">Running";
         }
         else
         {
-            echo "</h2> <h2>Finished";
+            echo "</h2> <h2 style=\"color:red;\">Finished";
         }
     }
     else 
     {
+        // Calculating finish time
         $date = new DateTime();
         $date->setTime(0, 0);
         $diff = $auction->getTimeLimit()->diff($date,true);
         $a = $datetime->add($diff);
         if ($a > new DateTime())
         {
-            echo "</h2> <h2>Runing until: " . $a->format("d.m.Y H:i:s");
+            echo "</h2> <h2 style=\"color:green;\">Runing until: " . $a->format("d.m.Y H:i:s");
         }
         else
         {
-            echo "</h2> <h2>Finished on: " . $a->format("d.m.Y H:i:s");
+            echo "</h2> <h2 style=\"color:red;\">Finished on: " . $a->format("d.m.Y H:i:s");
         }
     }
 ?> 
