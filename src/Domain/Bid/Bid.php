@@ -94,6 +94,7 @@ class Bid implements JsonSerializable, DBRecordConstructable
 		/* Monstrosity Ultima */
 		try {
 			// Create user object of the author of Bid's auction
+			// TODO all properties are undefined
 			$bid_auction_author = User::create()
 				->setId((int)$bidRecord->author_id)
 				->setFirstName($bidRecord->author_first_name)
@@ -144,9 +145,10 @@ class Bid implements JsonSerializable, DBRecordConstructable
 
 
 			// Create object of the auction related to Bid
+			// TODO most of this properties are undefined
 			$bid_auction = Auction::create()
 				->setId((int)$bidRecord->bid_auction_id)
-				->setName($bidRecord->auction_name)
+				// ->setName($bidRecord->auction_name)
 				->setDate(DomainUtils::createDateTime($bidRecord->auction_date))
 				->setDescription($bidRecord->auction_description)
 				->setStartingBid((int)$bidRecord->auction_starting_bid)
@@ -168,6 +170,7 @@ class Bid implements JsonSerializable, DBRecordConstructable
 
 
 			// Create object of the user related to Bid
+			// TODO
 			$bid_user = User::create()
 				->setId((int)$bidRecord->bid_user_id)
 				->setFirstName($bidRecord->user_first_name)
