@@ -86,3 +86,15 @@
 ?>
 <br>
 <a href="<?=$auction->getId()?>/edit">Edit</a>
+
+
+<?php
+    // Bids
+    foreach ($bids as $bid)
+    {
+        echo "<h3>" . $bid->getValue() ." by <a href=\"../../users/" . $bid->getUser()->getId() . "\" >" 
+        . $bid->getUser()->getFirstName() . " " . $bid->getUser()->getLastName() .  "</a></h3>";
+        echo "<hr>";
+    }
+
+?>
