@@ -24,7 +24,9 @@ class CheckUserAction extends UserAction
                 $id = $user->getId();
                 $this->logger->info("User `${id}` has logged in.");
 
-                // TODO $_SESSION['user] = $login;
+                session_start();
+                $_SESSION['user'] = $login;
+                $_SESSION['role'] = $user->getRole();
 
                 $dest = "/users/" . $id;
                 $failed = false;

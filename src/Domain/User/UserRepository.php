@@ -36,4 +36,9 @@ interface UserRepository
      * @throws UserNotFoundException
      */
     public function findUserOfId(int $id): User;
+
+    /**
+     * @return array
+     */
+    public function getUserRoles(): array;
 }

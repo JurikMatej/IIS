@@ -136,7 +136,7 @@ class RemoteUserRepository implements UserRepository
 	/**
 	 * @inheritDoc
 	 */
-	public function getUserRoles()
+	public function getUserRoles(): array
 	{
 		$user_roles_stmt = $this->db_conn->prepare(UserSQL::GET_USER_ROLES);
 		$user_roles_stmt->execute();

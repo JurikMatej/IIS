@@ -14,6 +14,9 @@ use App\Application\Actions\User\ViewUserAction;
 use App\Application\Actions\User\EditUserAction;
 use App\Application\Actions\User\UpdateUserAction;
 use App\Application\Actions\User\CheckUserAction;
+use App\Application\Actions\User\RegisterUserAction;
+use App\Application\Actions\User\DeleteUserAction;
+use App\Application\Actions\User\LogoutUserAction;
 
 use App\Application\Actions\Auction\ListAuctionsAction;
 
@@ -38,14 +41,27 @@ return function (App $app) {
         return $renderer->render($response, "user/login.php", [
         ]);
     });
+
+    $app->get('/register', function (Request $request, Response $response) use ($renderer) {
+        return $renderer->render($response, "user/create.php", [
+        ]);
+    });
+
+    $app->get('/home', function (Request $request, Response $response) use ($renderer) {
+        return $renderer->render($response, "home.php", [
+        ]);
+    });
     
 
     $app->group('/users', function (Group $group) {
+        $group->post('/register', RegisterUserAction::class);
         $group->post('/check', CheckUserAction::class);
         $group->get('', ListUsersAction::class);
         $group->get('/{id}', ViewUserAction::class);
         $group->get('/{id}/edit', EditUserAction::class);
         $group->post('/{id}/update', UpdateUserAction::class);
+        $group->get('/{id}/delete', DeleteUserAction::class);
+        $group->post('/{id}/logout', LogoutUserAction::class);
     });
 
 

@@ -8,7 +8,7 @@
     <label for="password"> Password:</label> <input type="password" name="password"><br>
     <input type="submit">
 </form>
-<a href= "TODO"> Not registred yet ? </a>
+<a href= "\register"> Not registred yet ? </a>
 <p <?php if(!isset($_GET['login'])){ echo "hidden";}?> style="color:red;"> Wrong name or username. </p>
 
 <?php require_once "templates/footer.inc.php";?>
