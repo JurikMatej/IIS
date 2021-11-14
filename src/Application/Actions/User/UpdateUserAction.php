@@ -21,14 +21,20 @@ class UpdateUserAction extends UserAction
         // 
 
         $level = "";
+        $roleString  = "";
+        $id    = 0;
         foreach ($user_roles as $role)
         {
             if ($role->role == $_POST["role"])
             {
                 $level = $role->authority_level;
+                $roleString = $role->role;
+                $id = $role->id;
             }
         }
 
+        $user->setRoleId(intval($id));
+        $user->setRole($roleString);
         $user->setAuthorityLevel(intval($level));
         $user->setAddress($_POST["address"]);
         $user->setPassword($_POST["password"]);

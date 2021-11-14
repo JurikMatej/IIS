@@ -111,6 +111,7 @@ class UserSQL
 
     public const GET_USER_ROLES = "
         SELECT
+            user_role.id,
             user_role.role,
             user_role.authority_level
         FROM user_role;
