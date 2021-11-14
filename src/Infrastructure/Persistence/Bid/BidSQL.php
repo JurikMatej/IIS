@@ -383,9 +383,9 @@ class BidSQL
 				INNER JOIN auction_ruleset a_ruleset
 					ON a.ruleset_id = a_ruleset.id
 
-				INNER JOIN user author
+				LEFT JOIN user author
 					ON a.author_id = author.id
-						INNER JOIN user_role author_role
+						LEFT JOIN user_role author_role
 							ON author.role_id = author_role.id
 		
 				# Approver (could be null)
@@ -410,9 +410,9 @@ class BidSQL
 				) as a_photo
 					ON a.id = a_photo.auction_id
 
-		INNER JOIN user u
+		LEFT JOIN user u
 			ON bid.user_id = u.id
-				INNER JOIN user_role u_role
+				LEFT JOIN user_role u_role
 					ON u.role_id = u_role.id
 
 		WHERE bid.auction_id = :id

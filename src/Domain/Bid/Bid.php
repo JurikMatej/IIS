@@ -94,8 +94,8 @@ class Bid implements JsonSerializable, DBRecordConstructable
 		/* Monstrosity Ultima */
 		try {
 			// Create user object of the author of Bid's auction
-			// TODO all properties are undefined
-			$bid_auction_author = User::create()
+			$bid_auction_author = ($bidRecord->author_first_name === null) ? null
+			: User::create()
 				->setId((int)$bidRecord->author_id)
 				->setFirstName($bidRecord->author_first_name)
 				->setLastName($bidRecord->author_last_name)
@@ -111,7 +111,7 @@ class Bid implements JsonSerializable, DBRecordConstructable
 
 
 			// Create user object of the approver of Bid's auction
-			$bid_auction_approver = ($bidRecord->approver_id === null) ? null
+			$bid_auction_approver = ($bidRecord->approver_first_name === null) ? null
 				: User::create()
 					->setId((int)$bidRecord->approver_id)
 					->setFirstName($bidRecord->approver_first_name)
@@ -128,7 +128,7 @@ class Bid implements JsonSerializable, DBRecordConstructable
 
 
 			// Create user object of the winner of Bid's auction
-			$bid_auction_winner = ($bidRecord->winner_id === null) ? null
+			$bid_auction_winner = ($bidRecord->winner_first_name === null) ? null
 				: User::create()
 					->setId((int)$bidRecord->winner_id)
 					->setFirstName($bidRecord->winner_first_name)
@@ -145,10 +145,9 @@ class Bid implements JsonSerializable, DBRecordConstructable
 
 
 			// Create object of the auction related to Bid
-			// TODO most of this properties are undefined
 			$bid_auction = Auction::create()
 				->setId((int)$bidRecord->bid_auction_id)
-				// ->setName($bidRecord->auction_name)
+				->setName($bidRecord->auction_name)
 				->setDate(DomainUtils::createDateTime($bidRecord->auction_date))
 				->setDescription($bidRecord->auction_description)
 				->setStartingBid((int)$bidRecord->auction_starting_bid)
@@ -170,8 +169,8 @@ class Bid implements JsonSerializable, DBRecordConstructable
 
 
 			// Create object of the user related to Bid
-			// TODO
-			$bid_user = User::create()
+			$bid_user = ($bidRecord->user_first_name === null) ? null
+			: User::create()
 				->setId((int)$bidRecord->bid_user_id)
 				->setFirstName($bidRecord->user_first_name)
 				->setLastName($bidRecord->user_last_name)
@@ -292,18 +291,18 @@ class Bid implements JsonSerializable, DBRecordConstructable
 	}
 
 	/**
-	 * @return User
+	 * @return ?User
 	 */
-	public function getUser(): User
+	public function getUser(): ?User
 	{
 		return $this->user;
 	}
 
 	/**
-	 * @param User $user
+	 * @param ?User $user
 	 * @return Bid
 	 */
-	public function setUser(User $user): Bid
+	public function setUser(?User $user): Bid
 	{
 		$this->user = $user;
 		return $this;

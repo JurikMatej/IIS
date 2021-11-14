@@ -101,8 +101,16 @@
     // Bids
     foreach ($bids as $bid)
     {
-        echo "<h3>" . $bid->getValue() ." by <a href=\"../../users/" . $bid->getUser()->getId() . "\" >" 
-        . $bid->getUser()->getFirstName() . " " . $bid->getUser()->getLastName() .  "</a></h3>";
+        if ($bid->getUser() !== null)
+        {
+            echo "<h3>" . $bid->getValue() ." by <a href=\"../../users/" . $bid->getUser()->getId() . "\" >" 
+            . $bid->getUser()->getFirstName() . " " . $bid->getUser()->getLastName() .  "</a></h3>";
+        }
+        else
+        {
+            echo "<h3>" . $bid->getValue() ." by Non existing user</h3>";
+        }
+        
         echo "<hr>";
     }
 
