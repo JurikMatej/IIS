@@ -557,9 +557,9 @@ class Auction implements JsonSerializable, DBRecordConstructable
 	}
 
 	/**
-	 * @return User
+	 * @return User|null
 	 */
-	public function getApprover(): User
+	public function getApprover(): ?User
 	{
 		return $this->approver;
 	}
@@ -575,9 +575,9 @@ class Auction implements JsonSerializable, DBRecordConstructable
 	}
 
 	/**
-	 * @return User
+	 * @return User|null
 	 */
-	public function getWinner(): User
+	public function getWinner(): ?User
 	{
 		return $this->winner;
 	}

@@ -59,17 +59,20 @@ class AuctionPhoto implements JsonSerializable
 		$result = [];
 		$photoAuctionID = $auctionRecord->id;
 
-		$photoIDs = explode(",", $auctionRecord->auction_ids);
-		$photoIDsCount = count($photoIDs);
+		if ($auctionRecord->auction_ids !== null && $auctionRecord->auction_photos )
+		{
+			$photoIDs = explode(",", $auctionRecord->auction_ids);
+			$photoIDsCount = count($photoIDs);
 
-		$photoPaths = explode(",", $auctionRecord->auction_photos);
-		$photoPathsCount = count($photoPaths);
+			$photoPaths = explode(",", $auctionRecord->auction_photos);
+			$photoPathsCount = count($photoPaths);
 
-		for ($photoIdx = 0; $photoIdx < min($photoIDsCount, $photoPathsCount); $photoIdx++) {
-			$result[] = self::create()
-				->setId((int)$photoIDs[$photoIdx])
-				->setPath($photoPaths[$photoIdx])
-				->setAuctionId((int)$photoAuctionID);
+			for ($photoIdx = 0; $photoIdx < min($photoIDsCount, $photoPathsCount); $photoIdx++) {
+				$result[] = self::create()
+					->setId((int)$photoIDs[$photoIdx])
+					->setPath($photoPaths[$photoIdx])
+					->setAuctionId((int)$photoAuctionID);
+			}
 		}
 
 		return $result;

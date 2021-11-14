@@ -18,9 +18,13 @@ class ViewAuctionAction extends AuctionAction
     {
         $auctionId = (int) $this->resolveArg('id');
         $auction = $this->auctionRepository->findAuctionOfId($auctionId);
+        $bids = $this->bidRepository->findAllAuctionBids($auction->getId());
 
-        $this->logger->info("User of id `${auctionId}` was viewed.");
+        $this->logger->info("Auction of id `${auctionId}` was viewed.");
 
-        return $this->respondWithData($auction);
+        $this->auctionViewRenderer->setLayout("index.php");
+        $this->auctionViewRenderer->render($this->response, "show.php", ["auction" => $auction, "bids" => $bids]);
+        
+        return $this->response;
     }
 }

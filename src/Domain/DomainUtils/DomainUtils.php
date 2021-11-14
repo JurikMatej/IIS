@@ -50,14 +50,15 @@ class DomainUtils
 
 
 	/**
-	 * @param string $photos
-	 * @return string[]|null
+	 * @param ?string $photos
+	 * @return string[]
 	 */
-	public static function parseAuctionPhotosRecord(string $photos): ?array
+	public static function parseAuctionPhotosRecord(?string $photos): array
 	{
+        if ($photos === null) return [];
 		$photos_array = explode(',', $photos);
 		return ($photos_array !== false) ?
 			$photos_array
-			: null;
+			: [];
 	}
 }
