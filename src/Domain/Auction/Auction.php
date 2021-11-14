@@ -167,7 +167,9 @@ class Auction implements JsonSerializable, DBRecordConstructable
 	{
 		try {
 			/* Monstrosity exhibition */
-			$author = User::create()
+			// id can be set (deleted user), but first name will not be
+			$author = ($auctionRecord->author_first_name === null) ? null
+				: User::create()
 					->setId((int)$auctionRecord->author_id)
 					->setFirstName($auctionRecord->author_first_name)
 					->setLastName($auctionRecord->author_last_name)
@@ -181,8 +183,8 @@ class Auction implements JsonSerializable, DBRecordConstructable
 					->setRole($auctionRecord->author_role)
 					->setAuthorityLevel((int)$auctionRecord->author_authority_level);
 
-
-			$approver = ($auctionRecord->approver_id === null) ? null
+			// id can be set (deleted user), but first name will not be
+			$approver = ($auctionRecord->approver_first_name === null) ? null
 				: User::create()
 					->setId((int)$auctionRecord->approver_id)
 					->setFirstName($auctionRecord->approver_first_name)
@@ -197,8 +199,8 @@ class Auction implements JsonSerializable, DBRecordConstructable
 					->setRole($auctionRecord->approver_role)
 					->setAuthorityLevel((int)$auctionRecord->approver_authority_level);
 
-
-			$winner = ($auctionRecord->winner_id === null) ? null
+			// id can be set (deleted user), but first name will not be
+			$winner = ($auctionRecord->winner_first_name === null) ? null
 				: User::create()
 					->setId((int)$auctionRecord->winner_id)
 					->setFirstName($auctionRecord->winner_first_name)
@@ -539,18 +541,18 @@ class Auction implements JsonSerializable, DBRecordConstructable
 	}
 
 	/**
-	 * @return User
+	 * @return ?User
 	 */
-	public function getAuthor(): User
+	public function getAuthor(): ?User
 	{
 		return $this->author;
 	}
 
 	/**
-	 * @param User $author
+	 * @param ?User $author
 	 * @return Auction
 	 */
-	public function setAuthor(User $author): Auction
+	public function setAuthor(?User $author): Auction
 	{
 		$this->author = $author;
 		return $this;

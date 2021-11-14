@@ -58,8 +58,17 @@
 ?>
 
 <p>
-    Author: <a href="../../users/<?=$auction->getAuthor()->getId()?>"><?=$auction->getAuthor()->getFirstName() .
-    " " . $auction->getAuthor()->getLastName()?> </a>
+    Author: <?php
+        if ($auction->getAuthor() !== null)
+        {
+            echo "<a href=\"../../users/" . $auction->getAuthor()->getId() . ">" . $auction->getAuthor()->getFirstName() .
+            " " . $auction->getAuthor()->getLastName()  . "</a>";
+        }
+        else
+        {
+            echo "Non existing user";
+        }
+    ?>
 </p>
 
 <?php

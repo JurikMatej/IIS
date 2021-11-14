@@ -163,9 +163,10 @@ class AuctionSQL
             INNER JOIN auction_ruleset a_ruleset
                 ON a.ruleset_id = a_ruleset.id
         
-            INNER JOIN user author
+            # Can also be null after delete
+            LEFT JOIN user author
                 ON a.author_id = author.id
-                    INNER JOIN user_role author_role
+                    LEFT JOIN user_role author_role
                         ON author.role_id = author_role.id
         
             # Approver could be null
@@ -252,9 +253,10 @@ class AuctionSQL
             INNER JOIN auction_ruleset a_ruleset
                 ON a.ruleset_id = a_ruleset.id
         
-            INNER JOIN user author
+            # Can also be null after delete
+            LEFT JOIN user author
                 ON a.author_id = author.id
-                    INNER JOIN user_role author_role
+                    LEFT JOIN user_role author_role
                         ON author.role_id = author_role.id
         
             # Approver could be null

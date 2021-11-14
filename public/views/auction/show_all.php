@@ -44,7 +44,12 @@
 ?> 
 </h2>
 <p>Type : <?php echo $auction->getType(); echo " , ".$auction->getRuleset();?></p>
-<p>Author : <?php echo $auction->getAuthor()->getFirstName() . " " . $auction->getAuthor()->getLastName();?></p>
+<p>Author : <?php 
+    if ($auction->getAuthor() !== null)
+        echo $auction->getAuthor()->getFirstName() . " " . $auction->getAuthor()->getLastName();
+    else 
+        echo "Non existing user";
+?></p>
 <hr>
 
 <?php } ?>
