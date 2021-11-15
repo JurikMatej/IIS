@@ -14,24 +14,16 @@ class RegisterUserAction extends UserAction
      */
     protected function action(): Response
     {
-        $mail=(isset($_POST['email']))?$_POST['email']:'';
-        $password=(isset($_POST['password']))?$_POST['password']:'';
-        $first_name=(isset($_POST['first_name']))?$_POST['first_name']:'';
-        $last_name=(isset($_POST['last_name']))?$_POST['last_name']:'';
-        $address=(isset($_POST['address']))?$_POST['address']:'';
+        $mail = $_POST['email'];
+        $password = $_POST['password'];
+        $first_name = $_POST['first_name'];
+        $last_name = $_POST['last_name'];
+        $address = (isset($_POST['address']))?$_POST['address']: null; // optional
 
         $users = $this->userRepository->findAll();
         
         $name = $_SERVER["SERVER_NAME"];
         $port = ':'.$_SERVER["SERVER_PORT"];
-      
-
-        // check if visitor set all labels in registration form
-        if ($mail == '' || $password == '' || $first_name == '' || $last_name == '' || $address == '') {
-            header("Location: http://$name$port/register" . "?non_empty_register=failed");
-            exit();
-            return $this->response;
-        }
 
         // check if email is not already set
         foreach ($users as $user)
