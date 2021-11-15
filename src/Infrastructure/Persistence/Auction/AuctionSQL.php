@@ -312,4 +312,20 @@ class AuctionSQL
 		SELECT MAX(id) as id
 		FROM auction;
 	";
+
+    /**
+	 * @brief Get all values from auction ruleset table
+	 */
+    const GET_AUCTION_RULESET = "
+        SELECT * 
+        FROM auction_ruleset;
+    ";
+
+    /**
+	 * @brief Get all values from auction type table
+	 */
+    const GET_AUCTION_TYPE = "
+        SELECT * 
+        FROM auction_type;
+    ";
 }

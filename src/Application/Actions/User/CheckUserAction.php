@@ -27,6 +27,7 @@ class CheckUserAction extends UserAction
                 session_start();
                 $_SESSION['user'] = $login;
                 $_SESSION['role'] = $user->getRole();
+                $_SESSION['id']   = $id;
 
                 $dest = "/users/" . $id;
                 $failed = false;

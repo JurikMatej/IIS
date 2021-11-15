@@ -16,6 +16,7 @@ class LogoutUserAction extends UserAction
         session_start();
         if (isset($_SESSION['user'])) unset($_SESSION['user']);
         if (isset($_SESSION['role'])) unset($_SESSION['role']);
+        if (isset($_SESSION['id']))   unset($_SESSION['id']);
 
         $name = $_SERVER["SERVER_NAME"];
         $port = ':'.$_SERVER["SERVER_PORT"];

@@ -1,9 +1,6 @@
 <?php
 declare(strict_types=1);
 
-use App\Application\Actions\Auction\ViewAuctionAction;
-use App\Application\Actions\Bid\ListBidsAction;
-use App\Application\Actions\Bid\ViewBidAction;
 use Slim\App;
 use Slim\Interfaces\RouteCollectorProxyInterface as Group;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -18,7 +15,13 @@ use App\Application\Actions\User\RegisterUserAction;
 use App\Application\Actions\User\DeleteUserAction;
 use App\Application\Actions\User\LogoutUserAction;
 
+use App\Application\Actions\Auction\ViewAuctionAction;
 use App\Application\Actions\Auction\ListAuctionsAction;
+use App\Application\Actions\Auction\CreateAuctionAction;
+use App\Application\Actions\Auction\SendAuctionAction;
+
+use App\Application\Actions\Bid\ListBidsAction;
+use App\Application\Actions\Bid\ViewBidAction;
 
 use Slim\Views\PhpRenderer;
 
@@ -66,6 +69,8 @@ return function (App $app) {
 
 
     $app->group('/auctions', function (Group $group) {
+        $group->get('/create', CreateAuctionAction::class);
+        $group->post('/send', SendAuctionAction::class);
         $group->get('', ListAuctionsAction::class);
         $group->get('/{id}', ViewAuctionAction::class);
     });

@@ -6,6 +6,7 @@ namespace App\Application\Actions\Auction;
 
 use App\Domain\Auction\AuctionRepository;
 use App\Domain\Bid\BidRepository;
+use App\Domain\User\UserRepository;
 use App\Domain\DomainException\DomainRecordNotFoundException;
 use App\Infrastructure\Persistence\Auction\RemoteAuctionRepository;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -27,17 +28,24 @@ abstract class AuctionAction extends Action
     protected $bidRepository;
 
     /**
+     * @var UserRepository
+     */
+    protected $userRepository;
+
+    /**
      * @var PhpRenderer
      */
     protected $auctionViewRenderer;
 
     public function __construct(LoggerInterface $logger,
                                 AuctionRepository $auctionRepository,
-                                BidRepository $bidRepository)
+                                BidRepository $bidRepository,
+                                UserRepository $userRepository)
     {
         parent::__construct($logger);
         $this->auctionRepository = $auctionRepository;
         $this->bidRepository = $bidRepository;
+        $this->userRepository = $userRepository;
         $this->auctionViewRenderer = new PhpRenderer("views/auction");
     }
 }

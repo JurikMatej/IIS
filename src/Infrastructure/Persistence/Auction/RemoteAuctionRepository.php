@@ -282,6 +282,33 @@ class RemoteAuctionRepository implements AuctionRepository
 		return Auction::fromDbRecord($auction_of_id_result);
 	}
 
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getAuctionTypes(): array
+	{
+		$auction_types_stmt = $this->db_conn->prepare(AuctionSQL::GET_AUCTION_TYPE);
+		$auction_types_stmt->execute();
+		$auction_types_result = $auction_types_stmt->fetchAll();
+
+		return $auction_types_result;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getAuctionRulesets(): array
+	{
+		$auction_rulesets_stmt = $this->db_conn->prepare(AuctionSQL::GET_AUCTION_RULESET);
+		$auction_rulesets_stmt->execute();
+		$auction_rulesets_result = $auction_rulesets_stmt->fetchAll();
+
+		return $auction_rulesets_result;
+	}
+
+
 	/**
 	 * RemoteAuctionRepository destructor.
 	 *

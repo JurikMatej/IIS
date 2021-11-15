@@ -1,8 +1,14 @@
 <!-- GET /auctions -->
 <!-- All auctions's  -->
 
+<?php 
+    session_start();
+    if (isset($_SESSION['id'])): ?>
+        <a href="/auctions/create">Create new auction </a>
+        <br>
+<?php endif; ?>
+
 <?php foreach ($auctions as $auction){ ?>
-    
 
 <?php
     if ($auction->getPhotos() !== [])
