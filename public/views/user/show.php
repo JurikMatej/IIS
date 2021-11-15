@@ -11,7 +11,6 @@
 <a href="<?=$user->getId()?>/edit">Edit</a>
 <a href="<?=$user->getID()?>/delete" onclick="return confirm('Are you sure you want to delete user <?=$user->getFirstName()?> <?=$user->getLastName()?> ?')">Delete</a>
 <?php 
-     session_start();
      $user_mail = (isset($_SESSION['user']))? $_SESSION['user']: "";
      $user_role = (isset($_SESSION['role']))? $_SESSION['role']: "";
      
