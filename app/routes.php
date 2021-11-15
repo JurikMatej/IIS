@@ -54,6 +54,11 @@ return function (App $app) {
         return $renderer->render($response, "home.php", [
         ]);
     });
+
+    $app->get('/error', function (Request $request, Response $response) use ($renderer) {
+        return $renderer->render($response, "error.php", [
+        ]);
+    });
     
 
     $app->group('/users', function (Group $group) {
