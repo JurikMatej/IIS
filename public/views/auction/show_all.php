@@ -6,6 +6,8 @@
     if (isset($_SESSION['id'])): ?>
         <a href="/auctions/create">Create new auction </a>
         <br>
+        <a href="/auctions/waiting">View auctions waiting for approval </a>
+        <br>
 <?php endif; ?>
 
 <?php foreach ($auctions as $auction){ ?>
@@ -19,7 +21,15 @@
 <h2> <?php 
     $datetime = $auction->getDate(); 
     $timelimit = $auction->getTimeLimit();
-    echo "Started on: " . $datetime->format("d.m.Y H:i:s");
+    $date = new DateTime();
+    if ($datetime > $date)
+    {
+        echo "Starting on: " . $datetime->format("d.m.Y H:i:s");
+    }
+    else
+    {
+        echo "Started on: " . $datetime->format("d.m.Y H:i:s");
+    }
     if ($timelimit == null)
     {
         if ($auction->getWinnerId() == null)

@@ -103,7 +103,7 @@ class RemoteAuctionRepository implements AuctionRepository
 				'time_limit' => $auction->getFormattedTimeLimit(),
 				'minimum_bid_increase' => $auction->getMinimumBidIncrease(),
 				'bidding_interval' => $auction->getFormattedBiddingInterval(),
-				'awaiting_approval' => $auction->isAwaitingApproval(),
+				'awaiting_approval' => (int)$auction->isAwaitingApproval(),
 				'author_id' => $auction->getAuthorId(),
 				'type_id' => $auction->getTypeId(),
 				'ruleset_id' => $auction->getRulesetId(),
@@ -130,7 +130,7 @@ class RemoteAuctionRepository implements AuctionRepository
 				'time_limit' => $auction->getFormattedTimeLimit(),
 				'minimum_bid_increase' => $auction->getMinimumBidIncrease(),
 				'bidding_interval' => $auction->getFormattedBiddingInterval(),
-				'awaiting_approval' => $auction->isAwaitingApproval(),
+				'awaiting_approval' => (int)$auction->isAwaitingApproval(),
 				'author_id' => $auction->getAuthorId(),
 				'type_id' => $auction->getTypeId(),
 				'ruleset_id' => $auction->getRulesetId(),
@@ -267,6 +267,31 @@ class RemoteAuctionRepository implements AuctionRepository
 		$all_auctions_result = $all_auctions_stmt->fetchAll();
 
 		return Auction::fromDbRecordArray($all_auctions_result);
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function findAllWaitingForApproval(): array
+	{
+		$auctions_waiting_stmt = $this->db_conn->prepare(AuctionSQL::GET_ALL_WAITING_AUCTIONS);
+		$auctions_waiting_stmt->execute();
+		$auctions_waiting_result = $auctions_waiting_stmt->fetchAll();
+
+		return Auction::fromDbRecordArray($auctions_waiting_result);
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function findAllApproved(): array
+	{
+		$auctions_approved_stmt = $this->db_conn->prepare(AuctionSQL::GET_ALL_APPROVED_AUCTIONS);
+		$auctions_approved_stmt->execute();
+		$auctions_approved_result = $auctions_approved_stmt->fetchAll();
+
+		return Auction::fromDbRecordArray($auctions_approved_result);
 	}
 
 

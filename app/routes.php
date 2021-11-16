@@ -16,9 +16,12 @@ use App\Application\Actions\User\DeleteUserAction;
 use App\Application\Actions\User\LogoutUserAction;
 
 use App\Application\Actions\Auction\ViewAuctionAction;
-use App\Application\Actions\Auction\ListAuctionsAction;
+use App\Application\Actions\Auction\ListApprovedAuctionsAction;
+use App\Application\Actions\Auction\ListWaitingAuctionsAction;
 use App\Application\Actions\Auction\CreateAuctionAction;
 use App\Application\Actions\Auction\SendAuctionAction;
+use App\Application\Actions\Auction\ViewWaitingAuctionAction;
+use App\Application\Actions\Auction\SendWaitingAuctionAction;
 
 use App\Application\Actions\Bid\ListBidsAction;
 use App\Application\Actions\Bid\ViewBidAction;
@@ -76,7 +79,10 @@ return function (App $app) {
     $app->group('/auctions', function (Group $group) {
         $group->get('/create', CreateAuctionAction::class);
         $group->post('/send', SendAuctionAction::class);
-        $group->get('', ListAuctionsAction::class);
+        $group->post('/update', SendWaitingAuctionAction::class);
+        $group->get('', ListApprovedAuctionsAction::class);
+        $group->get('/waiting', ListWaitingAuctionsAction::class);
+        $group->get('/waiting/{id}', ViewWaitingAuctionAction::class);
         $group->get('/{id}', ViewAuctionAction::class);
     });
 

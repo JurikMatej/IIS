@@ -8,7 +8,7 @@ use App\Domain\DomainException\DomainRecordNotFoundException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Slim\Exception\HttpBadRequestException;
 
-class ListAuctionsAction extends AuctionAction
+class ListWaitingAuctionsAction extends AuctionAction
 {
 
     /**
@@ -16,17 +16,14 @@ class ListAuctionsAction extends AuctionAction
      */
     protected function action(): Response
     {
-        $auctions = $this->auctionRepository->findAll();
+        $auctions = $this->auctionRepository->findAllWaitingForApproval();
 
-        $this->logger->info("Auctions list was viewed.");
+        $this->logger->info("Approved auctions list was viewed.");
 
         $this->auctionViewRenderer->setLayout("index.php");
         
-        $this->auctionViewRenderer->render($this->response,"show_all.php", ["auctions" => $auctions]);
+        $this->auctionViewRenderer->render($this->response,"show_all_waiting.php", ["auctions" => $auctions]);
         
         return $this->response;
     }
-
-    
-
 }

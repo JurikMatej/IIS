@@ -42,18 +42,40 @@ class SendAuctionAction extends AuctionAction
         $author_id = (int) (isset($_SESSION['id']))?$_SESSION['id']:'';
         $author = $this->userRepository->findUserOfId(intval($author_id));
 
-        $date_string = (isset($_POST['date']))?$_POST['date']:'';
-        $date = DateTime::createFromFormat('Y-m-d\TH:i', $date_string);
+        $hours = (int)(isset($_POST['hours']))?$_POST['hours']:'0';
+        $minutes = (int)(isset($_POST['minutes']))?$_POST['minutes']:'0';
+
+        if ($hours  ===  '0' && $minutes === '0')
+        {
+            $time_limit = null;
+        }
+        else
+        {
+            $time_limit = new DateTime();
+            $time_limit->setTime($hours, $minutes);
+        }
+       
         $name = (isset($_POST['name']))?$_POST['name']:'';
         $description = (isset($_POST['description']))?$_POST['description']:'';
         $starting_bid =( isset($_POST['starting_bid']))?$_POST['starting_bid']:'';
         $minimum_bid_increase = (isset($_POST['minimum_bid_increase']))?$_POST['minimum_bid_increase']:'';
         $ruleset = (isset($_POST['ruleset']))?$_POST['ruleset']:'';
         $type = (isset($_POST['type']))?$_POST['type']:'';
+        $biding_minutes = (int)(isset($_POST['biding_minutes']))?$_POST['biding_minutes']:'0';
+        if ($biding_minutes === '0')
+        {
+            $bidding_interval = null;
+        }
+        else
+        {
+            $bidding_interval= new DateTime();
+            $bidding_interval->setTime(0, $biding_minutes);
+        }
+        
         $photos = [];//TODO
 
 
-        $typeid = 0;
+        $typeid = 1;
         foreach ($types as $type)
         {
             if ($type->type == $_POST["type"])
@@ -61,7 +83,7 @@ class SendAuctionAction extends AuctionAction
                 $typeid = $type->id;
             }
         }
-        $rulesetid = 0;
+        $rulesetid = 1;
         foreach ($rulesets as $ruleset)
         {
             if ($ruleset->ruleset == $_POST["ruleset"])
@@ -73,7 +95,7 @@ class SendAuctionAction extends AuctionAction
         $auction = Auction::create()
             ->setAuthor($author)
             ->setAuthorId($author_id)
-            ->setDate($date)
+            ->setTimeLimit($time_limit)
             ->setName($name)
             ->setDescription($description)
             ->setStartingBid($starting_bid)
@@ -82,12 +104,13 @@ class SendAuctionAction extends AuctionAction
             ->setRulesetId($rulesetid)
             ->setType($type->type)
             ->setTypeId($typeid)
+            ->setBiddingInterval($bidding_interval)
             ->setPhotos($photos)
             ->setAwaitingApproval(true);
         
         $this->auctionRepository->save($auction);
 
-        $this->auctionViewRenderer->render($this->response,"send.php", );
+        $this->auctionViewRenderer->render($this->response,"send.php");
         
         return $this->response;
     }
