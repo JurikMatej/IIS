@@ -21,8 +21,4 @@
 <body>
 
     <!-- CHANGE LATER -->
-    <div class="container">
-        <div class="col-md-auto text-center">
-
-        <span class="text-monospace fw-bold">Additional heading</span>
-        <br>
+    <div class="main-container">

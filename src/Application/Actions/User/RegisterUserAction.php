@@ -24,12 +24,20 @@ class RegisterUserAction extends UserAction
         
         $name = $_SERVER["SERVER_NAME"];
         $port = ':'.$_SERVER["SERVER_PORT"];
+        
+        // store all fields to session in order to save content of form in case of error
+        session_start();
+        $_SESSION['email'] = $mail;
+        $_SESSION['password'] = $password;
+        $_SESSION['first_name'] = $first_name;
+        $_SESSION['last_name'] = $last_name;
+        $_SESSION['address'] = $address;
       
 
         // check if visitor set all labels in registration form
         if ($mail == '' || $password == '' || $first_name == '' || $last_name == '' || $address == '') {
             header("Location: http://$name$port/register" . "?non_empty_register=failed");
-            exit();
+            exit();            
             return $this->response;
         }
 
@@ -57,9 +65,15 @@ class RegisterUserAction extends UserAction
             ->setAuthorityLevel(2);
 
         $this->userRepository->save($new_user);
-        
+ 
+        // free session after user filled registration form correctly
+        unset($_SESSION['last_name']);
+        unset($_SESSION['first_name']);
+        unset($_SESSION['address']);
+
+
         // transport to home page
-        header("Location: http://$name$port"."/home");
+        header("Location: http://$name$port");
         
         exit();
 
