@@ -39,4 +39,24 @@ interface AuctionRepository
      * @throws AuctionNotFoundException
      */
     public function findAuctionOfId(int $id): Auction;
+
+    /**
+	 * @inheritDoc
+	 */
+	public function findAllApproved(): array;
+
+    /**
+	 * @inheritDoc
+	 */
+	public function findAllWaitingForApproval(): array;
+
+    /**
+	 * @inheritDoc
+	 */
+	public function getAuctionTypes(): array;
+
+    /**
+	 * @inheritDoc
+	 */
+	public function getAuctionRulesets(): array;
 }

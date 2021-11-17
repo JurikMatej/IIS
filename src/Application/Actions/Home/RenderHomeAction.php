@@ -16,7 +16,7 @@ class RenderHomeAction extends HomePageAction
      */
     protected function action(): Response
     {
-        $auctions = $this->auctionRepository->findAll();
+        $auctions = $this->auctionRepository->findAllApproved();
 
         $this->logger->info("List of auctions was fetched in order to generate home page view.");
 

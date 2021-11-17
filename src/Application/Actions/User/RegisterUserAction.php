@@ -32,6 +32,7 @@ class RegisterUserAction extends UserAction
         $_SESSION['first_name'] = $first_name;
         $_SESSION['last_name'] = $last_name;
         $_SESSION['address'] = $address;
+        $_SESSION['role'] = "User";
       
 
         // check if email is not already set

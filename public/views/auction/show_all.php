@@ -1,14 +1,9 @@
 <!-- GET /auctions -->
 <!-- All auctions's  -->
 
-<?php 
-    session_start();
-    if (isset($_SESSION['id'])): ?>
-        <a href="/auctions/create">Create new auction </a>
-        <br>
-        <a href="/auctions/waiting">View auctions waiting for approval </a>
-        <br>
-<?php endif; ?>
+<div class="waiting-auction-button">
+    <a href="/auctions/waiting" class="btn btn-primary">Auctions waiting for approval </a>
+</div>
 
 <?php foreach ($auctions as $auction){ ?>
     

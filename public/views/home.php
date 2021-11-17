@@ -31,12 +31,19 @@
     <div id="logout-nav-content">
         <ul class="logout-nav-list">
             <li><a href="/logout" class="btn btn-primary" onclick="return confirm('Are you sure you want to log out ?')">Log out</a></li>
+
+<?php 
+    // enable to admin and licitator to see list of all auctions
+        //session_start();
+        $role = isset($_SESSION['role'])? $_SESSION['role'] : '';
+        if ($role === "Admin" || $role === "Auctioneer") {
+            ?>
+            <li><a href="/auctions" class="btn btn-primary">See all auctions</a></li> <?php } ?>
         </ul>
     </div>
 </nav>
-
-<?php 
-    } ?>
+        
+   <?php } ?>
 
 <div class="scroll-container">
     <style>
