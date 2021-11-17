@@ -1,11 +1,11 @@
 
 
-
-            <footer class="text-decoration-underline">
-                Additional footing
-            </footer>
-        </div> <!-- /.col-md-auto -->
-    </div><!-- /.container-md  -->
+            <div class="footer">
+                <footer>
+                    <p>&copy; Marek Miček, Matej Jurík, Peter Rúček: FIT VUT Brno 2021. All Rights Reserved</p>
+                </footer>
+            </div>
+    </div> <!-- main-container-->
 
 
     <script src="../../assets/js/bundle.js"></script>

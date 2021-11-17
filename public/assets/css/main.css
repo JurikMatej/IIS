@@ -4,3 +4,188 @@ form i {
     margin-left: -30px;
     cursor: pointer;
 }
+* {
+
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+
+    font-size: 16px;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    color: #eee;
+    scroll-behavior: smooth;
+}
+
+body {
+
+    width: 100%;
+    height: 100%;
+    background-color: #df8236;
+}
+
+
+
+#main-navbar {
+
+    width: 100%;
+    background-color: #333;
+    z-index: 100;
+    margin-bottom: 40px;
+}
+  
+#main-navbar a:hover, a:focus {
+  
+    color: #ffe838;
+}
+  
+.main-nav-list {
+  
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    text-align: center;
+}
+  
+.main-nav-list a {
+  
+    margin: 0 2rem;
+    text-decoration: none;
+    color: #eee;
+  }
+  
+  .main-nav-list li {
+  
+    padding: 1.5rem 0;
+  }
+
+.home-header h1 {
+
+    /* main heading of website*/
+    font-size: 3.8rem;
+    width:100%;
+    text-align: center;
+}
+
+/* navigation buttons for login and registration*/
+.log-reg-nav-list {
+    
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: right;
+    align-items: center;
+    list-style: none;
+    text-align: center;
+}
+
+.log-reg-nav-list li {
+
+    padding: 1.5rem 0;
+}
+
+.log-reg-nav-list a {
+
+    margin: 0 2rem;
+    text-decoration: none;
+    color: #eee;
+}
+
+/* Logout button on home page */
+.logout-nav-list {
+
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: right;
+    align-items: center;
+    list-style: none;
+    text-align: center;
+}
+
+.home-auction {
+
+    margin: 30px 0;
+    text-align: center;
+}
+
+/* login form */
+.log-form {
+
+    margin: 100px 0;
+    text-align: center;
+}
+
+.log-form h2 {
+
+    margin-bottom: 50px;
+}
+
+#log-button {
+
+    margin-top: 25px;
+}
+
+/* reg form */
+.reg-form {
+
+    margin: 100px 0;
+    text-align: center;
+}
+
+.reg-form h2 {
+
+    margin-bottom: 50px;
+}
+
+#reg-button {
+
+    margin-top: 25px;
+}
+
+label {
+
+    display: block;
+}
+
+/* list of users */
+.user-list {
+
+    text-align: center;
+}
+
+/* user detial */
+.user-detail {
+
+    text-align: center;
+}
+
+/* list of all auctions */
+.auction-list {
+
+    text-align: center;
+}
+
+/* auction detail */
+.auction-detail {
+
+    text-align: center;
+}
+
+.footer {
+
+    width:100%;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, -50%);   /* to center heading */
+    text-align: center;
+}

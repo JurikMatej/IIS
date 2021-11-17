@@ -15,8 +15,11 @@ class CheckUserAction extends UserAction
         $login=(isset($_POST['email']))?$_POST['email']:'';
         $password=(isset($_POST['password']))?$_POST['password']:'';
         $users = $this->userRepository->findAll();
-        $dest = "/";
         $failed = true;
+        session_start();
+        $_SESSION['email'] = $login;
+        $_SESSION['password'] = $password;
+
         foreach ($users as $user)
         {
             if ($login === $user->getMail() && $password === $user->getPassword())
@@ -24,36 +27,24 @@ class CheckUserAction extends UserAction
                 $id = $user->getId();
                 $this->logger->info("User `${id}` has logged in.");
 
-                session_start();
-                $_SESSION['user'] = $login;
                 $_SESSION['role'] = $user->getRole();
                 $_SESSION['id']   = $id;
 
-                $dest = "/users/" . $id;
                 $failed = false;
 
             }
         }
-
-        $script = $_SERVER["PHP_SELF"];
-        if (strpos($dest, '/') === 0) 
-        {
-            $path = $dest;
-        } 
-        else
-        {
-            $path = substr($script, 0,
-            strrPos($script, "/"))."/$dest";
-        }
+        
         $name = $_SERVER["SERVER_NAME"];
         $port = ':'.$_SERVER["SERVER_PORT"];
         if ($failed)
         {
-            header("Location: http://$name$port$path" . "?login=failed");
+            header("Location: http://$name$port/login" . "?login=failed");
         }
         else
         {
-            header("Location: http://$name$port$path");
+            // go to home page on success
+            header("Location: http://$name$port");
         }
         
         exit();
