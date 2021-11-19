@@ -33,13 +33,13 @@
     <?php 
         if($auction->getTimeLimit() !== null)
         {
-            echo " <p> Time limit: " . $auction->getTimeLimit()->format("H \h\o\u\\r\s : i \m\i\\n\u\\t\\e\s") . "</p>"; 
+            echo " <p> Time limit: " . $auction->getTimeLimit()->format('%H hours %I minutes') . "</p>"; 
         }
         if($auction->getMinimumBidIncrease() !== 0) 
             echo " <p> Minimum bid increase: " . $auction->getMinimumBidIncrease() . " $ </p>"; 
 
         if($auction->getFormattedBiddingInterval() !== null) 
-            echo " <p> Bidding interval: " . $auction->getFormattedBiddingInterval() . "</p>"; 
+            echo " <p> Bidding interval: " . $auction->getBiddingInterval()->format("%I minutes") . "</p>"; 
     ?>
 
     <form action="/auctions/update" method="post">
