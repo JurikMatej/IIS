@@ -32,17 +32,14 @@
         else 
         {
             // Calculating finish time
-            $date = new DateTime();
-            $date->setTime(0, 0);
-            $diff = $auction->getTimeLimit()->diff($date,true);
-            $a = $datetime->add($diff);
-            if ($a > new DateTime())
+            $end = $datetime->add($timelimit);
+            if ($end > new DateTime())
             {
-                echo "</h2> <h2 style=\"color:green;\">Runing until: " . $a->format("d.m.Y H:i:s");
+                echo "</h2> <h2 style=\"color:green;\">Runing until: " . $end->format("d.m.Y H:i:s");
             }
             else
             {
-                echo "</h2> <h2 style=\"color:red;\">Finished on: " . $a->format("d.m.Y H:i:s");
+                echo "</h2> <h2 style=\"color:red;\">Finished on: " . $end->format("d.m.Y H:i:s");
             }
         }
     ?> 

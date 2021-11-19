@@ -35,9 +35,9 @@
 
         <label for="type">Choose type:</label>
         <select name="type" id="type">
-        <?php foreach ($types as $type){
+        <?php foreach ($types as $typ){
 
-            echo "<option value=\"" . $type->id ."\">". $type->type . "</option>";
+            echo "<option value=\"" . $typ->id ."\">". $typ->type . "</option>";
         }?>
         </select>
         <br>

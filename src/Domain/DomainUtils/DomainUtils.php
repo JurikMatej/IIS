@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\DomainUtils;
 
 use DateTime;
+use DateInterval;
 
 /**
  * Class DomainUtils
@@ -39,13 +40,16 @@ class DomainUtils
      * Create DateTime object from time returned by DB
      *
      * @param string|null $time
-     * @return DateTime|null
+     * @return DateInterval|null
      */
-    public static function createTime(?string $time): ?DateTime
+    public static function createTime(?string $time): ?DateInterval
     {
-        return $time !== null ?
-            DateTime::createFromFormat(self::TIME_FMT, $time)
-            : null;
+        if ($time === null) return null;
+        $date = DateTime::createFromFormat(self::TIME_FMT, $time);
+        $now = new DateTime();
+        $now->setTime(0,0);
+        $interval = $now->diff($date);
+        return $interval;
     }
 
 

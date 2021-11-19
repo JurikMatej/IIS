@@ -52,15 +52,24 @@ class SendAuctionAction extends AuctionAction
         else
         {
             $time_limit = new DateTime();
+            $zero = clone $time_limit;
             $time_limit->setTime($hours, $minutes);
+            $zero->setTime(0,0);
+            $time_limit = $time_limit->diff($zero);
         }
        
         $name = (isset($_POST['name']))?$_POST['name']:'';
         $description = (isset($_POST['description']))?$_POST['description']:'';
         $starting_bid =( isset($_POST['starting_bid']))?$_POST['starting_bid']:'';
         $minimum_bid_increase = (isset($_POST['minimum_bid_increase']))?$_POST['minimum_bid_increase']:'';
-        $ruleset = (isset($_POST['ruleset']))?$_POST['ruleset']:'';
-        $type = (isset($_POST['type']))?$_POST['type']:'';
+        $rulesetId = (int)((isset($_POST['ruleset']))?$_POST['ruleset']:'');
+        
+        $typeId = (int)((isset($_POST['type']))?$_POST['type']:'');
+        if ($typeId === 0 && $rulesetId === 2) // closed
+        {
+            $typeId = 1; // only ascending bid
+        }
+
         $biding_minutes = (int)(isset($_POST['biding_minutes']))?$_POST['biding_minutes']:'0';
         if ($biding_minutes === '0')
         {
@@ -68,27 +77,31 @@ class SendAuctionAction extends AuctionAction
         }
         else
         {
-            $bidding_interval= new DateTime();
+            $bidding_interval = new DateTime();
+            $zero = clone $bidding_interval;
             $bidding_interval->setTime(0, $biding_minutes);
+            $zero->setTime(0,0);
+            $bidding_interval = $bidding_interval->diff($zero);
         }
         
         $photos = [];//TODO
 
 
-        $typeid = 1;
-        foreach ($types as $type)
+        $typeString = '';
+        foreach ($types as $typ)
         {
-            if ($type->type == $_POST["type"])
+            if ($typ->id == $typeId)
             {
-                $typeid = $type->id;
+                $typeString = $typ->type;
             }
         }
-        $rulesetid = 1;
-        foreach ($rulesets as $ruleset)
+        
+        $rulesetString = '';
+        foreach ($rulesets as $rule)
         {
-            if ($ruleset->ruleset == $_POST["ruleset"])
+            if ($rule->id == $rulesetId)
             {
-                $rulesetid = $ruleset->id;
+                $rulesetString = $rule->ruleset;
             }
         }
 
@@ -100,10 +113,10 @@ class SendAuctionAction extends AuctionAction
             ->setDescription($description)
             ->setStartingBid($starting_bid)
             ->setMinimumBidIncrease($minimum_bid_increase)
-            ->setRuleset($ruleset->ruleset)
-            ->setRulesetId($rulesetid)
-            ->setType($type->type)
-            ->setTypeId($typeid)
+            ->setRuleset($rulesetString)
+            ->setRulesetId($rulesetId)
+            ->setType($typeString)
+            ->setTypeId($typeId)
             ->setBiddingInterval($bidding_interval)
             ->setPhotos($photos)
             ->setAwaitingApproval(true);
