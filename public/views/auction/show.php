@@ -60,30 +60,36 @@
 
     <p>
         Author: <?php
-            if ($auction->getAuthor() !== null)
-            {
-                echo "<a href=\"../../users/" . $auction->getAuthor()->getId() . ">" . $auction->getAuthor()->getFirstName() .
-                " " . $auction->getAuthor()->getLastName()  . "</a>";
-            }
+            if ($auction->getAuthor() !== null) { ?>
+                <a href="../../users/<?=$auction->getAuthor()->getId()?>"><?php echo $auction->getAuthor()->getFirstName() . " " . $auction->getAuthor()->getLastName()?></a> <?php }
             else
             {
-                echo "Non existing user";
+                echo "Non existing author";
             }
         ?>
     </p>
 
-    <?php
-        if ($auction->getApprover() !== null)
-        {
-            echo "<p> Approver: <a href=\"../../users/" . $auction->getApprover()->getId() . "\" >" 
-            . $auction->getApprover()->getFirstName() . " " . $auction->getApprover()->getLastName() . "</a> </p>";
-        }
-        if ($auction->getWinner() !== null)
-        {
-            echo "<p> Winner: <a href=\"../../users/" . $auction->getWinner()->getId() . "\" >" 
-            . $auction->getWinner()->getFirstName() . " " . $auction->getWinner()->getLastName() .  "</a> </p>";
-        }
-    ?>
+    <p>
+        Approver: <?php
+            if ($auction->getApprover() !== null) { ?>
+                <a href="../../users/<?=$auction->getApprover()->getId()?>"><?php echo $auction->getApprover()->getFirstName() . " " . $auction->getApprover()->getLastName()?></a> <?php }
+            else
+            {
+                echo "Non existing approver";
+            }
+        ?>
+    </p>
+
+    <p>
+        Winner: <?php
+            if ($auction->getWinner() !== null) { ?>
+                <a href="../../users/<?=$auction->getWinner()->getId()?>"><?php echo $auction->getWinner()->getFirstName() . " " . $auction->getWinner()->getLastName()?></a> <?php }
+            else
+            {
+                echo "Auction has no winner yet";
+            }
+        ?>
+    </p>
 
     <p>Type: <?php echo $auction->getType() . ", " . $auction->getRuleset()?></p>
 
@@ -95,7 +101,7 @@
         }
     ?>
     <br>
-    <a href="<?=$auction->getId()?>/edit">Edit</a>
+    <a href="<?=$auction->getId()?>/edit"  class="btn btn-primary">Edit</a>
 
 
     <?php
@@ -116,4 +122,13 @@
         }
 
     ?>
+
+    <?php 
+        // button for registration on auction, not visible for author
+        //session_start();
+        if ($auction->getAuthorId() !== $_SESSION['id']) { ?>
+            <a href="<?=$auction->getId()?>/register" class="btn btn-primary" onclick="return confirm('Do you want to register on this auction ?')"> Register on auction </a>
+
+    <?php } ?>
+    
 </div>

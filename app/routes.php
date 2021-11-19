@@ -23,6 +23,7 @@ use App\Application\Actions\Auction\CreateAuctionAction;
 use App\Application\Actions\Auction\SendAuctionAction;
 use App\Application\Actions\Auction\ViewWaitingAuctionAction;
 use App\Application\Actions\Auction\SendWaitingAuctionAction;
+use App\Application\Actions\Auction\RegisterToAuctionAction;
 
 use App\Application\Actions\Bid\ListBidsAction;
 use App\Application\Actions\Bid\ViewBidAction;
@@ -85,6 +86,7 @@ return function (App $app) {
         $group->get('/waiting', ListWaitingAuctionsAction::class);
         $group->get('/waiting/{id}', ViewWaitingAuctionAction::class);
         $group->get('/{id}', ViewAuctionAction::class);
+        $group->get('/{id}/register', RegisterToAuctionAction::class);
     });
 
 

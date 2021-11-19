@@ -38,12 +38,18 @@
         $role = isset($_SESSION['role'])? $_SESSION['role'] : '';
         if ($role === "Admin" || $role === "Auctioneer") {
             ?>
-            <li><a href="/auctions" class="btn btn-primary">See all auctions</a></li> <?php } ?>
+            <li><a href="/auctions" class="btn btn-primary">See all auctions</a></li> 
+    <?php } 
+        
+        if ($role === "Admin") { ?>
+            <li><a href="/users" class="btn btn-primary">See all users</a></li> 
+    <?php } 
+
+    } ?>
         </ul>
     </div>
 </nav>
         
-   <?php } ?>
 
 <div class="scroll-container">
     <style>
