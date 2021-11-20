@@ -212,6 +212,12 @@ label {
     text-align: center;
 }
 
+/* view for editing existing auction*/
+.edit-auction {
+
+    text-align: center;
+}
+
 /* list of auctions waiting for approvement */
 .wait-auctions-list {
 

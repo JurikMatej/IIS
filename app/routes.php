@@ -24,6 +24,10 @@ use App\Application\Actions\Auction\SendAuctionAction;
 use App\Application\Actions\Auction\ViewWaitingAuctionAction;
 use App\Application\Actions\Auction\SendWaitingAuctionAction;
 use App\Application\Actions\Auction\RegisterToAuctionAction;
+use App\Application\Actions\Auction\EditAuctionAction;
+use App\Application\Actions\Auction\SendEditedAuctionAction;
+use App\Application\Actions\Auction\DeleteAuctionAction;
+use App\Application\Actions\Auction\ListUserAuctionAction;
 
 use App\Application\Actions\Bid\ListBidsAction;
 use App\Application\Actions\Bid\ViewBidAction;
@@ -82,11 +86,15 @@ return function (App $app) {
         $group->get('/create', CreateAuctionAction::class);
         $group->post('/send', SendAuctionAction::class);
         $group->post('/update', SendWaitingAuctionAction::class);
+        $group->get('/user_auctions', ListUserAuctionAction::class);
         $group->get('', ListApprovedAuctionsAction::class);
         $group->get('/waiting', ListWaitingAuctionsAction::class);
         $group->get('/waiting/{id}', ViewWaitingAuctionAction::class);
         $group->get('/{id}', ViewAuctionAction::class);
         $group->get('/{id}/register', RegisterToAuctionAction::class);
+        $group->get('/{id}/edit', EditAuctionAction::class);
+        $group->post('/{id}/send-edit', SendEditedAuctionAction::class);
+        $group->get('/{id}/delete', DeleteAuctionAction::class);
     });
 
 

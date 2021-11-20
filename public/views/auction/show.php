@@ -97,13 +97,31 @@
         for($i = 0; $i < count($auction->getPhotos()); $i++)
         {
             echo "<img src=\"" . $auction->getPhotos()[$i]->getPath() . 
-            "\" alt=\"Photo of this auction\" width=\"500\" height=\"600\">";
+            "\" alt=\"Photo of this auction\" width=\"500\" height=\"600\"><br>";
         }
-    ?>
+    
+        // allow editation of auction only for author and if auction has not started yet
+        //session_start();
+        $actual_date = new DateTime('now');
+        $auction_date = $auction->getDate();
+        if ($actual_date < $auction_date && $auction->getAuthorId() === $_SESSION['id']) { ?>
+            <a href="<?=$auction->getId()?>/edit"  class="btn btn-primary">Edit</a>
+
+    <?php }
+
+        // button for registration on auction, not visible for author
+        if ($auction->getAuthorId() !== $_SESSION['id']) { ?>
+            <a href="<?=$auction->getId()?>/register" class="btn btn-primary" onclick="return confirm('Do you want to register on this auction ?')"> Register on auction </a>
+
+    <?php } 
+    
+        // button for deletation of auction visible only for author and admin
+        if ($auction->getAuthorId() === $_SESSION['id'] || $_SESSION['role'] === "Admin") { ?>
+            <a href="<?=$auction->getId()?>/delete" class="btn btn-primary" onclick="return confirm('Do you want to delete on this auction ?')"> Delete</a>
+
+    <?php  } ?>
+
     <br>
-    <a href="<?=$auction->getId()?>/edit"  class="btn btn-primary">Edit</a>
-
-
     <?php
         // Bids
         foreach ($bids as $bid)
@@ -122,13 +140,4 @@
         }
 
     ?>
-
-    <?php 
-        // button for registration on auction, not visible for author
-        //session_start();
-        if ($auction->getAuthorId() !== $_SESSION['id']) { ?>
-            <a href="<?=$auction->getId()?>/register" class="btn btn-primary" onclick="return confirm('Do you want to register on this auction ?')"> Register on auction </a>
-
-    <?php } ?>
-    
 </div>

@@ -10,7 +10,7 @@ use Slim\Exception\HttpBadRequestException;
 
 use \DateTime;
 
-class SendWaitingAuctionAction extends AuctionAction
+class EditAuctionAction extends AuctionAction
 {
 
     /**
@@ -35,34 +35,18 @@ class SendWaitingAuctionAction extends AuctionAction
             exit();
         }
 
-        $this->logger->info("Auctions was approved.");
+        $this->logger->info("Auction was edited.");
 
-        $auction_id = (int) (isset($_SESSION['auction_id']))?$_SESSION['auction_id']:'';
-        $date_string = (int)(isset($_POST['date']))?$_POST['date']:'';
-        $date = DateTime::createFromFormat('Y-m-d\TH:i', $date_string);
+        $auction_id = (int) $this->resolveArg('id');
         
-
         $auction = $this->auctionRepository->findAuctionOfId($auction_id);
-        $approver_id = (int) (isset($_SESSION['id']))?$_SESSION['id']:'';
-        $approver = $this->userRepository->findUserOfId(intval($approver_id));
-        
-        $auction->setDate($date);
-        $auction->setApprover($approver);
-        $auction->setApproverId($approver_id);
-        $auction->setAwaitingApproval(0);
+        $rulesets = $this->auctionRepository->getAuctionRulesets();
+        $types = $this->auctionRepository->getAuctionTypes();
 
-        $this->auctionRepository->save($auction);
+        $this->auctionViewRenderer->setLayout("index.php");
 
-        if (isset($_SESSION['auction_id'])) unset($_SESSION['auction_id']);
+        $this->auctionViewRenderer->render($this->response,"edit.php", ["auction" => $auction, "rulesets" => $rulesets, "types" => $types]);
 
-
-        $name = $_SERVER["SERVER_NAME"];
-        $port = ':'.$_SERVER["SERVER_PORT"];
-
-        header("Location: http://$name$port/auctions/waiting");
-
-        exit();
-        
         return $this->response;
     }
 

@@ -10,7 +10,7 @@ use Slim\Exception\HttpBadRequestException;
 
 use \DateTime;
 
-class SendAuctionAction extends AuctionAction
+class SendEditedAuctionAction extends AuctionAction
 {
 
     /**
@@ -35,12 +35,12 @@ class SendAuctionAction extends AuctionAction
             exit();
         }
 
-        $this->logger->info("Auctions was created.");
         $rulesets = $this->auctionRepository->getAuctionRulesets();
         $types = $this->auctionRepository->getAuctionTypes();
 
-        $author_id = (int) (isset($_SESSION['id']))?$_SESSION['id']:'';
-        $author = $this->userRepository->findUserOfId(intval($author_id));
+        $auction_id = (int) $this->resolveArg('id');
+        $auction = $this->auctionRepository->findAuctionOfId($auction_id);
+
 
         $hours = (int)(isset($_POST['hours']))?$_POST['hours']:'0';
         $minutes = (int)(isset($_POST['minutes']))?$_POST['minutes']:'0';
@@ -59,14 +59,8 @@ class SendAuctionAction extends AuctionAction
         $description = (isset($_POST['description']))?$_POST['description']:'';
         $starting_bid =( isset($_POST['starting_bid']))?$_POST['starting_bid']:'';
         $minimum_bid_increase = (isset($_POST['minimum_bid_increase']))?$_POST['minimum_bid_increase']:'';
-        $rulesetId = (int)((isset($_POST['ruleset']))?$_POST['ruleset']:'');
-        $typeId = (int)((isset($_POST['type']))?$_POST['type']:'');
-
-        if ($typeId === 0 && $rulesetId === 2) // closed
-        {
-            $typeId = 1; // only ascending bid
-        }
-
+        $ruleset = (isset($_POST['ruleset']))?$_POST['ruleset']:'';
+        $type = (isset($_POST['type']))?$_POST['type']:'';
         $biding_minutes = (int)(isset($_POST['biding_minutes']))?$_POST['biding_minutes']:'0';
         if ($biding_minutes === '0')
         {
@@ -81,41 +75,38 @@ class SendAuctionAction extends AuctionAction
         $photos = [];//TODO
 
 
-        $typeString = '';
-        foreach ($types as $typ)
+        $typeid = 1;
+        foreach ($types as $type)
         {
-            if ($typ->id == $typeId)
+            if ($type->type == $_POST["type"])
             {
-                $typeString = $typ->type;
+                $typeid = $type->id;
+            }
+        }
+        $rulesetid = 1;
+        foreach ($rulesets as $ruleset)
+        {
+            if ($ruleset->ruleset == $_POST["ruleset"])
+            {
+                $rulesetid = $ruleset->id;
             }
         }
 
-        $rulesetString = '';
-        foreach ($rulesets as $rule)
-        {
-            if ($rule->id == $rulesetId)
-            {
-                $rulesetString = $rule->ruleset;
-            }
-        }
-
-        $auction = Auction::create()
-            ->setAuthor($author)
-            ->setAuthorId($author_id)
-            ->setTimeLimit($time_limit)
-            ->setName($name)
-            ->setDescription($description)
-            ->setStartingBid($starting_bid)
-            ->setMinimumBidIncrease($minimum_bid_increase)
-            ->setRuleset($rulesetString)
-            ->setRulesetId($rulesetId)
-            ->setType($typeString)
-            ->setTypeId($typeId)
-            ->setBiddingInterval($bidding_interval)
-            ->setPhotos($photos)
-            ->setAwaitingApproval(true);
+        $auction->setTimeLimit($time_limit);
+        $auction->setName($name);
+        $auction->setDescription($description);
+        $auction->setStartingBid($starting_bid);
+        $auction->setMinimumBidIncrease($minimum_bid_increase);
+        $auction->setRuleset($ruleset->ruleset);
+        $auction->setRulesetId($rulesetid);
+        $auction->setType($type->type);
+        $auction->setTypeId($typeid);
+        $auction->setBiddingInterval($bidding_interval);
+        $auction->setPhotos($photos);
         
         $this->auctionRepository->save($auction);
+
+        $this->logger->info("Auction `${auction_id}` was edited.");
 
         $this->auctionViewRenderer->render($this->response,"send.php");
         

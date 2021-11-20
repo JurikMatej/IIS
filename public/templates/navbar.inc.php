@@ -5,7 +5,7 @@
     <div id="main-nav-content">
         <ul class="main-nav-list">
             <li><a href="<?=$server.$port?>">Home</a></li>
-            <li><a href="#">My auctions</a></li>
+            <li><a href="<?=$server.$port.'/auctions/user_auctions'?>">My auctions</a></li>
             <li><a href="<?=$server.$port.'/auctions/create'?>">Create auction</a></li>
             <li><a href="#">My profile</a></li>
         </ul>

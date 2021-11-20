@@ -511,4 +511,13 @@ class AuctionSQL
         SELECT * 
         FROM auction_type;
     ";
+
+     /**
+	 * @brief Get all auctions of particular user
+	 */
+    const GET_AUCTIONS_OF_USER_ID = "
+        SELECT * 
+        FROM auction
+        WHERE auction.author_id = :author_id;
+    ";
 }

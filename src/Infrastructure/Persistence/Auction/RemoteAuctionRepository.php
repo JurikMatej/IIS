@@ -333,6 +333,18 @@ class RemoteAuctionRepository implements AuctionRepository
 		return $auction_rulesets_result;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
+	public function getAuctionsOfUserID(int $author_id): array
+	{
+		$user_auctions_stmt = $this->db_conn->prepare(AuctionSQL::GET_AUCTIONS_OF_USER_ID);
+		$user_auctions_stmt->execute(['author_id' => $author_id]);
+		$user_auctions_result = $user_auctions_stmt->fetchAll();
+
+		return Auction::fromDbRecordArray($user_auctions_result);
+	}
+
 
 	/**
 	 * RemoteAuctionRepository destructor.
