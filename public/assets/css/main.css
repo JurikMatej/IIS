@@ -243,3 +243,9 @@ label {
     height: 60px;
     text-align: center;
 }
+
+/* disable button */
+.disable {
+    pointer-events:none;
+    background-color: gray;
+}

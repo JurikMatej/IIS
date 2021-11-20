@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.3
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Oct 26, 2021 at 12:32 AM
--- Server version: 10.1.36-MariaDB
--- PHP Version: 7.2.10
+-- Host: localhost
+-- Generation Time: Nov 19, 2021 at 11:06 PM
+-- Server version: 10.4.21-MariaDB
+-- PHP Version: 8.0.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -31,13 +30,13 @@ SET time_zone = "+00:00";
 CREATE TABLE `auction` (
   `id` int(10) UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_slovak_ci NOT NULL,
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Is the auction title when combined with name',
-  `description` text COLLATE utf8mb4_slovak_ci,
-  `starting_bid` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `date` timestamp NOT NULL DEFAULT current_timestamp() COMMENT 'Is the auction title when combined with name',
+  `description` text COLLATE utf8mb4_slovak_ci DEFAULT NULL,
+  `starting_bid` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `time_limit` time DEFAULT NULL,
-  `minimum_bid_increase` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `minimum_bid_increase` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `bidding_interval` time DEFAULT NULL,
-  `awaiting_approval` tinyint(1) NOT NULL DEFAULT '1',
+  `awaiting_approval` tinyint(1) NOT NULL DEFAULT 1,
   `author_id` int(10) UNSIGNED NOT NULL,
   `type_id` int(10) UNSIGNED NOT NULL,
   `ruleset_id` int(10) UNSIGNED NOT NULL,
@@ -50,8 +49,10 @@ CREATE TABLE `auction` (
 --
 
 INSERT INTO `auction` (`id`, `name`, `date`, `description`, `starting_bid`, `time_limit`, `minimum_bid_increase`, `bidding_interval`, `awaiting_approval`, `author_id`, `type_id`, `ruleset_id`, `approver_id`, `winner_id`) VALUES
-(1, 'Hadajte sa o MIKROVLNKU', '2021-10-24 19:42:48', 'Mam staru mikrovlnku.\r\nNech vyhra najlepsi!!', 200, '00:30:00', 0, NULL, 1, 1, 1, 2, NULL, NULL),
-(2, 'Monitor', '2021-10-24 19:47:06', 'Monitor. \r\nKdo chce nech da cenu', 150, NULL, 0, NULL, 0, 3, 2, 1, 2, NULL);
+(14, 'Predam obraz', '2021-11-30 11:30:00', 'Van gogh 100%', 10000, '02:00:00', 0, NULL, 0, 13, 1, 1, 9, 0),
+(20, 'Kupim ropu', '2021-11-19 20:05:01', 'Max zaplatim starting bid', 25000, NULL, 0, NULL, 1, 13, 2, 1, NULL, NULL),
+(21, 'Uzavreta', '2021-12-24 17:00:00', 'Nikto nevidi kolko', 1, '10:00:00', 0, NULL, 0, 13, 1, 2, 10, 0),
+(32, 'S bid increasom', '2021-11-19 21:26:43', 'Aj s bid intervalom', 100, '26:00:00', 10, '00:11:00', 1, 13, 1, 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -122,15 +123,19 @@ CREATE TABLE `bid` (
   `id` int(10) UNSIGNED NOT NULL,
   `value` int(10) UNSIGNED NOT NULL,
   `auction_id` int(10) UNSIGNED NOT NULL,
-  `user_id` int(10) UNSIGNED NOT NULL
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `awaiting_approval` tinyint(4) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_slovak_ci;
 
 --
 -- Dumping data for table `bid`
 --
 
-INSERT INTO `bid` (`id`, `value`, `auction_id`, `user_id`) VALUES
-(1, 500, 2, 1);
+INSERT INTO `bid` (`id`, `value`, `auction_id`, `user_id`, `awaiting_approval`) VALUES
+(7, 0, 14, 11, 0),
+(8, 0, 14, 12, 1),
+(9, 0, 14, 10, 0),
+(10, 0, 21, 9, 1);
 
 -- --------------------------------------------------------
 
@@ -144,8 +149,8 @@ CREATE TABLE `user` (
   `last_name` varchar(255) COLLATE utf8mb4_slovak_ci NOT NULL,
   `mail` varchar(255) CHARACTER SET ascii NOT NULL,
   `password` varchar(255) COLLATE utf8mb4_slovak_ci NOT NULL,
-  `address` varchar(255) COLLATE utf8mb4_slovak_ci NOT NULL,
-  `registered_since` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `address` varchar(255) COLLATE utf8mb4_slovak_ci DEFAULT NULL,
+  `registered_since` timestamp NOT NULL DEFAULT current_timestamp(),
   `role_id` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_slovak_ci;
 
@@ -154,9 +159,12 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `first_name`, `last_name`, `mail`, `password`, `address`, `registered_since`, `role_id`) VALUES
-(1, 'Matej', 'Jurik', 'matej.jurik@neexistujem.com', 'tvarims@zes0mhasH', 'Doma', '2021-10-24 19:40:25', 1),
-(2, 'Marek', 'Micek', 'micko@mail.com', 'HaShAkoHrom456@xD', 'Tiez doma, pohodicka', '2021-10-24 19:44:06', 2),
-(3, 'Peter', 'Rucek', 'petrik@mail.com', 'hasHUJEMcelyDen123', 'Nepoviem', '2021-10-24 19:44:43', 3);
+(8, 'Admin', 'Adminovič', 'admin', 'admin', '', '2021-11-19 19:10:47', 1),
+(9, 'Licitator', '1', 'licitator1', 'licitator', '', '2021-11-19 19:11:57', 2),
+(10, 'Licitator', '2', 'licitator2', 'licitator', '', '2021-11-19 19:12:55', 2),
+(11, 'Uzivatel', '1', 'uzivatel1', 'uzivatel', '', '2021-11-19 19:13:50', 3),
+(12, 'Uzivatel', '2', 'uzivatel2', 'uzivatel', '', '2021-11-19 19:14:08', 3),
+(13, 'Uzivatel', '3', 'uzivatel3', 'uzivatel', '', '2021-11-19 19:15:09', 3);
 
 -- --------------------------------------------------------
 
@@ -228,7 +236,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `auction`
 --
 ALTER TABLE `auction`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `auction_photo`
@@ -252,13 +260,13 @@ ALTER TABLE `auction_type`
 -- AUTO_INCREMENT for table `bid`
 --
 ALTER TABLE `bid`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

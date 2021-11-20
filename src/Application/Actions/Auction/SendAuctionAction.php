@@ -52,7 +52,10 @@ class SendAuctionAction extends AuctionAction
         else
         {
             $time_limit = new DateTime();
+            $zero = clone $time_limit;
             $time_limit->setTime($hours, $minutes);
+            $zero->setTime(0,0);
+            $time_limit = $time_limit->diff($zero);
         }
        
         $name = (isset($_POST['name']))?$_POST['name']:'';
@@ -74,8 +77,11 @@ class SendAuctionAction extends AuctionAction
         }
         else
         {
-            $bidding_interval= new DateTime();
+            $bidding_interval = new DateTime();
+            $zero = clone $bidding_interval;
             $bidding_interval->setTime(0, $biding_minutes);
+            $zero->setTime(0,0);
+            $bidding_interval = $bidding_interval->diff($zero);
         }
         
         $photos = [];//TODO

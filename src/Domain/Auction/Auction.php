@@ -8,6 +8,7 @@ use App\Domain\DomainInterfaces\DBRecordConstructable;
 use App\Domain\DomainUtils\DomainUtils;
 use App\Domain\User\User;
 use DateTime;
+use DateInterval;
 use Exception;
 
 use JsonSerializable;
@@ -45,7 +46,7 @@ class Auction implements JsonSerializable, DBRecordConstructable
 	private $starting_bid;
 
 	/**
-	 * @var DateTime|null
+	 * @var DateInterval|null
 	 */
 	private $time_limit;
 
@@ -55,7 +56,7 @@ class Auction implements JsonSerializable, DBRecordConstructable
 	private $minimum_bid_increase;
 
 	/**
-	 * @var DateTime|null
+	 * @var DateInterval|null
 	 */
 	private $bidding_interval;
 
@@ -377,9 +378,9 @@ class Auction implements JsonSerializable, DBRecordConstructable
 	}
 
 	/**
-	 * @return DateTime|null
+	 * @return DateInterval|null
 	 */
-	public function getTimeLimit(): ?DateTime
+	public function getTimeLimit(): ?DateInterval
 	{
 		return $this->time_limit;
 	}
@@ -389,16 +390,19 @@ class Auction implements JsonSerializable, DBRecordConstructable
 	 */
 	public function getFormattedTimeLimit(): ?string
 	{
-		return ($this->time_limit !== null) ?
-			$this->time_limit->format('H:i:s')
-			: null;
+		if ($this->time_limit === null) return null;
+
+		$days = intval($this->time_limit->format('%d'));
+		$hours = intval($this->time_limit->format('%H')) + 24* $days;
+		
+		return $hours . ':' . $this->time_limit->format('%I:%S');
 	}
 
 	/**
-	 * @param DateTime|null $time_limit
+	 * @param DateInterval|null $time_limit
 	 * @return Auction
 	 */
-	public function setTimeLimit(?DateTime $time_limit): Auction
+	public function setTimeLimit(?DateInterval $time_limit): Auction
 	{
 		$this->time_limit = $time_limit;
 		return $this;
@@ -423,9 +427,9 @@ class Auction implements JsonSerializable, DBRecordConstructable
 	}
 
 	/**
-	 * @return DateTime|null
+	 * @return DateInterval|null
 	 */
-	public function getBiddingInterval(): ?DateTime
+	public function getBiddingInterval(): ?DateInterval
 	{
 		return $this->bidding_interval;
 	}
@@ -435,16 +439,17 @@ class Auction implements JsonSerializable, DBRecordConstructable
 	 */
 	public function getFormattedBiddingInterval(): ?string
 	{
-		return ($this->bidding_interval !== null) ?
-			$this->bidding_interval->format('H:i:s')
-			: null;
+		if ($this->bidding_interval === null) return null;
+
+		return $this->bidding_interval->format('%H:%I');
+
 	}
 
 	/**
-	 * @param DateTime|null $bidding_interval
+	 * @param DateInterval|null $bidding_interval
 	 * @return Auction
 	 */
-	public function setBiddingInterval(?DateTime $bidding_interval): Auction
+	public function setBiddingInterval(?DateInterval $bidding_interval): Auction
 	{
 		$this->bidding_interval = $bidding_interval;
 		return $this;

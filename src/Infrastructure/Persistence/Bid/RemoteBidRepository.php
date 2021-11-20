@@ -73,7 +73,8 @@ class RemoteBidRepository implements BidRepository
 			->execute([
 				'value' => $bid->getValue(),
 				'auction_id' => $bid->getAuctionId(),
-				'user_id' => $bid->getUserId()
+				'user_id' => $bid->getUserId(),
+				'awaiting_approval' => (int)$bid->getAwaitingApproval()
 			]);
 	}
 
@@ -88,7 +89,8 @@ class RemoteBidRepository implements BidRepository
 				'id' => $bid->getId(),
 				'value' => $bid->getValue(),
 				'auction_id' => $bid->getAuctionId(),
-				'user_id' => $bid->getUserId()
+				'user_id' => $bid->getUserId(),
+				'awaiting_approval' => (int)$bid->getAwaitingApproval()
 			]);
 	}
 
@@ -151,5 +153,61 @@ class RemoteBidRepository implements BidRepository
 		$all_auction_bids = $all_auction_bids_stmt->fetchAll();
 
 		return Bid::fromDbRecordArray($all_auction_bids);
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function registerUser(int $auction_id, int $user_id): void
+	{
+		$this->db_conn
+			->prepare(BidSQL::INSERT_BID)
+			->execute([
+				'value' => 0,
+				'auction_id' => $auction_id,
+				'user_id' => $user_id,
+				'awaiting_approval' => 1
+			]);
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function isRegistred(int $auction_id, int $user_id): bool
+	{
+		$bid_stmt = $this->db_conn->prepare(BidSQL::REGISTRATION_EXISTS);
+		$bid_stmt->execute(['user_id' => $user_id, 'auction_id' => $auction_id]);
+
+		return (bool)$bid_stmt->fetchColumn();
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function findAllRegistredUsers(int $auction_id): array
+	{
+		$bids_stmt = $this->db_conn->prepare(BidSQL::GET_AUCTION_ALL_BIDDING_USERS);
+		$bids_stmt->execute(['id' => $auction_id, 'awaiting_approval' => 0]);
+
+		$all_users = $bids_stmt->fetchAll();
+
+		return Bid::fromDbRecordArray($all_users);
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function findAllWaitingUsers(int $auction_id): array
+	{
+		$bids_stmt = $this->db_conn->prepare(BidSQL::GET_AUCTION_ALL_BIDDING_USERS);
+		$bids_stmt->execute(['id' => $auction_id, 'awaiting_approval' => 1]);
+
+		$all_users = $bids_stmt->fetchAll();
+
+		return Bid::fromDbRecordArray($all_users);
 	}
 }

@@ -18,10 +18,13 @@ class RegisterToAuctionAction extends AuctionAction
      */
     protected function action(): Response
     {
-        
-        // TODO Updated DB table Bid and then proceed to generating view
-        // $this->auctionViewRenderer->render($this->response,"register_user.php");
-        
+        session_start();
+        $auctionId = (int) $this->resolveArg('id');
+        $auction = $this->auctionRepository->findAuctionOfId($auctionId);
+        $this->bidRepository->registerUser($auction->getId(), $_SESSION['id']);
+
+        $this->auctionViewRenderer->render($this->response, "register.php", ["auction_id" => $auctionId]);
+    
         return $this->response;
     }
 

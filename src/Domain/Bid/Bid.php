@@ -45,6 +45,13 @@ class Bid implements JsonSerializable, DBRecordConstructable
 	 */
 	private $value;
 
+	/**
+	 * @var bool
+	 */
+	private $awaiting_approval;
+
+
+
 
 	/**
 	 * @brief Bid constructor - private to ensure creation of Bid objects
@@ -190,7 +197,8 @@ class Bid implements JsonSerializable, DBRecordConstructable
 				->setAuction($bid_auction)
 				->setUserId((int)$bidRecord->bid_user_id)
 				->setUser($bid_user)
-				->setValue((int)$bidRecord->value);
+				->setValue((int)$bidRecord->value)
+				->setAwaitingApproval((bool)$bidRecord->awaiting_approval);
 		} catch (Exception $e) {
 			// TODO 5XX Internal server error
 			exit("Could not parse bid records from database in: __FILE__, __FUNCTION__ !");
@@ -211,7 +219,8 @@ class Bid implements JsonSerializable, DBRecordConstructable
 			"auction" => $this->auction,
 			"user_id" => $this->user_id,
 			"user" => $this->user,
-			"value" => $this->value
+			"value" => $this->value,
+			"awaiting_approval" => $this->awaiting_approval
 		];
 	}
 
@@ -323,6 +332,24 @@ class Bid implements JsonSerializable, DBRecordConstructable
 	public function setValue(int $value): Bid
 	{
 		$this->value = $value;
+		return $this;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getAwaitingApproval(): bool
+	{
+		return $this->awaiting_approval;
+	}
+
+	/**
+	 * @param bool $awaiting_approval
+	 * @return Bid
+	 */
+	public function setAwaitingApproval(bool $awaiting_approval): Bid
+	{
+		$this->awaiting_approval = $awaiting_approval;
 		return $this;
 	}
 }
