@@ -61,7 +61,7 @@ class SendAuctionAction extends AuctionAction
         $name = (isset($_POST['name']))?$_POST['name']:'';
         $description = (isset($_POST['description']))?$_POST['description']:'';
         $starting_bid =( isset($_POST['starting_bid']))?$_POST['starting_bid']:'';
-        $minimum_bid_increase = (isset($_POST['minimum_bid_increase']))?$_POST['minimum_bid_increase']:'';
+        $minimum_bid_increase = (int)(isset($_POST['minimum_bid_increase']))?$_POST['minimum_bid_increase']:'';
         $rulesetId = (int)((isset($_POST['ruleset']))?$_POST['ruleset']:'');
         $typeId = (int)((isset($_POST['type']))?$_POST['type']:'');
 
@@ -112,7 +112,7 @@ class SendAuctionAction extends AuctionAction
             ->setName($name)
             ->setDescription($description)
             ->setStartingBid($starting_bid)
-            ->setMinimumBidIncrease($minimum_bid_increase)
+            ->setMinimumBidIncrease(intval($minimum_bid_increase))
             ->setRuleset($rulesetString)
             ->setRulesetId($rulesetId)
             ->setType($typeString)

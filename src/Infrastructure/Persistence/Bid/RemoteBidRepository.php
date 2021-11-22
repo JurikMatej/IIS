@@ -175,12 +175,25 @@ class RemoteBidRepository implements BidRepository
 	/**
 	 * @inheritDoc
 	 */
-	public function isRegistred(int $auction_id, int $user_id): bool
+	public function registrationExists(int $auction_id, int $user_id): bool
 	{
 		$bid_stmt = $this->db_conn->prepare(BidSQL::REGISTRATION_EXISTS);
 		$bid_stmt->execute(['user_id' => $user_id, 'auction_id' => $auction_id]);
 
 		return (bool)$bid_stmt->fetchColumn();
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function findBidByAuctionAndUserId(int $auction_id, int $user_id): object
+	{
+		$bid_stmt = $this->db_conn->prepare(BidSQL::GET_BID_OF_AUCTION_AND_USER_ID);
+		$bid_stmt->execute(['user_id' => $user_id, 'auction_id' => $auction_id]);
+
+		$bid = $bid_stmt->fetchAll();
+		return Bid::fromDbRecordArray($bid)[0];
 	}
 
 
@@ -209,5 +222,19 @@ class RemoteBidRepository implements BidRepository
 		$all_users = $bids_stmt->fetchAll();
 
 		return Bid::fromDbRecordArray($all_users);
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function findHighestAuctionBid(int $auction_id): object
+	{
+		$bids_stmt = $this->db_conn->prepare(BidSQL::GET_AUCTION_ALL_BIDDING_USERS);
+		$bids_stmt->execute(['id' => $auction_id, 'awaiting_approval' => 0]);
+
+		$all_users = $bids_stmt->fetchAll();
+
+		return Bid::fromDbRecordArray($all_users)[0];
 	}
 }

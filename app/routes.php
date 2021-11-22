@@ -31,6 +31,7 @@ use App\Application\Actions\Auction\ListUserAuctionAction;
 use App\Application\Actions\Auction\UsersInAuctionAction;
 use App\Application\Actions\Auction\RejectUserInAuctionAction;
 use App\Application\Actions\Auction\ApproveUserInAuctionAction;
+use App\Application\Actions\Auction\BidInAuctionAction;
 
 use App\Application\Actions\Bid\ListBidsAction;
 use App\Application\Actions\Bid\ViewBidAction;
@@ -99,6 +100,7 @@ return function (App $app) {
         $group->post('/{id}/send-edit', SendEditedAuctionAction::class);
         $group->get('/{id}/delete', DeleteAuctionAction::class);
         $group->get('/{id}/users', UsersInAuctionAction::class);
+        $group->post('/{id}/bid', BidInAuctionAction::class);
         $group->get('/{id}/users/{bidId}/reject', RejectUserInAuctionAction::class);
         $group->get('/{id}/users/{bidId}/approve', ApproveUserInAuctionAction::class);
     });
