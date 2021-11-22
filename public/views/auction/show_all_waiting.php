@@ -1,6 +1,8 @@
 <!-- GET /auctions -->
 <!-- All auctions's  -->
 
+<?php require_once "templates/user-operations.inc.php";?>
+
 <div class="wait-auctions-list">
     <h1> Waiting for approval </h1>
 

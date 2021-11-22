@@ -36,14 +36,16 @@ class ListUserAuctionAction extends AuctionAction
         }
 
         $user_id = (int) $_SESSION['id'];
-        // TODO this function not working properly, server error 500 is thrown
+
         $user_auctions = $this->auctionRepository->getAuctionsOfUserID($user_id);
+
+        $approver_auctions = $this->auctionRepository->getAuctionsOfApproverID($user_id);
 
         $this->logger->info("List of user's auctions was showed.");
 
         $this->auctionViewRenderer->setLayout("index.php");
         
-        $this->auctionViewRenderer->render($this->response,"user_auctions.php", ["user_auctions" => $user_auctions]);
+        $this->auctionViewRenderer->render($this->response,"user_auctions.php", ["user_auctions" => $user_auctions, "approver_auctions" => $approver_auctions]);
 
         return $this->response;
     }

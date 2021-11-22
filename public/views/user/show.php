@@ -1,30 +1,23 @@
 <!-- GET /users/{user} -->
 <!-- Singular user's details -->
 
+<?php require_once "templates/user-operations.inc.php";?>
+
 <div class="user-detail">
      <h1> <?=$user->getFirstName()?> <?=$user->getLastName()?> </h1>
-     <p><?=$user->getMail()?></p>
-     <p><?=$user->getPassword()?></p>
-     <p><?=$user->getAddress()?></p>
-     <p><?=$user->getFormattedRegisteredSince()?></p>
-     <p><?=$user->getRole()?></p>
-     <a href="<?=$user->getId()?>/edit">Edit</a>
-     <a href="<?=$user->getID()?>/delete" onclick="return confirm('Are you sure you want to delete user <?=$user->getFirstName()?> <?=$user->getLastName()?> ?')">Delete</a>
+     <p> Email: <?=$user->getMail()?></p>
+     <p> Address: <?=$user->getAddress()?></p>
+     <p> Date of registration: <?=$user->getFormattedRegisteredSince()?></p>
+     <p> Your role: <?=$user->getRole()?></p>
+     <a href="<?=$user->getId()?>/edit" class="btn btn-primary">Edit</a>
+     <a href="<?=$user->getID()?>/delete" onclick="return confirm('Are you sure you want to delete user <?=$user->getFirstName()?> <?=$user->getLastName()?> ?')" class="btn btn-primary">Delete</a>
      <?php 
           //session_start();
           $user_mail = (isset($_SESSION['email']))? $_SESSION['email']: "";
           $user_role = (isset($_SESSION['role']))? $_SESSION['role']: "";
           
-          // enable to see all users only to admins
-          if ($user_role === 'Admin') {
-
-               $name = $_SERVER["SERVER_NAME"];
-               $port = ':'.$_SERVER["SERVER_PORT"];
-
      ?>
-     <a href="<?php $name.$port?>/users">See all users</a><br>
 
-     <?php } ?>
 </div>
 
 <!-- id" => $this->id,

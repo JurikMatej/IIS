@@ -64,4 +64,9 @@ interface AuctionRepository
 	 * @inheritDoc
 	 */
 	public function getAuctionsOfUserID(int $author_id): array;
+
+     /**
+	 * @inheritDoc
+	 */
+	public function getAuctionsOfApproverID(int $approver_id): array;
 }

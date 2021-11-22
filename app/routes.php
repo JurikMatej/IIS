@@ -69,7 +69,12 @@ return function (App $app) {
 
     
     $app->get('/error', function (Request $request, Response $response) use ($renderer) {
-        return $renderer->render($response, "error.php", [
+        return $renderer->render($response, "error/login_error.php", [
+        ]);
+    });
+
+    $app->get('/unauthorized_access_error', function (Request $request, Response $response) use ($renderer) {
+        return $renderer->render($response, "error/unauthorized_access_error.php", [
         ]);
     });
     

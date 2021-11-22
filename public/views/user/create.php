@@ -18,7 +18,7 @@
     <p <?php if(!isset($_GET['mail_register'])){ echo "hidden";}?> style="color:red;"> Email address already exists ! </p>
 
     <?php if (isset($_GET['mail_register'])) { 
-            session_start(); ?> 
+            if (!isset($_SESSION)) session_start(); ?> 
             <!-- Fill input fields once again with content before error   -->
             <script > 
             document.getElementById("email").value = "<?php echo $_SESSION["email"]?>";
@@ -28,7 +28,13 @@
             document.getElementById("address").value = "<?php echo $_SESSION["address"]?>";
             </script>
 
-    <?php } ?>
+    <?php 
+            unset($_SESSION["email"]);
+            unset($_SESSION["password"]);
+            unset($_SESSION["first_name"]);
+            unset($_SESSION["last_name"]);
+            unset($_SESSION["address"]);
+            } ?>
 </div>
 
 <script>

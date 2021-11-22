@@ -1,4 +1,6 @@
 
+<?php require_once "templates/user-operations.inc.php";?>
+
 <?php foreach ($users as $user): ?>
 
 <div class="user-list">

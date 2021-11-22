@@ -50,4 +50,14 @@ interface BidRepository
      * @return array
      */
     public function findAllAuctionBids(int $auction_id): array;
+
+    /**
+	 * @inheritDoc
+	 */
+	public function findAllRegistredUsers(int $auction_id): array;
+
+    /**
+	 * @inheritDoc
+	 */
+	public function findAllWaitingUsers(int $auction_id): array;
 }

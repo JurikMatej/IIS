@@ -3,6 +3,7 @@
 
 <?php require_once "templates/header.inc.php";?>
 <?php require_once "templates/navbar.inc.php";?>
+<?php require_once "templates/user-operations.inc.php";?>
 
 <div class="create-auction">
     <p> Date will be chosen by the approver !</p>

@@ -1,6 +1,8 @@
 <!-- GET /auctions/{id} -->
 <!-- Singular auctions's details -->
 
+<?php require_once "templates/user-operations.inc.php";?>
+
 <div class="auction-detail">
     <h1> <?=$auction->getName()?></h1>
     <p>Description: <?=$auction->getDescription()?></p>
@@ -15,8 +17,13 @@
         }
         else
         {
-            echo "Started on: " . $datetime->format("d.m.Y H:i:s");
-            $started  = true;
+            if ($auction->getApprover() !== null) {
+                echo "Started on: " . $datetime->format("d.m.Y H:i:s");
+                $started  = true;
+            }
+            else {
+                echo "Created on: " . $datetime->format("d.m.Y H:i:s");
+            }
         }
         if ($timelimit == null)
         {
@@ -34,7 +41,8 @@
                 $finished = true;
             }
         }
-        else 
+        // print timelimit only for approved auctions
+        else if ($auction->getApprover() !== null)
         {
             $end = $datetime->add($timelimit);
             if ($end > new DateTime())
@@ -52,7 +60,7 @@
     <p>Starting bid: <?=$auction->getStartingBid()?> $</p>
 
     <?php 
-        if($auction->getTimeLimit() !== null && !$finished)
+        if($auction->getTimeLimit() !== null && !$finished && $auction->getApprover() !== null)
         {
             // Calculating time left
             $date = new DateTime();
@@ -70,7 +78,7 @@
     <p>
         Author: <?php
             if ($auction->getAuthor() !== null) { ?>
-                <a href="../../users/<?=$auction->getAuthor()->getId()?>"><?php echo $auction->getAuthor()->getFirstName() . " " . $auction->getAuthor()->getLastName()?></a> <?php }
+                <?php echo $auction->getAuthor()->getFirstName() . " " . $auction->getAuthor()->getLastName()?> <?php }
             else
             {
                 echo "Non existing author";
@@ -81,7 +89,7 @@
     <p>
         Approver: <?php
             if ($auction->getApprover() !== null) { ?>
-                <a href="../../users/<?=$auction->getApprover()->getId()?>"><?php echo $auction->getApprover()->getFirstName() . " " . $auction->getApprover()->getLastName()?></a> <?php }
+                <?php echo $auction->getApprover()->getFirstName() . " " . $auction->getApprover()->getLastName()?><?php }
             else
             {
                 echo "Non existing approver";
@@ -120,7 +128,7 @@
     
         // button for deletation of auction visible only for author and admin
         if ($auction->getAuthorId() === $_SESSION['id'] || $_SESSION['role'] === "Admin") { ?>
-            <a href="<?=$auction->getId()?>/delete" class="btn btn-primary" onclick="return confirm('Do you want to delete on this auction ?')"> Delete</a>
+            <a href="<?=$auction->getId()?>/delete" class="btn btn-primary" onclick="return confirm('Do you want to delete this auction ?')"> Delete</a>
 
     <?php  } ?>
 

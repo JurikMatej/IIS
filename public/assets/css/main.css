@@ -183,6 +183,11 @@ label {
     text-align: center;
 }
 
+.user-edit {
+
+    text-align: center;
+}
+
 /* list of all auctions */
 .auction-list {
 
@@ -204,6 +209,12 @@ label {
 .login-error a {
 
     margin: 1.5rem;
+}
+
+/* unathorized access*/
+.unauthorized-access-error {
+
+    text-align: center;
 }
 
 /* view for creating a new auction*/
@@ -233,6 +244,18 @@ label {
 .scroll-container {
 
     margin-bottom: 200px;
+}
+
+/* view for list of all auction for user */
+.user-auctions-list {
+
+    text-align: center;
+}
+
+/* list of users associated with auction (waiting and registered)*/
+.auction-users {
+
+    text-align: center;
 }
 
 .footer {
