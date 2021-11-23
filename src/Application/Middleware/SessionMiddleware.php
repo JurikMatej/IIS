@@ -8,9 +8,6 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\MiddlewareInterface as Middleware;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 
-
-// TODO Create new middleware in this directory (by copying this one)
-
 class SessionMiddleware implements Middleware
 {
     /**
