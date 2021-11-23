@@ -40,7 +40,7 @@ use App\Application\Actions\Bid\ViewBidAction;
 
 use Slim\Views\PhpRenderer;
 
-// TODO Refer to https://github.com/slimphp/PHP-View to return or create views
+// Refer to https://github.com/slimphp/PHP-View to return or create views
 
 return function (App $app) {
     $app->options('/{routes:.*}', function (Request $request, Response $response) {
