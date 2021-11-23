@@ -35,8 +35,59 @@
     <?php foreach($auctions as $auction) { ?>
         <div class="home-auction">
             <h3><a href="/auctions/<?php echo $auction->getId()?>"> <?php echo $auction->getName();?> </a></h3>
+            <p>Description: <?php echo $auction->getDescription();?></p>
             <h3>Type of auction: <?php echo $auction->getType();?></h3>
             <h3>Rule of auction: <?php echo $auction->getRuleset();?></h3>
+            <p><?php 
+                $datetime = $auction->getDate(); 
+                $timelimit = $auction->getTimeLimit();
+                $finished = false;
+                $started = false;
+                if ($datetime > new DateTime())
+                {
+                    echo "Starting on: " . $datetime->format("d.m.Y H:i:s");
+                }
+                else
+                {
+                    if ($auction->getApprover() !== null) {
+                        echo "Started on: " . $datetime->format("d.m.Y H:i:s");
+                        $started  = true;
+                    }
+                    else {
+                        echo "Created on: " . $datetime->format("d.m.Y H:i:s");
+                    }
+                }
+                if ($timelimit == null)
+                {
+                    if (!$started)
+                    {
+                        echo "</p> <p style=\"color:blue;\">Not started yet";
+                    }
+                    else if ($auction->getWinnerId() == null)
+                    {
+                        echo "</p> <p style=\"color:green;\">Running";
+                    }
+                    else
+                    {
+                        echo "</p> <p style=\"color:red;\">Finished";
+                        $finished = true;
+                    }
+                }
+                // print timelimit only for approved auctions
+                else if ($auction->getApprover() !== null)
+                {
+                    $end = $datetime->add($timelimit);
+                    if ($end > new DateTime())
+                    {
+                        echo "</p> <p style=\"color:green;\">Runing until: " . $end->format("d.m.Y H:i:s");
+                    }
+                    else
+                    {
+                        echo "</p> <p style=\"color:red;\">Finished on: " . $end->format("d.m.Y H:i:s");
+                        $finished = true;
+                    }
+                }
+            ?> </p>
             <?php
                 if ($auction->getPhotos() !== [])
                     echo "<img src=\"" . $auction->getPhotos()[0]->getPath()

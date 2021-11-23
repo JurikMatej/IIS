@@ -56,7 +56,7 @@ class BidInAuctionAction extends AuctionAction
             {
                 $value_failed = true;
             }
-            else if ($highest_bid->getValue() + $auction->getMinimumBidIncrease() > $value )
+            else if ($highest_bid->getValue() + $auction->getMinimumBidIncrease() > $value && $auction->getRuleset() !== "closed")
             {
                 $increase_failed = true;
             }

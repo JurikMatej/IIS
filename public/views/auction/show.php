@@ -195,7 +195,7 @@
 <hr>
 <?php
     // Bids
-    if ($started)
+    if ($started && $is_approved)
     {
         if($auction->getType() === "descending-bid")
         {
@@ -209,8 +209,8 @@
                 {
                     if ($bid->getUser() !== null)
                     {
-                        echo "<h3>" . $bid->getValue() ." $ by <a href=\"../../users/" . $bid->getUser()->getId() . "\" >" 
-                        . $bid->getUser()->getFirstName() . " " . $bid->getUser()->getLastName() .  "</a></h3>";
+                        echo "<h3>" . $bid->getValue() ." $ by " 
+                        . $bid->getUser()->getFirstName() . " " . $bid->getUser()->getLastName() .  "</h3>";
                     }
                     else
                     {
@@ -229,7 +229,8 @@
                 {
                     if ($bid->getUser() !== null && $bid->getUser()->getId() === $_SESSION['id'])
                     {?>
-                        <h3 id="closedBid"><?=$bid->getValue()?> $ by you</h3>
+                        <h3 id="closedBid"><?=$bid->getValue()?> $ by you 
+                        (<?=$bid->getUser()->getFirstName() . " " . $bid->getUser()->getLastName()?>)</h3>
                     <?php }
                 }
             }
