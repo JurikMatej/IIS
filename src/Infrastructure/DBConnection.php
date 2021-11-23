@@ -5,6 +5,7 @@ namespace App\Infrastructure;
 
 use PDO;
 use PDOException;
+use Slim\Exception\HttpInternalServerErrorException;
 
 
 /**
