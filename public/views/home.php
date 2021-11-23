@@ -77,9 +77,13 @@
                 else if ($auction->getApprover() !== null)
                 {
                     $end = $datetime->add($timelimit);
-                    if ($end > new DateTime())
+                    if ($end > new DateTime() && $started == true)
                     {
                         echo "</p> <p style=\"color:green;\">Runing until: " . $end->format("d.m.Y H:i:s");
+                    }
+                    else if ($end > new DateTime() && $started == false)
+                    {
+                        echo "</p> <p style=\"color:blue;\">Runing until: " . $end->format("d.m.Y H:i:s");
                     }
                     else
                     {

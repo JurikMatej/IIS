@@ -32,6 +32,7 @@ use App\Application\Actions\Auction\UsersInAuctionAction;
 use App\Application\Actions\Auction\RejectUserInAuctionAction;
 use App\Application\Actions\Auction\ApproveUserInAuctionAction;
 use App\Application\Actions\Auction\BidInAuctionAction;
+use App\Application\Actions\Auction\WinnerAuctionAction;
 
 use App\Application\Actions\Bid\ListBidsAction;
 use App\Application\Actions\Bid\ViewBidAction;
@@ -100,6 +101,7 @@ return function (App $app) {
         $group->get('/waiting', ListWaitingAuctionsAction::class);
         $group->get('/waiting/{id}', ViewWaitingAuctionAction::class);
         $group->get('/{id}', ViewAuctionAction::class);
+        $group->get('/{id}/winner/{winnerId}', WinnerAuctionAction::class);
         $group->get('/{id}/register', RegisterToAuctionAction::class);
         $group->get('/{id}/edit', EditAuctionAction::class);
         $group->post('/{id}/send-edit', SendEditedAuctionAction::class);

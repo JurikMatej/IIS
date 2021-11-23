@@ -8,7 +8,7 @@ use App\Domain\DomainException\DomainRecordNotFoundException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Slim\Exception\HttpBadRequestException;
 
-class ViewAuctionAction extends AuctionAction
+class WinnerAuctionAction extends AuctionAction
 {
 
     /**
@@ -34,21 +34,18 @@ class ViewAuctionAction extends AuctionAction
         }
 
         $auctionId = (int) $this->resolveArg('id');
+        $winnerId = (int) $this->resolveArg('winnerId');
         $auction = $this->auctionRepository->findAuctionOfId($auctionId);
-        $bids = $this->bidRepository->findAllAuctionBids($auction->getId());
+        $winner = $this->userRepository->findUserOfId($winnerId);
+        $auction->setWinnerId($winnerId);
+        $auction->setWinner($winner);
+        $this->auctionRepository->save($auction);
 
-        $this->logger->info("Auction of id `${auctionId}` was viewed.");
 
         $this->auctionViewRenderer->setLayout("index.php");
-        $is_registred = $this->bidRepository->registrationExists($auctionId, $_SESSION['id']);
-        $is_approved = false;
-        if ($is_registred)
-        {
-            $bid = $this->bidRepository->findBidByAuctionAndUserId($auctionId, $_SESSION['id']);
-            if ($bid != null) $is_approved = !$bid->getAwaitingApproval();
-        }
-        $this->auctionViewRenderer->render($this->response, "show.php", 
-        ["auction" => $auction, "bids" => $bids, "is_registred" => $is_registred, 'is_approved' => $is_approved]);
+
+        // same redirect as register.php
+        $this->auctionViewRenderer->render($this->response, "register.php", ["auction_id" => $auctionId]);
         
         return $this->response;
     }

@@ -49,9 +49,13 @@
         {
             // Calculating finish time
             $end = $datetime->add($timelimit);
-            if ($end > new DateTime())
+            if ($end > new DateTime() && $started == true)
             {
-                echo "</h2> <h2 style=\"color:green;\">Runing until: " . $end->format("d.m.Y H:i:s");
+                echo "</p> <p style=\"color:green;\">Runing until: " . $end->format("d.m.Y H:i:s");
+            }
+            else if ($end > new DateTime() && $started == false)
+            {
+                echo "</p> <p style=\"color:blue;\">Runing until: " . $end->format("d.m.Y H:i:s");
             }
             else
             {

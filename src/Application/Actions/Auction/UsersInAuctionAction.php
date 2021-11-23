@@ -40,9 +40,18 @@ class UsersInAuctionAction extends AuctionAction
 
         $this->logger->info("Auction of id `${auctionId}` with Users was viewed.");
 
+        if($auction->getType() === "ascending-bid")
+        {
+            $highest_lowest_bid = $this->bidRepository->findHighestAuctionBid($auctionId);
+        }
+        else
+        {
+            $highest_lowest_bid = $this->bidRepository->findLowestAuctionBid($auctionId);
+        }
+
         $this->auctionViewRenderer->setLayout("index.php");
         $this->auctionViewRenderer->render($this->response, "users.php", 
-            ["auction" => $auction, "registred" => $registred, "waiting" => $waiting]);
+            ["auction" => $auction, "registred" => $registred, "waiting" => $waiting, 'highest_lowest_bid' => $highest_lowest_bid]);
         
         return $this->response;
     }

@@ -45,9 +45,13 @@
         else if ($auction->getApprover() !== null)
         {
             $end = $datetime->add($timelimit);
-            if ($end > new DateTime())
+            if ($end > new DateTime() && $started == true)
             {
                 echo "</p> <p style=\"color:green;\">Runing until: " . $end->format("d.m.Y H:i:s");
+            }
+            else if ($end > new DateTime() && $started == false)
+            {
+                echo "</p> <p style=\"color:blue;\">Runing until: " . $end->format("d.m.Y H:i:s");
             }
             else
             {
@@ -100,7 +104,7 @@
     <p>
         Winner: <?php
             if ($auction->getWinner() !== null) { ?>
-                <a href="../../users/<?=$auction->getWinner()->getId()?>"><?php echo $auction->getWinner()->getFirstName() . " " . $auction->getWinner()->getLastName()?></a> <?php }
+                <?php echo $auction->getWinner()->getFirstName() . " " . $auction->getWinner()->getLastName()?> <?php }
             else
             {
                 echo "Auction has no winner yet";
@@ -146,8 +150,8 @@
         // enable to admin and licitator to see list of all users registred for this auction
         //session_start();
         $role = isset($_SESSION['role'])? $_SESSION['role'] : '';
-        if (($role === "Auctioneer" && $auction->getApproverId() === $_SESSION['id']) || $role === "Admin") {?>
-            <a href="/auctions/<?=$auction->getId()?>/users" class="btn btn-primary">See registered users</a>
+        if ((($role === "Auctioneer" && $auction->getApproverId() === $_SESSION['id']) || $role === "Admin") && ($auction->getWinner() == null)) {?>
+            <a href="/auctions/<?=$auction->getId()?>/users" class="btn btn-primary">Manage users/winner</a>
     <?php } ?>
     <?php 
     // bidding available after registration
@@ -195,14 +199,54 @@
 <hr>
 <?php
     // Bids
-    if ($started && $is_approved)
+    if (($started && $is_approved) 
+    || $_SESSION['id'] === $auction->getAuthorId()
+    || $_SESSION['id'] === $auction->getApproverId()
+    || $_SESSION['role'] === 'Admin')
     {
-        if($auction->getType() === "descending-bid")
+        if ($auction->getWinner() == null)
         {
-            $bids = array_reverse($bids);
+            if($auction->getType() === "descending-bid")
+            {
+                $bids = array_reverse($bids);
+            }
+            if ($auction->getRuleset() === "open")
+            {
+                foreach ($bids as $bid)
+                {
+                    if ($bid->getAwaitingApproval() === false && $bid->getValue() !== 0)
+                    {
+                        if ($bid->getUser() !== null)
+                        {
+                            echo "<h3>" . $bid->getValue() ." $ by " 
+                            . $bid->getUser()->getFirstName() . " " . $bid->getUser()->getLastName() .  "</h3>";
+                        }
+                        else
+                        {
+                            echo "<h3>" . $bid->getValue() ." $ by Non existing user</h3>";
+                        }
+                    
+                        echo "<hr>";
+                    }
+                }
+            }
+            else //closed
+            {
+                foreach ($bids as $bid)
+                {
+                    if ($bid->getAwaitingApproval() === false && $bid->getValue() !== 0)
+                    {
+                        if ($bid->getUser() !== null && $bid->getUser()->getId() === $_SESSION['id'])
+                        {?>
+                            <h3 id="closedBid"><?=$bid->getValue()?> $ by you 
+                            (<?=$bid->getUser()->getFirstName() . " " . $bid->getUser()->getLastName()?>)</h3>
+                        <?php }
+                    }
+                }
+            }
         }
-        if ($auction->getRuleset() === "open")
-        {
+        else
+        {// finished
             foreach ($bids as $bid)
             {
                 if ($bid->getAwaitingApproval() === false && $bid->getValue() !== 0)
@@ -221,20 +265,7 @@
                 }
             }
         }
-        else //closed
-        {
-            foreach ($bids as $bid)
-            {
-                if ($bid->getAwaitingApproval() === false && $bid->getValue() !== 0)
-                {
-                    if ($bid->getUser() !== null && $bid->getUser()->getId() === $_SESSION['id'])
-                    {?>
-                        <h3 id="closedBid"><?=$bid->getValue()?> $ by you 
-                        (<?=$bid->getUser()->getFirstName() . " " . $bid->getUser()->getLastName()?>)</h3>
-                    <?php }
-                }
-            }
-        }
+        
     }
 ?>
 

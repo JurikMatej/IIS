@@ -187,13 +187,14 @@ class RemoteBidRepository implements BidRepository
 	/**
 	 * @inheritDoc
 	 */
-	public function findBidByAuctionAndUserId(int $auction_id, int $user_id): object
+	public function findBidByAuctionAndUserId(int $auction_id, int $user_id): ?object
 	{
 		$bid_stmt = $this->db_conn->prepare(BidSQL::GET_BID_OF_AUCTION_AND_USER_ID);
 		$bid_stmt->execute(['user_id' => $user_id, 'auction_id' => $auction_id]);
 
 		$bid = $bid_stmt->fetchAll();
-		return Bid::fromDbRecordArray($bid)[0];
+		
+		return ($bid)? Bid::fromDbRecordArray($bid)[0] : null;
 	}
 
 
@@ -228,13 +229,27 @@ class RemoteBidRepository implements BidRepository
 	/**
 	 * @inheritDoc
 	 */
-	public function findHighestAuctionBid(int $auction_id): object
+	public function findHighestAuctionBid(int $auction_id): ?object
 	{
 		$bids_stmt = $this->db_conn->prepare(BidSQL::GET_AUCTION_ALL_BIDDING_USERS);
 		$bids_stmt->execute(['id' => $auction_id, 'awaiting_approval' => 0]);
 
-		$all_users = $bids_stmt->fetchAll();
+		$all_bids = $bids_stmt->fetchAll();
 
-		return Bid::fromDbRecordArray($all_users)[0];
+		return ($all_bids)? Bid::fromDbRecordArray($all_bids)[0] : null;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function findLowestAuctionBid(int $auction_id): ?object
+	{
+		$bids_stmt = $this->db_conn->prepare(BidSQL::GET_AUCTION_ALL_BIDDING_USERS);
+		$bids_stmt->execute(['id' => $auction_id, 'awaiting_approval' => 0]);
+
+		$all_bids = $bids_stmt->fetchAll();
+
+		return ($all_bids) ? end(Bid::fromDbRecordArray($all_bids)) : null;
 	}
 }
