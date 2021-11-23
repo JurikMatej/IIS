@@ -40,8 +40,15 @@ class ViewAuctionAction extends AuctionAction
         $this->logger->info("Auction of id `${auctionId}` was viewed.");
 
         $this->auctionViewRenderer->setLayout("index.php");
-        $is_registred = $this->bidRepository->isRegistred($auctionId, $_SESSION['id']);
-        $this->auctionViewRenderer->render($this->response, "show.php", ["auction" => $auction, "bids" => $bids, "is_registred" => $is_registred]);
+        $is_registred = $this->bidRepository->registrationExists($auctionId, $_SESSION['id']);
+        $is_approved = false;
+        if ($is_registred)
+        {
+            $bid = $this->bidRepository->findBidByAuctionAndUserId($auctionId, $_SESSION['id']);
+            $is_approved = !$bid->getAwaitingApproval();
+        }
+        $this->auctionViewRenderer->render($this->response, "show.php", 
+        ["auction" => $auction, "bids" => $bids, "is_registred" => $is_registred, 'is_approved' => $is_approved]);
         
         return $this->response;
     }

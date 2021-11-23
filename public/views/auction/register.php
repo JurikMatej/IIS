@@ -14,6 +14,6 @@
     
     $name = $_SERVER["SERVER_NAME"];
     $port = ':'.$_SERVER["SERVER_PORT"];
-    header("Location: http://$name$port");
+    header("Location: http://$name$port$dest");
     exit();
 ?>
