@@ -38,7 +38,7 @@ class RemoteAuctionRepository implements AuctionRepository
 
 	/**
 	 * @inheritDoc
-	 * @throws Exception (TODO generate 5XX internal server error message & view)
+	 * @throws Exception
 	 */
 	public function save(Auction $auction): void
 	{
@@ -67,7 +67,8 @@ class RemoteAuctionRepository implements AuctionRepository
 			$this->db_conn->commit();
 		} catch (Exception $e) {
 			$this->db_conn->rollBack();
-			// TODO see @throws
+
+			// Rethrow -> Let Application level handler do the work
 			throw $e;
 		}
 	}

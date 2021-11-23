@@ -125,8 +125,8 @@ class User implements JsonSerializable, DBRecordConstructable
 				->setRole($userRecord->user_role)
 				->setAuthorityLevel((int)$userRecord->user_authority_level);
 		} catch (Exception $e) {
-			// TODO 5XX Internal server error
-			exit("Could not parse user records from database in: __FILE__, __FUNCTION__ !");
+			// Rethrow -> Let Application level handler do the work
+			throw $e;
 		}
 	}
 

@@ -5,6 +5,7 @@ namespace App\Infrastructure;
 
 use PDO;
 use PDOException;
+use Slim\Exception\HttpException;
 use Slim\Exception\HttpInternalServerErrorException;
 
 
@@ -60,8 +61,8 @@ class DBConnection
         }
         catch (PDOException $e)
         {
-            // TODO implement 5XX Response generation
-            exit("Database Connection Failed");
+			// Rethrow -> Let Application level handler do the work
+			throw $e;
         }
     }
 

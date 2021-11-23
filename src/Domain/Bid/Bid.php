@@ -200,8 +200,8 @@ class Bid implements JsonSerializable, DBRecordConstructable
 				->setValue((int)$bidRecord->value)
 				->setAwaitingApproval((bool)$bidRecord->awaiting_approval);
 		} catch (Exception $e) {
-			// TODO 5XX Internal server error
-			exit("Could not parse bid records from database in: __FILE__, __FUNCTION__ !");
+			// Rethrow -> Let Application level handler do the work
+			throw $e;
 		}
 	}
 

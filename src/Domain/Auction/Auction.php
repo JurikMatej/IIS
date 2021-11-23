@@ -238,8 +238,8 @@ class Auction implements JsonSerializable, DBRecordConstructable
 				->setWinner($winner)
 				->setPhotos(AuctionPhoto::fromAuctionDbRecord($auctionRecord));
 		} catch (Exception $e) {
-			// TODO 5XX Internal server error
-			exit("Could not parse auction records from database in: __FILE__, __FUNCTION__ !");
+			// Rethrow -> Let Application level handler do the work
+			throw $e;
 		}
 	}
 

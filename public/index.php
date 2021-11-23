@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 use App\Application\Handlers\HttpErrorHandler;
+use App\Application\Handlers\ProductionHttpErrorHandler;
 use App\Application\Handlers\ShutdownHandler;
 use App\Application\ResponseEmitter\ResponseEmitter;
 use App\Application\Settings\SettingsInterface;
@@ -80,7 +81,16 @@ $request = $serverRequestCreator->createServerRequestFromGlobals();
 
 // Create Error Handler
 $responseFactory = $app->getResponseFactory();
-$errorHandler = new HttpErrorHandler($callableResolver, $responseFactory);
+
+
+if ($debug_mode)
+{
+	$errorHandler = new HttpErrorHandler($callableResolver, $responseFactory);
+}
+else
+{
+	$errorHandler = new ProductionHttpErrorHandler($callableResolver, $responseFactory);
+}
 
 
 
