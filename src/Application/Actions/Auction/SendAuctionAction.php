@@ -4,6 +4,7 @@
 namespace App\Application\Actions\Auction;
 
 use App\Domain\Auction\Auction;
+use App\Domain\AuctionPhoto\AuctionPhoto;
 use App\Domain\DomainException\DomainRecordNotFoundException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Slim\Exception\HttpBadRequestException;
@@ -70,21 +71,19 @@ class SendAuctionAction extends AuctionAction
             $typeId = 1; // only ascending bid
         }
 
-        $biding_minutes = (int)(isset($_POST['biding_minutes']))?$_POST['biding_minutes']:'0';
-        if ($biding_minutes === '0')
-        {
-            $bidding_interval = null;
-        }
-        else
-        {
-            $bidding_interval = new DateTime();
-            $zero = clone $bidding_interval;
-            $bidding_interval->setTime(0, $biding_minutes);
-            $zero->setTime(0,0);
-            $bidding_interval = $bidding_interval->diff($zero);
-        }
-        
-        $photos = [];//TODO
+        // $biding_minutes = (int)(isset($_POST['biding_minutes']))?$_POST['biding_minutes']:'0';
+        // if ($biding_minutes === '0')
+        // {
+        //     $bidding_interval = null;
+        // }
+        // else
+        // {
+        //     $bidding_interval = new DateTime();
+        //     $zero = clone $bidding_interval;
+        //     $bidding_interval->setTime(0, $biding_minutes);
+        //     $zero->setTime(0,0);
+        //     $bidding_interval = $bidding_interval->diff($zero);
+        // }
 
 
         $typeString = '';
@@ -117,10 +116,33 @@ class SendAuctionAction extends AuctionAction
             ->setRulesetId($rulesetId)
             ->setType($typeString)
             ->setTypeId($typeId)
-            ->setBiddingInterval($bidding_interval)
-            ->setPhotos($photos)
+            // ->setBiddingInterval($bidding_interval)
             ->setAwaitingApproval(true);
-        
+
+        // photo storing
+        $photos = ((isset($_FILES['imgs']) && isset($_POST["submit"]))?$_FILES['imgs']:[]);
+        $total = count($photos['name']);
+        $auction_photos  = [];
+    
+        for( $i = 0; $i < $total; $i++ ) 
+        {
+            //Get the temp file path
+            $tmpFilePath = $photos['tmp_name'][$i];
+
+            $destination_path = getcwd().DIRECTORY_SEPARATOR;
+            $target_dir = "assets/images/";
+            $target_file = $destination_path . $target_dir . basename($photos["name"][$i]);
+            move_uploaded_file($tmpFilePath, $target_file);
+
+            $auction_photos[$i] = AuctionPhoto::create()
+                ->setPath(basename($photos["name"][$i]))
+                ->setAuctionId($auction->getId());
+        }
+        if($auction_photos != [])
+        {
+            $auction->setPhotos($auction_photos);
+        }
+
         $this->auctionRepository->save($auction);
 
         $this->auctionViewRenderer->render($this->response,"send.php");
