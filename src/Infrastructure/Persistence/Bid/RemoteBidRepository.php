@@ -249,7 +249,22 @@ class RemoteBidRepository implements BidRepository
 		$bids_stmt->execute(['id' => $auction_id, 'awaiting_approval' => 0]);
 
 		$all_bids = $bids_stmt->fetchAll();
+		$bids = Bid::fromDbRecordArray($all_bids);
+		if(!$bids) return null;
+		$lowest = null;
+		for ($i = end($bids); ; $i = prev($bids))
+		{
+			if ($i->getValue() != 0)
+			{
+				$lowest = $i;
+				break;
+			}
+			if ($i == $bids[0])
+			{
+				break;
+			}
+		}
 
-		return ($all_bids) ? end(Bid::fromDbRecordArray($all_bids)) : null;
+		return $lowest;
 	}
 }
