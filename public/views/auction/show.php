@@ -69,7 +69,7 @@
             // Calculating time left
             $date = new DateTime();
             $time_left = $end->diff($date,true);
-            echo " <p> Duration: " . $time_left->format("%d days and %H hours %i minutes left") . "</p>"; 
+            echo " <p> Ending in: " . $time_left->format("%d days and %H hours %i minutes left") . "</p>"; 
         }
 
         if($auction->getMinimumBidIncrease() !== 0 && !$finished) 
@@ -116,16 +116,16 @@
 
     <?php
         for($i = 0; $i < count($auction->getPhotos()); $i++)
-        {
-            echo "<img src=\"" . $auction->getPhotos()[$i]->getPath() . 
-            "\" alt=\"Photo of this auction\" width=\"500\" height=\"600\"><br>";
-        }
+        { ?>
+            <img src="../../assets/images/<?=$auction->getPhotos()[$i]->getPath()?>" 
+            alt="Photo of this auction" width="300"><br>
+        <?php }
     
         // allow editation of auction only for author and if auction has not started yet
         //session_start();
         $actual_date = new DateTime('now');
         $auction_date = $auction->getDate();
-        if ($actual_date < $auction_date && $auction->getAuthorId() === $_SESSION['id'] && !$started) { ?>
+        if (($auction->getAuthorId() === $_SESSION['id'] || $role === "Admin" ) && !$started) { ?>
             <a href="<?=$auction->getId()?>/edit"  class="btn btn-primary">Edit</a>
 
     <?php }
@@ -184,17 +184,23 @@
     } ?>
 
 <?php if ($is_registred) :?>
-    <?php if ($is_approved) :?>
+    <?php if ($is_approved && $started) {?>
         <script>
             document.getElementById("RegisterButton").hidden = true;
         </script>
-    <?php else : ?>
+    <?php }else if ($is_approved && !$started) {?>
+        <script>
+            elem = document.getElementById("RegisterButton");
+            elem.classList.add("disable");
+            document.getElementById("RegisterButton").innerText = "You are approved, wait until the auction begins !";
+        </script>
+    <?php }else { ?>
         <script>
             elem = document.getElementById("RegisterButton");
             elem.classList.add("disable");
             document.getElementById("RegisterButton").innerText = "Waiting for approval";
         </script>
-    <?php endif; ?>
+    <?php }?>
 <?php endif; ?>
 <hr>
 <?php

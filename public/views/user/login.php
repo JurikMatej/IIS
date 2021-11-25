@@ -16,16 +16,16 @@
 </div>
 
 <?php if (isset($_GET['login'])) { 
-            session_start(); ?> 
-            <!-- Fill input fields once again with content before error   -->
-            <script > 
+        isset($_SESSION)? :session_start(); ?> 
+        <!-- Fill input fields once again with content before error   -->
+        <script > 
             document.getElementById("email").value = "<?php echo $_SESSION["email"]?>";
             document.getElementById("password").value = "<?php echo $_SESSION["password"]?>";
-            </script>
+        </script>
 
-<?php       
-            unset($_SESSION["email"]);
-            unset($_SESSION["password"]);
+<?php
+        unset($_SESSION["email"]);
+        unset($_SESSION["password"]);
 } ?>
 
 <script>

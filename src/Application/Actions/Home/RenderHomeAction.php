@@ -20,10 +20,8 @@ class RenderHomeAction extends HomePageAction
 
         $this->logger->info("List of auctions was fetched in order to generate home page view.");
 
-        //$this->auctionViewRenderer->setLayout("index.php");
-        
         $this->auctionViewRenderer->render($this->response,"home.php", ["auctions" => $auctions]);
-        
+
         return $this->response;
     }
 
