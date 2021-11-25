@@ -125,13 +125,13 @@
         //session_start();
         $actual_date = new DateTime('now');
         $auction_date = $auction->getDate();
-        if ($actual_date < $auction_date && $auction->getAuthorId() === $_SESSION['id'] && !$started) { ?>
+        if ($auction->getAuthorId() === $_SESSION['id'] && !$started) { ?>
             <a href="<?=$auction->getId()?>/edit"  class="btn btn-primary">Edit</a>
 
     <?php }
     
         // button for deletation of auction visible only for author and admin
-        if (($auction->getAuthorId() === $_SESSION['id'] || $_SESSION['role'] === "Admin" )&& !$started) { ?>
+        if (($auction->getAuthorId() === $_SESSION['id'] || $_SESSION['role'] === "Admin" )&& (!$started || $finished)) { ?>
             <a href="<?=$auction->getId()?>/delete" class="btn btn-primary" 
             onclick="return confirm('Do you want to delete this auction ?')"> Delete</a>
 
