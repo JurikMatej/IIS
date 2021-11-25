@@ -12,7 +12,7 @@ class ListUsersAction extends UserAction
      */
     protected function action(): Response
     {
-        session_start();
+        if (!isset($_SESSION)) session_start();
         $name = $_SERVER["SERVER_NAME"];
         $port = ':'.$_SERVER["SERVER_PORT"];
         if (!isset($_SESSION['id']))

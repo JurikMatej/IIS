@@ -41,7 +41,6 @@ class Auction implements JsonSerializable, DBRecordConstructable
 	/**
 	 * @var int
 	 *
-	 * TODO reconsider changing to double (CZK? EUR?)
 	 */
 	private $starting_bid;
 

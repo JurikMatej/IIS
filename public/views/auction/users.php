@@ -1,6 +1,8 @@
 <!-- GET /auctions/{id}/users -->
 <!-- Singular auctions's users list -->
 
+<?php require_once "templates/user-operations.inc.php";?>
+
 <div class="auction-users">
     <h2> Waiting users </h2>
     <?php

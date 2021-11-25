@@ -18,30 +18,32 @@ class EditAuctionAction extends AuctionAction
      */
     protected function action(): Response
     {
-        session_start();
+        if(!isset($_SESSION)) session_start();
+        $name = $_SERVER["SERVER_NAME"];
+        $port = ':'.$_SERVER["SERVER_PORT"];
+        
         if (!isset($_SESSION['id']))
         {
             $dest = "/error" ;
-            $script = $_SERVER["PHP_SELF"];
-            if (strpos($dest, '/') === 0) { // absolute path
-                $path = $dest;
-            } else {
-                $path = substr($script, 0,
-                strrPos($script, "/"))."/$dest";
-            }
-            $name = $_SERVER["SERVER_NAME"];
-            $port = ':'.$_SERVER["SERVER_PORT"];
-            header("Location: http://$name$port$path");
+            header("Location: http://$name$port$dest");
             exit();
         }
-
-        $this->logger->info("Auction was edited.");
 
         $auction_id = (int) $this->resolveArg('id');
         
         $auction = $this->auctionRepository->findAuctionOfId($auction_id);
+
+        if ($auction->getDate() < new DateTime('now') && $auction->getApprover() !== null)
+        {
+            $dest = "/auction_edit_error" ;
+            header("Location: http://$name$port$dest");
+            exit();
+        }
+
         $rulesets = $this->auctionRepository->getAuctionRulesets();
         $types = $this->auctionRepository->getAuctionTypes();
+
+        $this->logger->info("Auction `${auction_id}` was edited.");
 
         $this->auctionViewRenderer->setLayout("index.php");
 

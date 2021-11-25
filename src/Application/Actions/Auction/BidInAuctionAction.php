@@ -17,25 +17,29 @@ class BidInAuctionAction extends AuctionAction
      */
     protected function action(): Response
     {
-        session_start();
+        if(!isset($_SESSION)) session_start();
+        $name = $_SERVER["SERVER_NAME"];
+        $port = ':'.$_SERVER["SERVER_PORT"];
+
         if (!isset($_SESSION['id']))
         {
             $dest = "/error" ;
-            $script = $_SERVER["PHP_SELF"];
-            if (strpos($dest, '/') === 0) { // absolute path
-                $path = $dest;
-            } else {
-                $path = substr($script, 0,
-                strrPos($script, "/"))."/$dest";
-            }
-            $name = $_SERVER["SERVER_NAME"];
-            $port = ':'.$_SERVER["SERVER_PORT"];
-            header("Location: http://$name$port$path");
+            header("Location: http://$name$port$dest");
+            exit();
+        }
+
+        $auction_id = (int) $this->resolveArg('id');
+        $is_registred = $this->bidRepository->registrationExists($auction_id, $_SESSION['id']);
+
+        if (!$is_registred)
+        {
+            $dest = "/unauthorized_access_error";
+            header("Location: http://$name$port$dest");
             exit();
         }
 
         $this->logger->info("Bid was placed.");
-        $auction_id = (int) $this->resolveArg('id');
+
         $auction = $this->auctionRepository->findAuctionOfId($auction_id);
         $highest_bid = $this->bidRepository->findHighestAuctionBid($auction_id);
         $user_id = isset($_SESSION['id'])?$_SESSION['id']:''; 

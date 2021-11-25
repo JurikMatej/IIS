@@ -12,7 +12,27 @@ class EditUserAction extends UserAction
      */
     protected function action(): Response
     {
+        if (!isset($_SESSION)) session_start();
+        $name = $_SERVER["SERVER_NAME"];
+        $port = ':'.$_SERVER["SERVER_PORT"];
+        
+        if (!isset($_SESSION['id']))
+        {
+            $dest = "/error" ;
+            header("Location: http://$name$port$dest");
+            exit();
+        }
+
         $userId = (int) $this->resolveArg('id');
+
+        // editation of user from URL can me made only by logged user and admin
+        if ($_SESSION['id'] !== $userId && $_SESSION['role'] !== "Admin")
+        {
+            $dest = "/unauthorized_access_error";
+            header("Location: http://$name$port$dest");
+            exit();
+        }
+
         $user = $this->userRepository->findUserOfId($userId);
         $user_roles = $this->userRepository->getUserRoles();
 

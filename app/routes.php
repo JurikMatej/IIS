@@ -58,8 +58,6 @@ return function (App $app) {
 
 
     $app->get('/login', function (Request $request, Response $response) use ($renderer) {
-        // $response->getBody()->write('Hello world!');
-        // return $response;
         return $renderer->render($response, "user/login.php", [
         ]);
     });
@@ -78,6 +76,21 @@ return function (App $app) {
 
     $app->get('/unauthorized_access_error', function (Request $request, Response $response) use ($renderer) {
         return $renderer->render($response, "error/unauthorized_access_error.php", [
+        ]);
+    });
+
+    $app->get('/auction_run_error', function (Request $request, Response $response) use ($renderer) {
+        return $renderer->render($response, "error/auction_run_error.php", [
+        ]);
+    });
+
+    $app->get('/auction_register_error', function (Request $request, Response $response) use ($renderer) {
+        return $renderer->render($response, "error/auction_register_error.php", [
+        ]);
+    });
+
+    $app->get('/auction_edit_error', function (Request $request, Response $response) use ($renderer) {
+        return $renderer->render($response, "error/auction_edit_error.php", [
         ]);
     });
     
