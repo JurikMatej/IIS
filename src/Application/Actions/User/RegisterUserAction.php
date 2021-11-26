@@ -84,6 +84,6 @@ class RegisterUserAction extends UserAction
         
         exit();
 
-        return $this->response; // TODO not providing
+        return $this->response;
     }
 }

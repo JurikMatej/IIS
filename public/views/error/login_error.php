@@ -5,7 +5,6 @@
 
 <?php $server = 'http://'.$_SERVER["SERVER_NAME"]; $port = ':'.$_SERVER["SERVER_PORT"];?>
 
-<!-- TODO 401 error-->
 <div class="login-error">
     <h1 style="background-color: red;">You have to log in or register first !</h1>
     <a href="<?=$server.$port.'/login'?>" class="btn btn-primary">Log in</a>

@@ -16,9 +16,6 @@
         <input type="number" name="starting_bid" value="<?=$auction->getStartingBid()?>"><br>
         <label for="minimum_bid_increase"> Minimum bid increase ($): </label>
         <input type="number" name="minimum_bid_increase" value="<?=$auction->getMinimumBidIncrease()?>"><br>
-        <label for="biding_minutes">Biding interval: </label>
-        <input type="number" id="biding_minutes" name="biding_minutes" min="0" max="60" value="0">
-        <label for="biding_minutes"> minutes</label><br>
 
         <label for="ruleset">Choose ruleset:</label>
         <select name="ruleset" id="ruleset" onchange="check()">

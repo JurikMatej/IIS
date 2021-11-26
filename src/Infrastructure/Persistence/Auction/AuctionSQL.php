@@ -86,7 +86,6 @@ class AuctionSQL
 
 	/**
 	 * @brief Update auction photos
-	 * @todo  update corresponding auction as well ?
 	 */
 	const UPDATE_AUCTION_PHOTO = "
 		UPDATE auction_photo

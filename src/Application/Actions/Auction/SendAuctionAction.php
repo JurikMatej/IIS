@@ -23,16 +23,9 @@ class SendAuctionAction extends AuctionAction
         if (!isset($_SESSION['id']))
         {
             $dest = "/error" ;
-            $script = $_SERVER["PHP_SELF"];
-            if (strpos($dest, '/') === 0) { // absolute path
-                $path = $dest;
-            } else {
-                $path = substr($script, 0,
-                strrPos($script, "/"))."/$dest";
-            }
             $name = $_SERVER["SERVER_NAME"];
             $port = ':'.$_SERVER["SERVER_PORT"];
-            header("Location: http://$name$port$path");
+            header("Location: http://$name$port$dest");
             exit();
         }
 
@@ -71,20 +64,6 @@ class SendAuctionAction extends AuctionAction
             $typeId = 1; // only ascending bid
         }
 
-        // $biding_minutes = (int)(isset($_POST['biding_minutes']))?$_POST['biding_minutes']:'0';
-        // if ($biding_minutes === '0')
-        // {
-        //     $bidding_interval = null;
-        // }
-        // else
-        // {
-        //     $bidding_interval = new DateTime();
-        //     $zero = clone $bidding_interval;
-        //     $bidding_interval->setTime(0, $biding_minutes);
-        //     $zero->setTime(0,0);
-        //     $bidding_interval = $bidding_interval->diff($zero);
-        // }
-
 
         $typeString = '';
         foreach ($types as $typ)
@@ -116,7 +95,6 @@ class SendAuctionAction extends AuctionAction
             ->setRulesetId($rulesetId)
             ->setType($typeString)
             ->setTypeId($typeId)
-            // ->setBiddingInterval($bidding_interval)
             ->setAwaitingApproval(true);
 
         // photo storing

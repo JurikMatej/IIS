@@ -75,8 +75,6 @@
         if($auction->getMinimumBidIncrease() !== 0 && !$finished) 
             echo " <p> Minimum bid increase: " . $auction->getMinimumBidIncrease() . " $ </p>"; 
 
-        // if($auction->getFormattedBiddingInterval() !== null && !$finished) 
-        //     echo " <p> Bidding interval: " . $auction->getBiddingInterval()->format("%I minutes") . "</p>"; 
     ?>
 
     <p>
