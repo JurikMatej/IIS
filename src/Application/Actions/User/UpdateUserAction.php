@@ -35,8 +35,6 @@ class UpdateUserAction extends UserAction
 
         $this->logger->info("User of id `${userId}` was edited.");
 
-        // 
-
         $level = "";
         $roleString  = "";
         $id    = 0;
@@ -54,7 +52,7 @@ class UpdateUserAction extends UserAction
         $user->setRole($roleString);
         $user->setAuthorityLevel(intval($level));
         $user->setAddress($_POST["address"]);
-        $user->setPassword($_POST["password"]);
+        $user->setPassword(password_hash($_POST["password"], PASSWORD_DEFAULT));
         $user->setMail($_POST["email"]);
         $user->setLastName($_POST["surname"]);
         $user->setFirstName($_POST["name"]);

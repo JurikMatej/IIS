@@ -22,7 +22,7 @@ class CheckUserAction extends UserAction
 
         foreach ($users as $user)
         {
-            if ($login === $user->getMail() && $password === $user->getPassword())
+            if ($login === $user->getMail() && password_verify($password, $user->getPassword()))
             {
                 $id = $user->getId();
                 $this->logger->info("User `${id}` has logged in.");

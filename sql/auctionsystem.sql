@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 25, 2021 at 11:28 PM
+-- Generation Time: Nov 26, 2021 at 12:14 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.12
 
@@ -172,13 +172,13 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `first_name`, `last_name`, `mail`, `password`, `address`, `registered_since`, `role_id`) VALUES
-(8, 'Admin', 'Admin', 'admin', 'admin', '', '2021-11-19 19:10:47', 1),
-(9, 'Licitator', '1', 'licitator1', 'licitator', '', '2021-11-19 19:11:57', 2),
-(10, 'Licitator', '2', 'licitator2', 'licitator', '', '2021-11-19 19:12:55', 2),
-(11, 'Uzivatel', '1', 'uzivatel1', 'uzivatel', '', '2021-11-19 19:13:50', 3),
-(14, 'Uzivatel', '2', 'uzivatel2', 'uzivatel', '', '2021-11-23 09:18:27', 3),
-(15, 'Uzivatel', '3', 'uzivatel3', 'uzivatel', '', '2021-11-23 09:18:53', 3),
-(16, 'Uzivatel', '4', 'uzivatel4', 'uzivatel', '', '2021-11-23 13:55:14', 3);
+(8, 'Admin', 'Admin', 'admin', '$2y$10$Sib/BjrqGW/.s17/y4ig4u3Rn9Bpj3S7dvEQxrzgs1lQQNDsltaTe', '', '2021-11-19 19:10:47', 1),
+(9, 'Licitator', '1', 'licitator1', '$2y$10$MXMCUfGkPNRwwhtNJxR96up3JpkP5HoxbfUpQoG.UULGvUqu24tn6', '', '2021-11-19 19:11:57', 2),
+(10, 'Licitator', '2', 'licitator2', '$2y$10$MXMCUfGkPNRwwhtNJxR96up3JpkP5HoxbfUpQoG.UULGvUqu24tn6', '', '2021-11-19 19:12:55', 2),
+(11, 'Uzivatel', '1', 'uzivatel1', '$2y$10$d2YeuShEXCxEqWv0CXlQAOhgP0xS.HIflAhkgOrRdVby82T8tbQG2', '', '2021-11-19 19:13:50', 3),
+(14, 'Uzivatel', '2', 'uzivatel2', '$2y$10$d2YeuShEXCxEqWv0CXlQAOhgP0xS.HIflAhkgOrRdVby82T8tbQG2', '', '2021-11-23 09:18:27', 3),
+(15, 'Uzivatel', '3', 'uzivatel3', '$2y$10$d2YeuShEXCxEqWv0CXlQAOhgP0xS.HIflAhkgOrRdVby82T8tbQG2', '', '2021-11-23 09:18:53', 3),
+(16, 'Uzivatel', '4', 'uzivatel4', '$2y$10$d2YeuShEXCxEqWv0CXlQAOhgP0xS.HIflAhkgOrRdVby82T8tbQG2', '', '2021-11-23 13:55:14', 3);
 
 -- --------------------------------------------------------
 
@@ -280,7 +280,7 @@ ALTER TABLE `bid`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

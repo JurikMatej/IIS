@@ -24,6 +24,8 @@ class RegisterUserAction extends UserAction
         
         $name = $_SERVER["SERVER_NAME"];
         $port = ':'.$_SERVER["SERVER_PORT"];
+
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
         
         // store all fields to session in order to save content of form in case of error
         session_start();
@@ -51,7 +53,7 @@ class RegisterUserAction extends UserAction
             ->setFirstName($first_name)
             ->setLastName($last_name)
             ->setAddress($address)
-            ->setPassword($password)
+            ->setPassword($hashed_password)
             ->setMail($mail)
             ->setRole("User")
             ->setRegisteredSince(new DateTime('now'))
@@ -69,7 +71,7 @@ class RegisterUserAction extends UserAction
         $users = $this->userRepository->findAll();
         foreach ($users as $user)
         {
-            if ($mail === $user->getMail() && $password === $user->getPassword())
+            if ($mail === $user->getMail() && password_verify($password, $user->getPassword()))
             {
                 $_SESSION['id']   = $user->getId();
                 break;
