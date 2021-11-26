@@ -16,7 +16,7 @@ class UsersInAuctionAction extends AuctionAction
      */
     protected function action(): Response
     {
-        session_start();
+        if(!isset($_SESSION)) session_start();
         $role = isset($_SESSION['role'])? $_SESSION['role'] : '';
         $auctionId = (int) $this->resolveArg('id');
         $auction = $this->auctionRepository->findAuctionOfId($auctionId);

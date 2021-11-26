@@ -215,6 +215,24 @@ label {
     text-align: center;
 }
 
+/* view generated when user wants delete running auction */ 
+.auction-run-error {
+
+    text-align: center;
+}
+
+/* view generated when user wants register on finished auction */
+.auction-register-error {
+
+    text-align: center;
+}
+
+/* view generated when user wants edit started auction */
+.auction-edit-error {
+
+    text-align: center;
+}
+
 /* view for creating a new auction*/
 .create-auction {
 
