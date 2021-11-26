@@ -13,8 +13,6 @@ use DateInterval;
  *
  * @brief Provides utilities for creating or any handling of Domain/Entity objects
  *
- * @todo Consider looking for something like Carbon\Time?? for Time representation instead of DateTime
- *       (Low priority - only if enough time is left)
  */
 class DomainUtils
 {

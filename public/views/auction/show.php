@@ -75,8 +75,6 @@
         if($auction->getMinimumBidIncrease() !== 0 && !$finished) 
             echo " <p> Minimum bid increase: " . $auction->getMinimumBidIncrease() . " $ </p>"; 
 
-        // if($auction->getFormattedBiddingInterval() !== null && !$finished) 
-        //     echo " <p> Bidding interval: " . $auction->getBiddingInterval()->format("%I minutes") . "</p>"; 
     ?>
 
     <p>
@@ -122,7 +120,6 @@
         <?php }
     
         // allow editation of auction only for author and if auction has not started yet
-        //session_start();
         $actual_date = new DateTime('now');
         $auction_date = $auction->getDate();
         if ($auction->getAuthorId() === $_SESSION['id'] && !$started) { ?>
@@ -148,7 +145,6 @@
     <?php } ?>
     <?php 
         // enable to admin and licitator to see list of all users registred for this auction
-        //session_start();
         $role = isset($_SESSION['role'])? $_SESSION['role'] : '';
         if ((($role === "Auctioneer" && $auction->getApproverId() === $_SESSION['id']) || $role === "Admin") && ($auction->getWinner() == null)) {?>
             <a href="/auctions/<?=$auction->getId()?>/users" class="btn btn-primary">Manage users/winner</a>

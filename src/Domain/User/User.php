@@ -237,8 +237,6 @@ class User implements JsonSerializable, DBRecordConstructable
 	 * @param string $password
 	 * @return User
 	 *
-	 * @todo A controller must hash pwd and set it via this func before
-	 *       inserting / updating to db (cannot hash in this func)
 	 */
 	public function setPassword(string $password): User
 	{

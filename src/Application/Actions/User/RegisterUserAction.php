@@ -26,7 +26,7 @@ class RegisterUserAction extends UserAction
         $port = ':'.$_SERVER["SERVER_PORT"];
         
         // store all fields to session in order to save content of form in case of error
-        session_start();
+        if(!isset($_SESSION)) session_start();
         $_SESSION['email'] = $mail;
         $_SESSION['password'] = $password;
         $_SESSION['first_name'] = $first_name;
@@ -82,6 +82,6 @@ class RegisterUserAction extends UserAction
         
         exit();
 
-        return $this->response; // TODO not providing
+        return $this->response;
     }
 }

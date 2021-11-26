@@ -8,7 +8,7 @@
      <p> Email: <?=$user->getMail()?></p>
      <p> Address: <?=$user->getAddress()?></p>
      <p> Date of registration: <?=$user->getFormattedRegisteredSince()?></p>
-     <p> Your role: <?=$user->getRole()?></p>
+     <p> Role: <?=$user->getRole()?></p>
      <a href="<?=$user->getId()?>/edit" class="btn btn-primary">Edit</a>
      <a href="<?=$user->getID()?>/delete" onclick="return confirm('Are you sure you want to delete user <?=$user->getFirstName()?> <?=$user->getLastName()?> ?')" class="btn btn-primary">Delete</a>
      <?php 

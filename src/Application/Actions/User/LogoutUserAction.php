@@ -13,7 +13,7 @@ class LogoutUserAction extends UserAction
      */
     protected function action(): Response
     {
-        session_start();
+        if(!isset($_SESSION)) session_start();
         if (isset($_SESSION['email'])) unset($_SESSION['email']);
         if (isset($_SESSION['password'])) unset($_SESSION['password']);
         if (isset($_SESSION['role'])) unset($_SESSION['role']);

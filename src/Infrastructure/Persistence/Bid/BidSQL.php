@@ -519,16 +519,6 @@ class BidSQL
 
 
 	/**
-	 * @brief Query for all auctions that have been bid on by a specific user
-	 *
-	 * @todo Implement
-	 */
-	public const GET_USER_ALL_BID_AUCTIONS = "
-    
-    ";
-
-
-	/**
 	 * @brief Query for auction of :id's bids
 	 */
 	const GET_AUCTION_ALL_BIDS = "
