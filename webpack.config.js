@@ -2,6 +2,8 @@ const path = require('path');
 
 module.exports = {
     mode: 'development', // TODO rewrite to 'production'
+    // Clear bundled code
+    devtool: false,
     // App entrypoint
     entry: './public/assets/js/modules/main.js',
     // Transpiled & bundled output (must be absolute path)
@@ -38,7 +40,7 @@ module.exports = {
             // scss loader
             {
                 test: /\.scss$/,
-                use: [
+                use: [ // In order from the last index - parse scss, parse css, inject styles
                     'style-loader',
                     'css-loader',
                     'sass-loader'

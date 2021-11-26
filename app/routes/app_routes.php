@@ -135,14 +135,4 @@ return function (App $app) {
             $group->get('/{id}', ViewBidAction::class);
         });
     }
-
-
-	// Fallback 404 route
-	$app->map(
-		['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
-		'/{routes:.+}',
-		function(Request $request, Response $response)
-	{
-		throw new HttpNotFoundException($request);
-	});
 };

@@ -50,9 +50,17 @@ class TestCase extends PHPUnit_TestCase
         $middleware = require __DIR__ . '/../app/middleware.php';
         $middleware($app);
 
-        // Register routes
-        $routes = require __DIR__ . '/../app/routes.php';
-        $routes($app);
+		// Register application routes
+		$app_routes = require __DIR__ . '/../app/routes/app_routes.php';
+		$app_routes($app);
+
+		// Register ajax routes
+		$ajax_routes = require __DIR__ . '/../app/routes/ajax_routes.php';
+		$ajax_routes($app);
+
+		// Register fallback routes
+		$fallback_routes = require __DIR__ . '/../app/routes/fallback_routes.php';
+		$fallback_routes($app);
 
         return $app;
     }
