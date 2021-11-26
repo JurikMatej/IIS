@@ -2,7 +2,7 @@
 <!-- saved from url=(0070)https://www.fit.vutbr.cz/study/courses/IIS/private/projekt/doc.html.cs -->
 <html data-redeviation-bs-uid="94822">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-2">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
 	<title>Projekt IIS</title>
 	<style type="text/css">
@@ -117,60 +117,219 @@
 
 <body>
 
-	<!-- Zkontrolujte pros�m nastaven� k�dov�n� v hlavi�ce dokumentu 
-		podle pou�it�ho editoru -->
-
-	<h1>Aukce: prodej a nákup zboží a majetku prostřednictvím dražby</h1> <!-- Nahradte n�zvem sv�ho zad�n� -->
+	<h1>Aukce: prodej a nákup zboží a majetku prostřednictvím dražby</h1>
 
 	<dl>
-		<dt>Auto�i</dt>
-		<dd>Matej Jur�k <!-- Nahra�te skute�n�m jm�nem a e-mailem autora a popisem �innosti -->
-			<a href="mailto:xjurik12@stud.fit.vutbr.cz">xjurik12@stud.fit.vutbr.cz</a> -
-			popis �innosti v t�mu
+		<dt>Autori</dt>
+		<dd>Matej Jurík 
+			<a href="mailto:xjurik12@stud.fit.vutbr.cz">xjurik12@stud.fit.vutbr.cz</a>
+			<ul>
+				<li>vytvorenie základnej štruktúry systému</li>
+				<li>inštalácia systému na server</li>
+				<li>vytvorenie repozitárov a modelov</li>
+				<li>ošetrenie neexistujúcich ciest a interných chýb</li>
+				<li> prepojenie DB s aplikačnou vrstvou</li>
+				<li>podpora živej aktualizácie dát systému na strane klienta</li>
+			</ul>
 		</dd>
-		<dd>Peter R��ek <!-- Nahra�te skute�n�m jm�nem a e-mailem autora a popisem �innosti -->
-			<a href="mailto:xrucek00@stud.fit.vutbr.cz">xrucek00@stud.fit.vutbr.cz</a> - 
-			popis �innosti v t�mu
+		<dd>Peter Rúček 
+			<a href="mailto:xrucek00@stud.fit.vutbr.cz">xrucek00@stud.fit.vutbr.cz</a>
+			<ul>
+				<li>rozšírenie repozitárov</li>
+				<li>správa aukcií</li>
+				<li>registrácia na aukciu a vytvorenie aukcie</li>
+				<li>schvaľovanie vytvorenej aukcie</li>
+				<li>schvaľovanie užívateľov aukcie</li>
+				<li>pridávanie príhozov</li>
+				<li>vyhodnotenie aukcie</li>
+				<li>hashovanie hesla</li>
+			</ul> 
 		</dd>
-	<dd>Marek Mi�ek <!-- Nahra�te skute�n�m jm�nem a e-mailem autora a popisem �innosti -->
-			<a href="mailto:xmicek08@stud.fit.vutbr.cz">xmicek08@stud.fit.vutbr.cz</a> - 
-			popis �innosti v t�mu
+		<dd>Marek Miček 
+			<a href="mailto:xmicek08@stud.fit.vutbr.cz">xmicek08@stud.fit.vutbr.cz</a>
+			<ul>
+				<li>správa užívateľov</li>
+				<li>prihlásenie, registrácia a odhlásenie užívateľov</li>
+				<li>základné GUI</li>
+				<li>zobrazenie užívateľových aukcií</li>
+				<li>editácia/vymazanie aukcie</li>
+				<li>ošetrenie neautorizovaných prístupov k užívateľom/aukciám</li>
+				<li>dokumentácia</li>
+			</ul> 
 		</dd>
 		<dt>URL aplikace</dt>
 		<dd><a href="http://www.stud.fit.vutbr.cz/~xautor01/IIS">http://www.stud.fit.vutbr.cz/~xautor01/IIS</a></dd>
-		<dd>(pokud m� aplikace v�ce vstupn�ch str�nek, napi�te obdobn� dal�� URL)</dd>
 	</dl>
 
-	<h2>U�ivatel� syst�mu pro testov�n�</h2>
-	<p>Uve�te pros�m existuj�c� z�stupce <strong>v�ech rol� u�ivatel�</strong>.</p>
+	<h2>Uživatelia systému pre testovanie</h2>
 	<table>
 	<tbody><tr><th>Login</th><th>Heslo</th><th>Role</th></tr>
-	<tr><td>admin</td><td>admin</td><td>Administr�tor</td></tr>
-	<tr><td>prodavac</td><td>prodavac</td><td>Prodava�</td></tr>
-	<tr><td>franta</td><td>franta</td><td>Z�kazn�k</td></tr>
+	<tr><td>admin</td><td>admin</td><td>Administrátor</td></tr>
+	<tr><td>licitator1</td><td>licitator</td><td>Licitátor</td></tr>
+	<tr><td>licitator2</td><td>licitator</td><td>Licitátor</td></tr>
+	<tr><td>uzivatel1</td><td>uzivatel</td><td>Užívateľ</td></tr>
+	<tr><td>uzivatel2</td><td>uzivatel</td><td>Užívateľ</td></tr>
+	<tr><td>uzivatel3</td><td>uzivatel</td><td>Užívateľ</td></tr>
+	<tr><td>uzivatel4</td><td>uzivatel</td><td>Užívateľ</td></tr>
 	</tbody></table>
 
-	<p>(Diagram p��pad� u�it� nen� nutn� vkl�dat, pokud IS implementuje role a p��pady u�it� definovan� zad�n�m.)</p> 
+	<h2>Implementácia</h2>
+	<p>Informačný systém je implementovaný v jazyku PHP s využitím frameworku Slim verzia 4.8.1. Pri implementácii bola využitá architektúra MVC (Model, View, Controller). V tejto časti dokumentácie
+		budú objasnené základné komponenty tohto systému. 
+	</p>
 
-	<h2>Implementace</h2>
-	<p>Stru�n� dokumentace k implementaci, kter� popisuje, kter� ��sti projektu (nap�. PHP skripty) implementuj� jednotliv� p��pady pou�it�.</p>
-
-	<h3>Datab�ze</h3>
-
-	Zde vlo�te grafick� sch�ma rela�n� datab�ze (tabulek v datab�zi).
-
-	<h2>Instalace</h2>
-
-	Stru�n� popi�te: 
 	<ul>
-	<li>postup instalace na server,</li>
-	<li>softwarov� po�adavky (verze PHP apod.),</li>
-	<li>jak rozbalit, konfigurovat, inicializovat datab�zi, ...</li>
+		<li>
+			<h3>Užívatelia</h3>
+			<p>Profil užívateľa môže byť editovaný/vymazaný len samotným užívateľom, prípadne adminom. Užívateľ má prístup k svojmu profilu pomocou odkazu "My profile" z hlavného navigačného panelu.
+				Pokiaľ nie je prihlásený, bude upovedomený, že sa musí prihlásiť, prípadne registrovať. Zo svojho profilu sa môže odkázať na editáciu/vymazanie svojho účtu.
+				Adminovi je umožnené si zobraziť zoznam všetkých užívateľov systému.
+			</p>
+			<dl>
+				<dt style="display: inline-block;">Controller pre zobrazenie profilu:</dt>
+				<dd style="display: inline-block;">src/Application/Actions/User/ViewUserAction.php</dd><br>
+				<dt style="display: inline-block;">View zobrazeného profilu:</dt>
+				<dd style="display: inline-block;">public/views/user/show.php</dd>
+			</dl><br>
+			<dl>
+				<dt style="display: inline-block;">Controller pre prihlásenie:</dt>
+				<dd style="display: inline-block;">src/Application/Actions/User/CheckUserAction.php</dd><br>
+				<dt style="display: inline-block;">View prihlásenia do systému:</dt>
+				<dd style="display: inline-block;">public/views/user/login.php</dd>
+			</dl><br>
+			<dl>
+				<dt style="display: inline-block;">Controller pre registráciu:</dt>
+				<dd style="display: inline-block;">src/Application/Actions/User/RegisterUserAction.php</dd><br>
+				<dt style="display: inline-block;">View registrácie do systému:</dt>
+				<dd style="display: inline-block;">public/views/user/create.php</dd>
+			</dl><br>
+			<dl>
+				<dt style="display: inline-block;">Controller pre ediáciu profilu:</dt>
+				<dd style="display: inline-block;">src/Application/Actions/User/EditUserAction.php</dd><br>
+				<dt style="display: inline-block;">View editácie profilu:</dt>
+				<dd style="display: inline-block;">public/views/user/edit.php</dd>
+			</dl><br>
+			<dl>
+				<dt style="display: inline-block;">Controller pre vymazanie profilu:</dt>
+				<dd style="display: inline-block;">src/Application/Actions/User/DeleteUserAction.php</dd><br>
+			</dl><br>
+			<dl>
+				<dt style="display: inline-block;">Controlle zobrazenia všetkých užívateľov systému:</dt>
+				<dd style="display: inline-block;">src/Application/Actions/User/ListUsersAction.php</dd><br>
+				<dt style="display: inline-block;">View všetkých užívateľov systému:</dt>
+				<dd style="display: inline-block;">public/views/user/show_all.php</dd>
+			</dl><br>
+		</li>
+
+		<li>
+			<h3>Aukcie</h3>
+			<p>
+				Na domovskej stránke celého systému sú pre náštevníkov aj prihlásených zobrazené všetky schválené aukcie, ktoré prebehli, prebiehajú alebo prebehnú. Avšak pre rozkliknutie detailu danej aukcie musí byť úžívateľ prihlásený.
+				Prihlásený užívateľ si môže pozrieť aukcie, ktoré vytvoril, spravuje ako licitátor, prípadne ktorých sa účastní pomocou odkazu "My auctions" z hlavného navigačného panelu. V tomto
+				zozname sa môže odkázať na detailné informácie o danej aukcii po kliknutí na jej názov. Pri detaile každej aukcie sú k dispozícii odkazy na editáciu, vymazanie, spravovanie zaregistrovaných užívateľov aukcie, prípadne registráciu
+				na danú aukciu. Avšak tieto odkazy samozrejme nie sú vždy dostupné pre všetkých užívateľov. Editáciu môže urobiť iba autor aukcie a to len pred tým než začne. Vymazať aukciu môže opäť len autor a to pred jej začiatkom alebo po ukončení.
+				Na aukciu sa môže registrovať každý užívateľ okrem licitátora a autora predtým ako začne aukcia. Spravovanie užívateľov aukcie a jej vyhodnotenie je prístupné len licitátorovi a adminovi. Pri každej aukcii sú vypísané príhozy a ich autori.
+				Registrovanému užívateĺovi sa po kliknutí na odkaz "Create auction" na hlavnom navigačnom paneli zobrazí formulár na vytvorenie novej auckie.   
+			</p>
+			<dl>
+				<dt style="display: inline-block;">Controller pre zobrazenie domovskej stránky:</dt>
+				<dd style="display: inline-block;">src/Application/Actions/Home/RenderHomeAction.php</dd><br>
+				<dt style="display: inline-block;">View domovskej stránky:</dt>
+				<dd style="display: inline-block;">public/views/home.php</dd>
+			</dl><br>
+			<dl>
+				<dt style="display: inline-block;">Controller pre zobrazenie aukcií užívateľa:</dt>
+				<dd style="display: inline-block;">src/Application/Actions/Auction/ListUserAuctionAction.php</dd><br>
+				<dt style="display: inline-block;">View so všetkými aukciami užívateľa:</dt>
+				<dd style="display: inline-block;">public/views/auction/user_auctions.php</dd>
+			</dl><br>
+			<dl>
+				<dt style="display: inline-block;">Controller pre zobrazenie detailu aukcie:</dt>
+				<dd style="display: inline-block;">src/Application/Actions/Auction/ViewAuctionAction.php</dd><br>
+				<dt style="display: inline-block;">View detailu aukcie:</dt>
+				<dd style="display: inline-block;">public/views/auction/show.php</dd>
+			</dl><br>
+			<dl>
+				<dt style="display: inline-block;">Controller pre vytvorenie aukcie:</dt>
+				<dd style="display: inline-block;">src/Application/Actions/Auction/CreateAuctionAction.php</dd><br>
+				<dt style="display: inline-block;">View vytvorenia novej aukcie:</dt>
+				<dd style="display: inline-block;">public/views/auction/create.php</dd>
+			</dl><br>
+			<dl>
+				<dt style="display: inline-block;">Controller pre editáciu aukcie:</dt>
+				<dd style="display: inline-block;">src/Application/Actions/Auction/EditAuctionAction.php</dd><br>
+				<dt style="display: inline-block;">View editácie aukcie:</dt>
+				<dd style="display: inline-block;">public/views/auction/edit.php</dd>
+			</dl><br>
+			<dl>
+				<dt style="display: inline-block;">Controller pre vymazanie aukcie:</dt>
+				<dd style="display: inline-block;">src/Application/Actions/Auction/DeleteAuctionAction.php</dd><br>
+			</dl><br>
+			<dl>
+				<dt style="display: inline-block;">Controller pre registráciu na aukciu:</dt>
+				<dd style="display: inline-block;">src/Application/Actions/Auction/RegisterToAuctionAction.php</dd><br>
+			</dl><br>
+			<dl>
+				<dt style="display: inline-block;">Controller pre spravovanie užívateľov aukcie:</dt>
+				<dd style="display: inline-block;">src/Application/Actions/Auction/UsersInAuctionAction.php</dd><br>
+				<dt style="display: inline-block;">View spravovania užívateľov aukcie a definovania víťaza:</dt>
+				<dd style="display: inline-block;">public/views/auction/users.php</dd>
+			</dl><br>
+			<dl>
+				<dt style="display: inline-block;">Controller zadania príhozu na aukciu:</dt>
+				<dd style="display: inline-block;">src/Application/Actions/Auction/BidInAuctionAction.php</dd><br>
+			</dl><br>
+			<dl>
+				<dt style="display: inline-block;">Controller akceptácie registrácie užívateľa na aukciu:</dt>
+				<dd style="display: inline-block;">src/Application/Actions/Auction/ApproveUserInAuctionAction.php</dd><br>
+			</dl><br>
+			<dl>
+				<dt style="display: inline-block;">Controller odmietnutia registrácie užívateľa na aukciu:</dt>
+				<dd style="display: inline-block;">src/Application/Actions/Auction/RejectUserInAuctionAction.php</dd><br>
+			</dl><br>
+			<dl>
+				<dt style="display: inline-block;">Controller pre zobrazenie aukcií čakajúcich na potvrdenie:</dt>
+				<dd style="display: inline-block;">src/Application/Actions/Auction/ListWaitingAuctionsAction.php</dd><br>
+				<dt style="display: inline-block;">View zobrazenia aukcií čakajúcich na potvrdenie:</dt>
+				<dd style="display: inline-block;">public/views/auction/show_all_waiting.php</dd>
+			</dl><br>
+			<dl>
+				<dt style="display: inline-block;">Controller pre zobrazenie aukcie čakajúcej na potvrdenie:</dt>
+				<dd style="display: inline-block;">src/Application/Actions/Auction/ViewWaitingAuctionAction.php</dd><br>
+				<dt style="display: inline-block;">View potvrdenia aukcie čakajúcej na potvrdenie:</dt>
+				<dd style="display: inline-block;">public/views/auction/approve.php</dd>
+			</dl><br>
+		</li>
 	</ul>
 
-	<h2>Zn�m� probl�my</h2>
-	<p>Zde popi�te, kter� body zad�n� nejsou implementov�ny a z jak�ho d�vodu. Nap�. &#8222;Z �asov�ch d�vod� nebyla implementov�na spr�va u�ivatel�.&#8221; Pom��ete t�m zrychlit hodnocen�, kdy� neimplementovan� funkce nebudeme muset dlouze hledat.</p>
 
+	<h3>Databáza</h3>
+
+	<figcaption>ER diagram</figcaption>
+	<img src="ER.png" alt="ER diagram" ><br>
+
+	<p>
+		V databáze sa okrem týchto 4 tabuľiek nachádzajú ďalšie 3. Sú to tabuľky auction_ruleset,
+		auction_type a user_role. V týchto tabuľkách sú uložené statické údaje a slúžia k tomu,
+		aby nebolo nutné si v kóde pämatať tieto nemenné údaje. Príklad: V tabuľke user_roles sa nachádzajú 
+		iba 4 riadky, ktoré obsahujú - admin, approver, user a visitor aj s príslušnými levelmi autority.
+	</p>
+	
+
+	<h2>Inštálacia</h2>
+
+	<ul>
+	<li>postup instalace na server,</li>
+	<li>softwarové požadavky (verze PHP apod.),</li>
+	<li>jak rozbalit, konfigurovat, inicializovat databázu, ...</li>
+	</ul>
+
+	<h2>Známe problémy</h2>
+	<p>
+		Finálna verzia vytvoreného informačného systému neobsahuje žiadne väčšie problémy, ktoré by bránili základnej funkcionalite požadovanej zo zadania. Z časových dôvodov sa podarilo vytvoriť
+		iba základné GUI a nestihli sa na zdrojový kód projektu aplikovať clean code zásady (v niektorých kontroléroch je mŕtvy kód). Ďalším menším nedostatkom je, že sa pri editácii aukcie nestihlo
+		implementovať pridávanie/editovanie fotiek danej aukcie. Pri uzavretých aukciách sa pri rovnakom príhoze vyberie autor s nižžším ID, lepšie riešenie sa nestihlo implementovať.
+	</p>
 
 
 	<iframe id="redeviation-bs-sidebar" class="notranslate" aria-hidden="true" data-theme="default" data-pos="left" src="./doc_files/saved_resource.html"></iframe><div id="redeviation-bs-indicator" data-theme="default" class="redeviation-bs-fullHeight" style="height: 100%; top: 0%;"></div>
