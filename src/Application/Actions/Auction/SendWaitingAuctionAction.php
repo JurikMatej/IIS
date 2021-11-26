@@ -18,7 +18,7 @@ class SendWaitingAuctionAction extends AuctionAction
      */
     protected function action(): Response
     {
-        session_start();
+        if (!isset($_SESSION)) session_start();
         if (!isset($_SESSION['id']))
         {
             $dest = "/error" ;

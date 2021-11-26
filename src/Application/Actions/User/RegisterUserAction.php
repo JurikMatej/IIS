@@ -28,7 +28,7 @@ class RegisterUserAction extends UserAction
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
         
         // store all fields to session in order to save content of form in case of error
-        session_start();
+        if (!isset($_SESSION)) session_start();
         $_SESSION['email'] = $mail;
         $_SESSION['password'] = $password;
         $_SESSION['first_name'] = $first_name;
