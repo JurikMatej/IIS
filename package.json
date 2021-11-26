@@ -1,0 +1,47 @@
+{
+  "name": "auctionsystem",
+  "version": "1.0.0",
+  "description": "Information Systems Project - an Auction System with PHP Slim framework & jQuery",
+  "main": "public/assets/js/bundle.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "start": "php -S localhost:8080 -t public",
+    "test": "echo \"Error: no JS tests available\" && exit 1",
+    "build-watch": "npx webpack --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JurikMatej/IIS.git"
+  },
+  "keywords": [
+    "auctionsystem",
+    "jquery",
+    "axios",
+    "slim",
+    "php"
+  ],
+  "author": "JurikMatej <jurik.matejw@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JurikMatej/IIS/issues"
+  },
+  "homepage": "https://github.com/JurikMatej/IIS#readme",
+  "dependencies": {
+    "axios": "^0.24.0",
+    "core-js": "^3.19.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.16.0",
+    "@babel/core": "^7.16.0",
+    "@babel/plugin-proposal-class-properties": "^7.16.0",
+    "@babel/plugin-transform-arrow-functions": "^7.16.0",
+    "@babel/plugin-transform-runtime": "^7.16.4",
+    "@babel/preset-env": "^7.16.4",
+    "babel-loader": "^8.2.3",
+    "webpack": "^5.64.4",
+    "webpack-cli": "^4.9.1"
+  }
+}
