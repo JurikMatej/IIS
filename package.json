@@ -2,7 +2,7 @@
   "name": "auctionsystem",
   "version": "1.0.0",
   "description": "Information Systems Project - an Auction System with PHP Slim framework & jQuery",
-  "main": "public/assets/js/bundle.js",
+  "main": "public/assets/js/modules/main.js",
   "directories": {
     "doc": "docs",
     "test": "tests"
