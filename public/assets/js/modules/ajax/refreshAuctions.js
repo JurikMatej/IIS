@@ -49,6 +49,7 @@ async function fetchApprovedAuctions()
 /**
  * @brief Filter out auctions already present in the auction-wrapper
  * @param approvedAuctions
+ * @return {*}
  */
 function filterExistingApprovedAuctions(approvedAuctions) {
     // Get existing auctions' collection

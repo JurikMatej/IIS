@@ -2,14 +2,15 @@
 declare(strict_types=1);
 
 
-namespace App\Application\Actions\Ajax;
+namespace App\Application\Actions\Ajax\Auction;
 
 
+use App\Application\Actions\Ajax\Auction\AuctionAjaxAction;
 use App\Domain\DomainException\DomainRecordNotFoundException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Slim\Exception\HttpBadRequestException;
 
-class GetAllPendingAuctionsAjaxAction extends AjaxAction
+class GetAllPendingAuctionsAjaxAction extends AuctionAjaxAction
 {
 
 	/**

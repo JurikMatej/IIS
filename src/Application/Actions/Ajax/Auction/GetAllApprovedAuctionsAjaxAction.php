@@ -1,11 +1,11 @@
 <?php
 
 
-namespace App\Application\Actions\Ajax;
+namespace App\Application\Actions\Ajax\Auction;
 
 use Psr\Http\Message\ResponseInterface as Response;
 
-class GetAllApprovedAuctionsAjaxAction extends AjaxAction
+class GetAllApprovedAuctionsAjaxAction extends AuctionAjaxAction
 {
 
     /**

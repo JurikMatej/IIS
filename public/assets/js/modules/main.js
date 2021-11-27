@@ -1,11 +1,12 @@
 import { AuctionComponent } from "./components/Auction/AuctionComponent"
 import { registerAuctionComponentsRefresh } from "./ajax/refreshAuctions"
 import { registerPendingAuctionComponentsRefresh } from "./ajax/refreshPendingAuctions"
+import { registerUserComponentsRefresh } from "./ajax/refreshUsers"
 
 /** Register all interval based functionality */
-registerAuctionComponentsRefresh();
-registerPendingAuctionComponentsRefresh();
-//...
+registerAuctionComponentsRefresh()
+registerPendingAuctionComponentsRefresh()
+registerUserComponentsRefresh()
 
 /**
  * Components:
@@ -27,20 +28,21 @@ registerPendingAuctionComponentsRefresh();
  *                  AuctionAdminOptionsComponent: AuctionDetailWrapper > AdminOptionsWrapper
  *                      runningState, bidState, closedState
  *
- *      NEXT
+ *      DONE
  *      PendingAuctionComponent: PendingAuctionsWrapper
  *          whole
  *
  * -----------------------------------------------------
  *
- *      AuctionWaitingUsersComponet: AuctionOptionsWrapper
+ *      AuctionWaitingUsersComponent: AuctionOptionsWrapper
  *          list [user with approve or reject option]
  *
- *      AuctionWinnerSetComponnent: AuctionOptionsWrapper
+ *      AuctionWinnerSetComponent: AuctionOptionsWrapper
  *          user with "set" link
  *
  * -----------------------------------------------------
  *
+ *      DONE
  *      UserComponent: UsersWrapper
  *          link to UserDetail, Role
  *

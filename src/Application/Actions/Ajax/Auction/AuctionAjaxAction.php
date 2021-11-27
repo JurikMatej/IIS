@@ -1,14 +1,14 @@
 <?php
 
 
-namespace App\Application\Actions\Ajax;
+namespace App\Application\Actions\Ajax\Auction;
 
 use App\Domain\Auction\AuctionRepository;
 use App\Application\Actions\Action;
 use Psr\Log\LoggerInterface;
 
 
-abstract class AjaxAction extends Action
+abstract class AuctionAjaxAction extends Action
 {
      /**
      * @var AuctionRepository

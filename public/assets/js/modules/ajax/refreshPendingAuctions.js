@@ -72,7 +72,7 @@ function prepareAuctionComponents(newPendingAuctions) {
             return [
                 ...accumulatedAuctions,
                 // Instantiate new AuctionComponent
-                PendingAuctionComponent.fromDbAuctionRecord(newAuction)
+                PendingAuctionComponent.fromDbPendingAuctionRecord(newAuction)
             ]
         }, []
     );

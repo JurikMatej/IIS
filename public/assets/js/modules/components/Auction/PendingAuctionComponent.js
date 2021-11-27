@@ -70,7 +70,7 @@ export class PendingAuctionComponent
      * @param pendingAuctionRecord
      * @returns {PendingAuctionComponent}
      */
-    static fromDbAuctionRecord(pendingAuctionRecord)
+    static fromDbPendingAuctionRecord(pendingAuctionRecord)
     {
         const pendingAuctionCompomentParams = Object.assign(PendingAuctionComponentParams);
 
