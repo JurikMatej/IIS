@@ -1,8 +1,10 @@
 import { AuctionComponent } from "./components/Auction/AuctionComponent"
-import { registerAuctionComponentsRefresh } from "./ajax/refreshAuctions" // Run it
+import { registerAuctionComponentsRefresh } from "./ajax/refreshAuctions"
+import { registerPendingAuctionComponentsRefresh } from "./ajax/refreshPendingAuctions"
 
 /** Register all interval based functionality */
 registerAuctionComponentsRefresh();
+registerPendingAuctionComponentsRefresh();
 //...
 
 /**
@@ -26,7 +28,7 @@ registerAuctionComponentsRefresh();
  *                      runningState, bidState, closedState
  *
  *      NEXT
- *      UnapprovedAuctionComponent: UnapprovedAuctionsWrapper
+ *      PendingAuctionComponent: PendingAuctionsWrapper
  *          whole
  *
  * -----------------------------------------------------

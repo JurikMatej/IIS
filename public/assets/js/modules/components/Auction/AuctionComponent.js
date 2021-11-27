@@ -3,18 +3,11 @@ import { getSecondsFromTimeString, getTimeComponentsFromTimeString, getMilisecon
     formatDateTime, dateAddTime }
     from "../../utils/dateTimeUtils"
 
-/*
-const AuctionStatus = {
-    INACTIVE: "Not started yet",
-    ACTIVE: "Running",
-    FINISHED: "Finished"
-}
 
-const AuctionStatusColor = {
-
-}
-*/
-
+/**
+ * @brief AuctionComponent construction params
+ * @type {{timeLimit: string, winner: string, author: string, name: string, ruleset: string, id: string, photosArray: string, detailLink: string, type: string, startDate: string, desc: string}}
+ */
 export const AuctionComponentParams = {
     id: "",
     name: "",
@@ -139,9 +132,11 @@ export class AuctionComponent
 
 
     /**
-     * @brief Get html for all photos provided
+     * @brief Get html for thumbnail (first) photo
      * @param photosArray
      * @returns {string}
+     *
+     * @todo reuse {for of photosArray} in AuctionDetailComponent
      */
     #computeImgTagsHtml(photosArray)
     {
@@ -149,10 +144,15 @@ export class AuctionComponent
 
         if (photosArray === undefined) return result
 
-        for (const photo of photosArray)
-            result += `
-                <img src="${getImageAssetsPath()}/${photo.path}" alt="Auction Photo" width="200">
-            `
+
+        // for (const photo of photosArray)
+        //     result += `
+        //         <img src="${getImageAssetsPath()}/${photo.path}" alt="Auction Photo" width="200">
+        //     `
+
+        result += `
+            <img src="${getImageAssetsPath()}/${photosArray[0].path}" alt="Auction Photo" width="200">
+        `
         return result
     }
 

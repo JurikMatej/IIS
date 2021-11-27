@@ -17,6 +17,10 @@ class GetAllPendingAuctionsAjaxAction extends AjaxAction
 	 */
 	protected function action(): Response
 	{
-		return $this->respondWithData("");
+		$pending_auctions = $this->auctionRepository->findAllWaitingForApproval();
+
+		$this->logger->info("List of all pending auctions was fetched.");
+
+		return $this->respondWithData($pending_auctions);
 	}
 }

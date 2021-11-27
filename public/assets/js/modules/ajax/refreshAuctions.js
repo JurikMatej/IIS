@@ -1,3 +1,9 @@
+/**
+ * @file refreshAuctions.js
+ * @brief ApprovedAuctionComponents' refresh functionality
+ * @note APPROVED AuctionComponents only !!!
+ */
+
 // Polyfill functionality - async, await
 import "core-js/stable";
 import "regenerator-runtime/runtime";
@@ -16,7 +22,7 @@ const $AUCTIONS_WRAPPER = $(".auctions-wrapper")
 
 
 /**
- * @brief
+ * @brief Register an function that runs AuctionComponents' refresh every ${AJAX_RELOAD_INTERVAL}ms
  * @return {void}
  */
 export function registerAuctionComponentsRefresh()
@@ -50,10 +56,6 @@ function filterExistingApprovedAuctions(approvedAuctions) {
 
     // Extract their IDs
     const existingAuctionsIDs = existingAuctions.map(auction => parseInt(auction.dataset.id))
-
-    // TODO DEBUG ONLY
-    existingAuctionsIDs.shift()
-    existingAuctionsIDs.pop()
 
     // Filter out the already existing auctions by ID
     const newApprovedAuctions = approvedAuctions.filter(
@@ -115,7 +117,7 @@ async function refreshAuctionComponents()
 
     // TODO EXTRACT TO ADD_NEW
 
-    // Instantiate AuctionComponents from the new approved auctions
+    // Instantiate AuctionComponents from all the new approved auctions
     const newApprovedAuctionComponents = prepareAuctionComponents(
         Object.values(newApprovedAuctions)
     )
