@@ -32,7 +32,7 @@
 
     </style>
 
-    <div class="home-auction">
+    <div class="auctions-wrapper" style="text-align: center">
     <?php foreach($auctions as $auction) {
         require "templates/show_auction.inc.php";
     } ?>

@@ -7,7 +7,7 @@
     <a href="/auctions/waiting" class="btn btn-primary">Auctions waiting for approval </a>
 </div>
 
-<div class="auction-list">
+<div class="auctions-wrapper" style="text-align: center">
     <?php foreach ($auctions as $auction){
         require "templates/show_auction.inc.php";
     } ?>
