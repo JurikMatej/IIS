@@ -16,9 +16,12 @@ export const UserComponentParams = {
  * @brief Component representing an user
  */
 export class UserComponent {
+    static elementClass = ".user-component"
+
     constructor(params) // UserComponentParams
     {
         // Set instance fields
+        this.elementClass = ".user-component"
         this.params = params
 
         // Create the component
@@ -52,7 +55,7 @@ export class UserComponent {
      * @param userRecord
      * @returns {UserComponent}
      */
-    static fromDbUserRecord(userRecord)
+    static fromDbRecord(userRecord)
     {
         const userComponentParams = Object.assign(UserComponentParams);
 

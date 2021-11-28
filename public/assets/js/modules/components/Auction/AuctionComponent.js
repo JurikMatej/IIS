@@ -27,9 +27,12 @@ export const AuctionComponentParams = {
  */
 export class AuctionComponent
 {
+    static elementClass = ".auction-component"
+
     constructor(params) // AuctionComponentParams
     {
         // Set instance fields
+        this.elementClass = ".auction-component"
         this.params = params
         this.auctionStartDate = params.startDate
         this.auctionStarted = this.#determineAuctionStart(this.auctionStartDate)
@@ -83,7 +86,7 @@ export class AuctionComponent
      * @param auctionRecord
      * @returns {AuctionComponent}
      */
-    static fromDbAuctionRecord(auctionRecord)
+    static fromDbRecord(auctionRecord)
     {
         const auctionCompomentParams = Object.assign(AuctionComponentParams);
 

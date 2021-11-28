@@ -25,9 +25,12 @@ export const PendingAuctionComponentParams = {
  */
 export class PendingAuctionComponent
 {
+    static elementClass = ".pending-auction-component"
+
     constructor(params) // PendingAuctionComponentParams
     {
         // Set instance fields
+        this.elementClass = ".pending-auction-component"
         this.params = params
         this.auctionStartDate = params.startDate
 
@@ -70,7 +73,7 @@ export class PendingAuctionComponent
      * @param pendingAuctionRecord
      * @returns {PendingAuctionComponent}
      */
-    static fromDbPendingAuctionRecord(pendingAuctionRecord)
+    static fromDbRecord(pendingAuctionRecord)
     {
         const pendingAuctionCompomentParams = Object.assign(PendingAuctionComponentParams);
 
