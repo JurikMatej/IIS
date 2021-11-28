@@ -28,14 +28,22 @@ class GetAllAuctionPendingUsersAjaxAction extends AuctionAjaxAction
 
 		// Extract only pending users from fetched bids
 		$related_auction_pending_users = [];
+
 		foreach ($related_auction_bids_with_pending_users as $bid)
 		{
 			// Format response - add needed ajax data (related auction & bid IDs)
-			$user = $bid->getUser()->jsonSerialize();
-			$user["related_bid"] = $bid->getId();
-			$user["related_auction"] = $related_auction_id;
+			$user = $bid->getUser();
+			$userData = null;
 
-			$related_auction_pending_users[] = $user;
+			if ($user !== null)
+			{
+				$userData = $user->jsonSerialize();
+				$userData["related_bid"] = $bid->getId();
+				$userData["related_auction"] = $related_auction_id;
+			}
+
+
+			$related_auction_pending_users[] = $userData;
 		}
 
 		return $this->respondWithData($related_auction_pending_users);

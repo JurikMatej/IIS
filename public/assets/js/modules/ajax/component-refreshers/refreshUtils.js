@@ -87,6 +87,18 @@ export function filterDuplicateComponentsByRecord(componentRecords, componentCla
 }
 
 
+/**
+ * @brief Filter empty records
+ * @param componentRecords
+ * @return {*}
+ */
+export function filterEmptyComponentsByRecord(componentRecords)
+{
+    const filtered = componentRecords.filter(componentRecord => componentRecord != null)
+    return filtered
+}
+
+
 export function filterDuplicateComponentsByComponent()
 {
 }
@@ -157,7 +169,7 @@ export function safePrependComponentsIntoWrapper(components, componentsClass, co
 export async function standardComponentRefresh(componentClass, componentWrapper, endpoint)
 {
     // Fetch all component records
-    const componentRecords = await fetchComponentRecords(endpoint)
+    const componentRecords = filterEmptyComponentsByRecord( await fetchComponentRecords(endpoint) )
     const uniqueComponentRecords = filterDuplicateComponentsByRecord(componentRecords,componentClass)
 
     // Instantiate components from all the unique components
