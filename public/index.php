@@ -13,6 +13,8 @@ use Dotenv\Dotenv;
 
 require __DIR__ . '/../vendor/autoload.php';
 
+// Set execution time to half an hour - ajax functionality time limit
+ini_set('max_execution_time', "1800");
 
 /** Register 3rd party libs */
 $dotenv = Dotenv::createImmutable(__DIR__ . '/..', '.env');
