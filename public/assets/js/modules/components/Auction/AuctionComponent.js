@@ -143,7 +143,7 @@ export class AuctionComponent
         let result = ""
 
         if (photosArray === undefined) return result
-
+        if (photosArray.length === 0) return result
 
         // for (const photo of photosArray)
         //     result += `

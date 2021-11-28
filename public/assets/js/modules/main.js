@@ -1,7 +1,7 @@
 import { AuctionComponent } from "./components/Auction/AuctionComponent"
-import { registerAuctionComponentsRefresh } from "./ajax/refreshAuctions"
-import { registerPendingAuctionComponentsRefresh } from "./ajax/refreshPendingAuctions"
-import { registerUserComponentsRefresh } from "./ajax/refreshUsers"
+import { registerAuctionComponentsRefresh } from "./ajax/component-refreshers/Auction/refreshAuctions"
+import { registerPendingAuctionComponentsRefresh } from "./ajax/component-refreshers/Auction/refreshPendingAuctions"
+import { registerUserComponentsRefresh } from "./ajax/component-refreshers/User/refreshUsers"
 
 /** Register all interval based functionality */
 registerAuctionComponentsRefresh()
@@ -15,7 +15,7 @@ registerUserComponentsRefresh()
  *      AuctionComponent: AuctionsWrapper
  *           StartTime, EndTime, Running?, RunningUntil?
  *
- *      NEXT
+ *
  *      AuctionDetailComponent: AuctionDetailWrapper
  *           StartTime, EndTime, Winner
  *
@@ -33,7 +33,7 @@ registerUserComponentsRefresh()
  *          whole
  *
  * -----------------------------------------------------
- *
+ *      NEXT
  *      AuctionWaitingUsersComponent: AuctionOptionsWrapper
  *          list [user with approve or reject option]
  *

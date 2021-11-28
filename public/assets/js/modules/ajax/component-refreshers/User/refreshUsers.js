@@ -3,9 +3,9 @@ import "core-js/stable";
 import "regenerator-runtime/runtime";
 
 import axios from "axios"
-import { $exists } from "../utils/jQueryElementUtils"
-import { AJAX_RELOAD_INTERVAL } from "./ajaxConfig"
-import { UserComponent, UserComponentParams } from "../components/User/UserComponent"
+import { $exists } from "../../../utils/jQueryElementUtils"
+import { AJAX_REFRESH_COMPONENTS_INTERVAL } from "../../ajaxConfig"
+import { UserComponent, UserComponentParams } from "../../../components/User/UserComponent"
 
 
 /** @const Related ajax endpoint */
@@ -23,7 +23,7 @@ export function registerUserComponentsRefresh()
 {
     if ($exists($USERS_WRAPPER))
     {
-        setInterval(refreshUserComponents, AJAX_RELOAD_INTERVAL)
+        setInterval(refreshUserComponents, AJAX_REFRESH_COMPONENTS_INTERVAL)
     }
 }
 

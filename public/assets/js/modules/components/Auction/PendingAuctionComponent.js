@@ -95,6 +95,7 @@ export class PendingAuctionComponent
         let result = ""
 
         if (photosArray === undefined) return result
+        if (photosArray.length === 0) return result
 
         result += `
             <img src="${getImageAssetsPath()}/${photosArray[0].path}" alt="Auction Photo" width="200">

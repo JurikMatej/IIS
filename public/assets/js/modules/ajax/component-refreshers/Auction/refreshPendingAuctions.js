@@ -3,9 +3,9 @@ import "core-js/stable";
 import "regenerator-runtime/runtime";
 
 import axios from "axios"
-import { $exists } from "../utils/jQueryElementUtils"
-import { AJAX_RELOAD_INTERVAL } from "./ajaxConfig"
-import { PendingAuctionComponent, PendingAuctionComponentParams } from "../components/Auction/PendingAuctionComponent"
+import { $exists } from "../../../utils/jQueryElementUtils"
+import { AJAX_REFRESH_COMPONENTS_INTERVAL } from "../../ajaxConfig"
+import { PendingAuctionComponent, PendingAuctionComponentParams } from "../../../components/Auction/PendingAuctionComponent"
 
 
 /** @const Related ajax endpoint */
@@ -24,7 +24,7 @@ export function registerPendingAuctionComponentsRefresh()
 {
     if ($exists($PENDING_AUCTIONS_WRAPPER))
     {
-        setInterval(refreshPendingAuctionComponents, AJAX_RELOAD_INTERVAL)
+        setInterval(refreshPendingAuctionComponents, AJAX_REFRESH_COMPONENTS_INTERVAL)
     }
 }
 
