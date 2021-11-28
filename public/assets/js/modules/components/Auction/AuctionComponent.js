@@ -1,3 +1,7 @@
+/**
+ * @todo Refactor to ApprovedAuctionComponent
+ */
+
 import { createComponent, getImageAssetsPath } from "../componentUtils";
 import { getSecondsFromTimeString, getTimeComponentsFromTimeString, getMilisecondsFromTimeString,
     formatDateTime, dateAddTime }

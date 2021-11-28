@@ -2,6 +2,8 @@
  * @file refreshAuctions.js
  * @brief ApprovedAuctionComponents' refresh functionality
  * @note APPROVED AuctionComponents only !!!
+ *
+ * @todo refactor to refreshApprovedAuction
  */
 
 import { AuctionComponent } from "../../../components/Auction/AuctionComponent"
