@@ -10,8 +10,11 @@
         $_SESSION['auction_id'] = $auction->getId();
         $can_approve = true;
         if (isset($_SESSION['id']))
-            if($_SESSION['id'] === $auction->getAuthor()->getId())
-                $can_approve = false;
+            if ($auction->getAuthor() !== null)
+                if($_SESSION['id'] === $auction->getAuthor()->getId())
+                    $can_approve = false;
+            else
+				$can_approve = false;
         
     ?>
 
