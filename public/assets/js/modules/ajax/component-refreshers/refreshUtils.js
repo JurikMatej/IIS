@@ -80,7 +80,7 @@ export function filterDuplicateComponentsByRecord(componentRecords, componentCla
 
     // Filter out the already existing components by ID
     const newComponents = componentRecords.filter(
-        component => !existingComponentIDs.includes(component.id)
+        componentRecord => !existingComponentIDs.includes(componentRecord.id)
     )
 
     return newComponents
@@ -156,7 +156,7 @@ export function safePrependComponentsIntoWrapper(components, componentsClass, co
  */
 export async function standardComponentRefresh(componentClass, componentWrapper, endpoint)
 {
-    // Fetch all approved auctions
+    // Fetch all component records
     const componentRecords = await fetchComponentRecords(endpoint)
     const uniqueComponentRecords = filterDuplicateComponentsByRecord(componentRecords,componentClass)
 
