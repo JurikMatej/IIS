@@ -3,12 +3,14 @@ import { registerAuctionComponentsRefresh } from "./ajax/component-refreshers/Au
 import { registerPendingAuctionComponentsRefresh } from "./ajax/component-refreshers/Auction/refreshPendingAuctions"
 import { registerUserComponentsRefresh } from "./ajax/component-refreshers/User/refreshUsers"
 import { registerAuctionPendingUserComponentsRefresh } from "./ajax/component-refreshers/Auction/refreshAuctionPendingUsers"
+import { registerWinnerSetComponentUpdate } from "./ajax/component-refreshers/Auction/updateAuctionSetWinner"
 
 /** Register all interval based functionality */
 registerAuctionComponentsRefresh()
 registerPendingAuctionComponentsRefresh()
 registerUserComponentsRefresh()
 registerAuctionPendingUserComponentsRefresh()
+registerWinnerSetComponentUpdate()
 
 
 /**

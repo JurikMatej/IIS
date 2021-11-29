@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 use App\Application\Actions\Ajax\Auction\GetAllApprovedAuctionsAjaxAction;
 use App\Application\Actions\Ajax\Auction\GetAllAuctionPendingUsersAjaxAction;
+use App\Application\Actions\Ajax\Auction\GetAuctionWinningBidAjaxAction;
 use App\Application\Actions\Ajax\Auction\GetAllPendingAuctionsAjaxAction;
 use App\Application\Actions\Ajax\User\GetAllUsersAjaxAction;
 use Slim\App;
@@ -18,6 +19,7 @@ return function (App $app) {
 			$group->get('/approved', GetAllApprovedAuctionsAjaxAction::class);
 			$group->get('/pending', GetAllPendingAuctionsAjaxAction::class);
 			$group->get('/{id}/pending_users', GetAllAuctionPendingUsersAjaxAction::class);
+			$group->get('/{id}/winning_bid', GetAuctionWinningBidAjaxAction::class);
 		});
 
 		// User resources
