@@ -17,11 +17,13 @@ require __DIR__ . '/../vendor/autoload.php';
 ini_set('max_execution_time', "1800");
 
 /** Register 3rd party libs */
-$dotenv = Dotenv::createImmutable(__DIR__ . '/..', '.env');
-$dotenv->load();
-$dotenv->required(['DB_DSN', 'DB_USER'])->notEmpty();
-$dotenv->required(['APP_DEBUG', 'APP_DISPLAY_ERROR_DETAILS'])->notEmpty()->isBoolean();
-$dotenv->required(['DB_PASS']);
+if (!isset($_ENV['APP_DEBUG'])) { // Load env from file only if env was not already supplied
+	$dotenv = Dotenv::createImmutable(__DIR__ . '/..', '.env');
+	$dotenv->load();
+	$dotenv->required(['DB_DSN', 'DB_USER'])->notEmpty();
+	$dotenv->required(['APP_DEBUG', 'APP_DISPLAY_ERROR_DETAILS'])->notEmpty()->isBoolean();
+	$dotenv->required(['DB_PASS']);
+}
 
 
 /** CREATE APP CONFIG */
