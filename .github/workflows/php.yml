@@ -1,4 +1,4 @@
-name: PHP Composer
+name: Deploy Test
 
 on:
   push:
@@ -7,11 +7,14 @@ on:
     branches: [ main ]
 
 jobs:
-  create-envfile:
- 
+  build:
+
     runs-on: ubuntu-latest
- 
+
     steps:
+    - uses: actions/checkout@v2
+    
+      # Create needed env file
     - name: Make envfile
       uses: SpicyPizza/create-envfile@v1
       with:
@@ -24,14 +27,16 @@ jobs:
       
         directory: ./
         file_name: .env
+        
+        
+      # Setup PHP
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '7.2.10'
 
-  build:
 
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v2
-
+      # Composer tests
     - name: Validate composer.json and composer.lock
       run: composer validate --strict
 
