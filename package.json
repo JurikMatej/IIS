@@ -10,6 +10,7 @@
   "scripts": {
     "start": "php -S localhost:8080 -t public",
     "test": "echo \"Error: no JS tests available\" && exit 1",
+    "build": "npx webpack",
     "build-watch": "npx webpack --watch"
   },
   "repository": {
