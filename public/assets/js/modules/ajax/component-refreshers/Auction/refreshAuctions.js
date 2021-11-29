@@ -10,11 +10,16 @@ import { AuctionComponent } from "../../../components/Auction/AuctionComponent"
 import { registerStandardComponentsRefresh }
     from "../refreshUtils"
 
+/** @const Current browser location url */
+const LOCATION = document.location.href
+
+/** @const Computed host url */
+const HOST = LOCATION.split('/')[2]
+
 /**
  * @const Related ajax endpoint
- * @todo UN-HARDCODE
  */
-const AUCTIONS_ENDPOINT = "http://localhost:8080/ajax/auctions/approved"
+const AUCTIONS_ENDPOINT = `/ajax/auctions/approved`
 
 /** @const View's approved auctions wrapper */
 const $AUCTIONS_WRAPPER = $(".auctions-wrapper")

@@ -20,7 +20,7 @@ registerWinnerSetComponentUpdate()
  *      AuctionComponent: AuctionsWrapper
  *           StartTime, EndTime, Running?, RunningUntil?
  *
- *      LAST
+ *      LAST - component hierarchy only option
  *      AuctionDetailComponent: AuctionDetailWrapper
  *           StartTime, EndTime, Winner
  *
@@ -42,7 +42,7 @@ registerWinnerSetComponentUpdate()
  *      AuctionPendingUsersComponent: AuctionOptionsWrapper
  *          list [user with approve or reject option]
  *
- *      NEXT
+ *      DONE
  *      AuctionWinnerSetComponent: AuctionOptionsWrapper
  *          user with "set" link
  *

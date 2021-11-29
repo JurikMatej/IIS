@@ -39,7 +39,7 @@ export class AuctionSetWinnerComponent
         // Create the component
         const componentHtml = `  
             <div class="auction-winner-set-component">
-                <h2> Define winner </h2>
+                <h2 id="winner-set-heading"> Define winner </h2>
                 
                 <div id="bid-winning-user-set">
                     <p id="winning-bid-type">${params.winningBidType} bid: </p>
@@ -58,8 +58,9 @@ export class AuctionSetWinnerComponent
                 </div>
                 
 
-                <p id="bid-winner-set-wait" hidden>You have to wait until the auction starts, to define a winner!</p>
-
+                <p id="bid-winner-set-wait-start" hidden>You have to wait until the auction starts, to define a winner!</p>
+                <p id="bid-winner-set-wait-end" hidden>You have to wait until the auction ends, to define a winner!</p>
+                
                 
                 <h2 id="winner-already-set" hidden> 
                     Winner is ${params.winnerName}
@@ -97,10 +98,12 @@ export class AuctionSetWinnerComponent
         const componentChildren = Object.values(component.children())
 
         // Component partial elements definition
+        const winnerSetHeading = component.children().find("#winner-set-heading")
         const winningBidType   = component.children().find("#winning-bid-type")
         const bidWinner        = component.children().find("#bid-winner")
-        const bidWinnerSetWait = $(componentChildren[2]) // Hack - wouldnt work like the upper two
-        const winnerAlreadySet = $(componentChildren[3]) // Hack - same
+        const bidWinnerSetWaitStart = $(componentChildren[2]) // Hack - wouldnt work like the upper two
+        const bidWinnerSetWaitEnd   = $(componentChildren[3]) // Hack - wouldnt work like the upper two
+        const winnerAlreadySet   = $(componentChildren[4]) // Hack - same
 
         // Selective component partials rendering
         if (!this.params.auctionHasWinner)
@@ -111,7 +114,8 @@ export class AuctionSetWinnerComponent
                 {
                     // OK
                     winningBidType.removeAttr("hidden")
-                    bidWinnerSetWait.remove()
+                    bidWinnerSetWaitStart.remove()
+                    bidWinnerSetWaitEnd.remove()
                     winnerAlreadySet.remove()
 
                     if (this.params.winningValue !== null && this.params.winningValue !== 0)
@@ -126,7 +130,8 @@ export class AuctionSetWinnerComponent
                 else
                 {
                     // OK
-                    bidWinnerSetWait.removeAttr("hidden")
+                    bidWinnerSetWaitEnd.removeAttr("hidden")
+                    bidWinnerSetWaitStart.remove()
                     winningBidType.remove()
                     bidWinner.remove()
                     winnerAlreadySet.remove()
@@ -134,8 +139,9 @@ export class AuctionSetWinnerComponent
             }
             else
             {
-                // OK
-                bidWinnerSetWait.removeAttr("hidden")
+                // OK - but control won't reach here (no bidders)
+                bidWinnerSetWaitStart.removeAttr("hidden")
+                bidWinnerSetWaitEnd.remove()
                 winningBidType.remove()
                 bidWinner.remove()
                 winnerAlreadySet.remove()
@@ -143,9 +149,12 @@ export class AuctionSetWinnerComponent
         }
         else
         {
-            // ?
+            // OK - but you cannot go to relevant page in this state
+            console.log("ANO WINNER 1")
             winnerAlreadySet.removeAttr("hidden")
-            bidWinnerSetWait.remove()
+            winnerSetHeading.remove()
+            bidWinnerSetWaitStart.remove()
+            bidWinnerSetWaitEnd.remove()
             winningBidType.remove()
             bidWinner.remove()
         }

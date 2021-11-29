@@ -2,11 +2,16 @@ import { AuctionSetWinnerComponent } from "../../../components/Auction/AuctionSe
 import { registerStandardComponentUpdate }
     from "../refreshUtils"
 
+/** @const Current browser location url */
+const LOCATION = document.location.href
+
+/** @const Computed host url */
+const HOST = LOCATION.split('/')[2]
+
 /**
  * @const Related ajax endpoint
- * @todo UN-HARDCODE
  */
-const WINNING_BID_ENDPOINT = "http://localhost:8080/ajax/auctions/{id}/winning_bid"
+const WINNING_BID_ENDPOINT = `/ajax/auctions/{id}/winning_bid`
 
 /** @const View's winner set component wrapper */
 const $SET_WINNER_WRAPPER = $(".auction-winner-set-wrapper")
