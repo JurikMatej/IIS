@@ -25,10 +25,7 @@
         "php": "^7.2 || ^8.0",
         "ext-json": "*",
         "ext-pdo": "*",
-<<<<<<< HEAD
-=======
         "ext-pdo_mysql": "*",
->>>>>>> 9c6827c (Try requiring any version of pdo_mysql)
         "monolog/monolog": "^2.2",
         "php-di/php-di": "^6.3",
         "slim/php-view": "^3.0",

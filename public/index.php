@@ -13,10 +13,6 @@ use Dotenv\Dotenv;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 9c6827c (Try requiring any version of pdo_mysql)
 // Set execution time to half an hour - ajax functionality time limit
 ini_set('max_execution_time', "1800");
 
