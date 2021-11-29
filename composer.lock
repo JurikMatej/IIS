@@ -4,8 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f272364ee9ee8d485c44c6f61ff45c0e",
-    "content-hash": "3e26dc6132b2349ca69b6f2ad82e51c9",
+    "content-hash": "7d0ac96d6a070901f5a032bcb328442f",
     "packages": [
         {
             "name": "fig/http-message-util",
@@ -65,16 +64,16 @@
         },
         {
             "name": "graham-campbell/result-type",
-            "version": "v1.0.3",
+            "version": "v1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/GrahamCampbell/Result-Type.git",
-                "reference": "296c015dc30ec4322168c5ad3ee5cc11dae827ac"
+                "reference": "0690bde05318336c7221785f2a932467f98b64ca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GrahamCampbell/Result-Type/zipball/296c015dc30ec4322168c5ad3ee5cc11dae827ac",
-                "reference": "296c015dc30ec4322168c5ad3ee5cc11dae827ac",
+                "url": "https://api.github.com/repos/GrahamCampbell/Result-Type/zipball/0690bde05318336c7221785f2a932467f98b64ca",
+                "reference": "0690bde05318336c7221785f2a932467f98b64ca",
                 "shasum": ""
             },
             "require": {
@@ -97,7 +96,8 @@
             "authors": [
                 {
                     "name": "Graham Campbell",
-                    "email": "hello@gjcampbell.co.uk"
+                    "email": "hello@gjcampbell.co.uk",
+                    "homepage": "https://github.com/GrahamCampbell"
                 }
             ],
             "description": "An Implementation Of The Result Type",
@@ -110,7 +110,7 @@
             ],
             "support": {
                 "issues": "https://github.com/GrahamCampbell/Result-Type/issues",
-                "source": "https://github.com/GrahamCampbell/Result-Type/tree/v1.0.3"
+                "source": "https://github.com/GrahamCampbell/Result-Type/tree/v1.0.4"
             },
             "funding": [
                 {
@@ -122,7 +122,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-10-17T19:48:54+00:00"
+            "time": "2021-11-21T21:41:47+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -1430,16 +1430,16 @@
         },
         {
             "name": "vlucas/phpdotenv",
-            "version": "v5.3.1",
+            "version": "v5.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vlucas/phpdotenv.git",
-                "reference": "accaddf133651d4b5cf81a119f25296736ffc850"
+                "reference": "d4394d044ed69a8f244f3445bcedf8a0d7fe2403"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/accaddf133651d4b5cf81a119f25296736ffc850",
-                "reference": "accaddf133651d4b5cf81a119f25296736ffc850",
+                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/d4394d044ed69a8f244f3445bcedf8a0d7fe2403",
+                "reference": "d4394d044ed69a8f244f3445bcedf8a0d7fe2403",
                 "shasum": ""
             },
             "require": {
@@ -1462,7 +1462,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "5.3-dev"
+                    "dev-master": "5.4-dev"
                 }
             },
             "autoload": {
@@ -1492,7 +1492,7 @@
             ],
             "support": {
                 "issues": "https://github.com/vlucas/phpdotenv/issues",
-                "source": "https://github.com/vlucas/phpdotenv/tree/v5.3.1"
+                "source": "https://github.com/vlucas/phpdotenv/tree/v5.4.0"
             },
             "funding": [
                 {
@@ -1504,7 +1504,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-10-02T19:24:42+00:00"
+            "time": "2021-11-10T01:08:39+00:00"
         }
     ],
     "packages-dev": [
@@ -2850,16 +2850,16 @@
         },
         {
             "name": "sebastian/exporter",
-            "version": "3.1.3",
+            "version": "3.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/exporter.git",
-                "reference": "6b853149eab67d4da22291d36f5b0631c0fd856e"
+                "reference": "0c32ea2e40dbf59de29f3b49bf375176ce7dd8db"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/6b853149eab67d4da22291d36f5b0631c0fd856e",
-                "reference": "6b853149eab67d4da22291d36f5b0631c0fd856e",
+                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/0c32ea2e40dbf59de29f3b49bf375176ce7dd8db",
+                "reference": "0c32ea2e40dbf59de29f3b49bf375176ce7dd8db",
                 "shasum": ""
             },
             "require": {
@@ -2868,7 +2868,7 @@
             },
             "require-dev": {
                 "ext-mbstring": "*",
-                "phpunit/phpunit": "^6.0"
+                "phpunit/phpunit": "^8.5"
             },
             "type": "library",
             "extra": {
@@ -2915,7 +2915,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/exporter/issues",
-                "source": "https://github.com/sebastianbergmann/exporter/tree/3.1.3"
+                "source": "https://github.com/sebastianbergmann/exporter/tree/3.1.4"
             },
             "funding": [
                 {
@@ -2923,7 +2923,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-11-30T07:47:53+00:00"
+            "time": "2021-11-11T13:51:24+00:00"
         },
         {
             "name": "sebastian/global-state",
@@ -3214,7 +3214,6 @@
                     "type": "github"
                 }
             ],
-            "abandoned": true,
             "time": "2020-11-30T07:30:19+00:00"
         },
         {
@@ -3437,7 +3436,6 @@
     "platform": {
         "php": "^7.2 || ^8.0",
         "ext-json": "*",
-        "ext-pdo": "*"
         "ext-pdo": "*",
         "ext-pdo_mysql": "*"
     },
