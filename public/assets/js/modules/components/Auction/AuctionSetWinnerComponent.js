@@ -150,7 +150,6 @@ export class AuctionSetWinnerComponent
         else
         {
             // OK - but you cannot go to relevant page in this state
-            console.log("ANO WINNER 1")
             winnerAlreadySet.removeAttr("hidden")
             winnerSetHeading.remove()
             bidWinnerSetWaitStart.remove()
