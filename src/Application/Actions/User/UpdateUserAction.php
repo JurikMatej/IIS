@@ -51,11 +51,14 @@ class UpdateUserAction extends UserAction
         $user->setRoleId(intval($id));
         $user->setRole($roleString);
         $user->setAuthorityLevel(intval($level));
-        $user->setAddress($_POST["address"]);
-        $user->setPassword(password_hash($_POST["password"], PASSWORD_DEFAULT));
-        $user->setMail($_POST["email"]);
-        $user->setLastName($_POST["surname"]);
-        $user->setFirstName($_POST["name"]);
+        if ($_SESSION['role'] !== "Admin")
+        {
+            $user->setAddress($_POST["address"]);
+            $user->setPassword(password_hash($_POST["password"], PASSWORD_DEFAULT));
+            $user->setMail($_POST["email"]);
+            $user->setLastName($_POST["surname"]);
+            $user->setFirstName($_POST["name"]);
+        }
 
         $this->userRepository->save($user);
 

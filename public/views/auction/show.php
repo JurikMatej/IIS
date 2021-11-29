@@ -146,7 +146,8 @@
     <?php 
         // enable to admin and licitator to see list of all users registred for this auction
         $role = isset($_SESSION['role'])? $_SESSION['role'] : '';
-        if ((($role === "Auctioneer" && $auction->getApproverId() === $_SESSION['id']) || $role === "Admin") && ($auction->getWinner() == null)) {?>
+        if ((($role === "Auctioneer" && $auction->getApproverId() === $_SESSION['id']) 
+            || $role === "Admin" && $auction->getAuthorId() !=  $_SESSION['id']) && ($auction->getWinner() == null)) {?>
             <a href="/auctions/<?=$auction->getId()?>/users" class="btn btn-primary">Manage users/winner</a>
     <?php } ?>
     <?php 

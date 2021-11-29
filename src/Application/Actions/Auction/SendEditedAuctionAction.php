@@ -45,31 +45,41 @@ class SendEditedAuctionAction extends AuctionAction
         else
         {
             $time_limit = new DateTime();
+            $zero = clone $time_limit;
             $time_limit->setTime($hours, $minutes);
+            $zero->setTime(0,0);
+            $time_limit = $time_limit->diff($zero);
         }
        
         $name = (isset($_POST['name']))?$_POST['name']:'';
         $description = (isset($_POST['description']))?$_POST['description']:'';
         $starting_bid =( isset($_POST['starting_bid']))?$_POST['starting_bid']:'';
-        $minimum_bid_increase = (isset($_POST['minimum_bid_increase']))?$_POST['minimum_bid_increase']:'';
-        $ruleset = (isset($_POST['ruleset']))?$_POST['ruleset']:'';
-        $type = (isset($_POST['type']))?$_POST['type']:'';
+        $minimum_bid_increase = (int)(isset($_POST['minimum_bid_increase']))?$_POST['minimum_bid_increase']:'';
+        $rulesetId = (int)(isset($_POST['ruleset']))?$_POST['ruleset']:'';
+        $typeId = (int)(isset($_POST['type']))?$_POST['type']:'';
         
 
-        $typeid = 1;
-        foreach ($types as $type)
+        if ($typeId === 0 && $rulesetId === 2) // closed
         {
-            if ($type->type == $_POST["type"])
+            $typeId = 1; // only ascending bid
+        }
+
+
+        $typeString = '';
+        foreach ($types as $typ)
+        {
+            if ($typ->id == $typeId)
             {
-                $typeid = $type->id;
+                $typeString = $typ->type;
             }
         }
-        $rulesetid = 1;
-        foreach ($rulesets as $ruleset)
+
+        $rulesetString = '';
+        foreach ($rulesets as $rule)
         {
-            if ($ruleset->ruleset == $_POST["ruleset"])
+            if ($rule->id == $rulesetId)
             {
-                $rulesetid = $ruleset->id;
+                $rulesetString = $rule->ruleset;
             }
         }
 
@@ -77,11 +87,11 @@ class SendEditedAuctionAction extends AuctionAction
         $auction->setName($name);
         $auction->setDescription($description);
         $auction->setStartingBid($starting_bid);
-        $auction->setMinimumBidIncrease($minimum_bid_increase);
-        $auction->setRuleset($ruleset->ruleset);
-        $auction->setRulesetId($rulesetid);
-        $auction->setType($type->type);
-        $auction->setTypeId($typeid);
+        $auction->setMinimumBidIncrease(intval($minimum_bid_increase));
+        $auction->setRuleset($rulesetString);
+        $auction->setRulesetId($rulesetId);
+        $auction->setType($typeString);
+        $auction->setTypeId($typeId);
         
         $this->auctionRepository->save($auction);
 

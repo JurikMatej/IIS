@@ -2,7 +2,7 @@
 <!-- saved from url=(0070)https://www.fit.vutbr.cz/study/courses/IIS/private/projekt/doc.html.cs -->
 <html data-redeviation-bs-uid="94822">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
 
 	<title>Projekt IIS</title>
 	<style type="text/css">
@@ -158,7 +158,7 @@
 			</ul> 
 		</dd>
 		<dt>URL aplikace</dt>
-		<dd><a href="http://www.stud.fit.vutbr.cz/~xautor01/IIS">http://www.stud.fit.vutbr.cz/~xautor01/IIS</a></dd>
+		<dd><a href="http://www.w-port.sk">http://www.w-port.sk</a></dd>
 	</dl>
 
 	<h2>Uživatelia systému pre testovanie</h2>
@@ -319,16 +319,26 @@
 	<h2>Inštálacia</h2>
 
 	<ul>
-	<li>postup instalace na server,</li>
-	<li>softwarové požadavky (verze PHP apod.),</li>
-	<li>jak rozbalit, konfigurovat, inicializovat databázu, ...</li>
+		<li>Run ```composer install```</li>
+		<li>Run ```npm install```</li>
+		<li>Copy ```.env.example``` file into a new ```.env``` file and fill out all fields</li>
+		<li>To edit the application functionality:
+			1. JavaScript: ```npm run build-watch```
+			2. PHP: ```composer start``` - runs a localhost server at port 8080 to test the application</li>
+		<li>Deploy: 
+			1. Make sure ```.env``` debug variables are turned off
+				1. `APP_DEBUG=0`
+				2. `APP_DISPLAY_ERROR_DETAILS=0`
+			2. Host the production ready application somewhere
+			3. Enjoy a new, full-fledged auction system</li>
 	</ul>
 
 	<h2>Známe problémy</h2>
 	<p>
-		Finálna verzia vytvoreného informačného systému neobsahuje žiadne väčšie problémy, ktoré by bránili základnej funkcionalite požadovanej zo zadania. Z časových dôvodov sa podarilo vytvoriť
-		iba základné GUI a nestihli sa na zdrojový kód projektu aplikovať clean code zásady (v niektorých kontroléroch je mŕtvy kód). Ďalším menším nedostatkom je, že sa pri editácii aukcie nestihlo
-		implementovať pridávanie/editovanie fotiek danej aukcie. Pri uzavretých aukciách sa pri rovnakom príhoze vyberie autor s nižžším ID, lepšie riešenie sa nestihlo implementovať.
+		Editácia auckie nefuguje, sú ošetrené obmedzenia pre editáciu, akurát sa výsledok editácie neuloží do DB a vyhodí sa error 500.
+		Pri uzavretých aukciách sa pri rovnakom príhoze vyberie autor s nižžším ID, lepšie riešenie sa nestihlo implementovať.
+		Nie pri všetkom funguje ajax. Može sa stať, že je potrebné refreshnúť stránku aby sa vo view prejavili zmeny.
+		
 	</p>
 
 

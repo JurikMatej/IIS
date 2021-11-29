@@ -49,43 +49,46 @@ class BidInAuctionAction extends AuctionAction
         $starting_failed = false;
         $increase_failed = false;
 
-        if ($auction->getType() === "ascending-bid")
+        if($auction->getWinnerId() == 0)
         {
-            if ($value < $auction->getStartingBid())
+            if ($auction->getType() === "ascending-bid")
             {
-                $starting_failed = true;
+                if ($value < $auction->getStartingBid())
+                {
+                    $starting_failed = true;
+                }
+                // if closed do not check highest bid
+                else if (($value <= $highest_bid->getValue() && $auction->getRuleset() !== "closed"))
+                {
+                    $value_failed = true;
+                }
+                else if ($highest_bid->getValue() + $auction->getMinimumBidIncrease() > $value && $auction->getRuleset() !== "closed")
+                {
+                    $increase_failed = true;
+                }
+                else
+                {
+                    $bid = $this->bidRepository->findBidByAuctionAndUserId($auction_id, $user_id);
+                    $bid->setValue($value);
+                    $this->bidRepository->save($bid);
+                }
             }
-            // if closed do not check highest bid
-            else if (($value <= $highest_bid->getValue() && $auction->getRuleset() !== "closed"))
+            else //descending-bid
             {
-                $value_failed = true;
-            }
-            else if ($highest_bid->getValue() + $auction->getMinimumBidIncrease() > $value && $auction->getRuleset() !== "closed")
-            {
-                $increase_failed = true;
-            }
-            else
-            {
-                $bid = $this->bidRepository->findBidByAuctionAndUserId($auction_id, $user_id);
-                $bid->setValue($value);
-                $this->bidRepository->save($bid);
-            }
-        }
-        else //descending-bid
-        {
-            if ($value > $auction->getStartingBid())
-            {
-                $starting_failed = true;
-            }
-            else if (($value >= $highest_bid->getValue() && $highest_bid->getValue() !== 0 && $auction->getRuleset() !== "closed"))
-            {
-                $value_failed = true;
-            }
-            else
-            {
-                $bid = $this->bidRepository->findBidByAuctionAndUserId($auction_id, $user_id);
-                $bid->setValue($value);
-                $this->bidRepository->save($bid);
+                if ($value > $auction->getStartingBid())
+                {
+                    $starting_failed = true;
+                }
+                else if (($value >= $highest_bid->getValue() && $highest_bid->getValue() !== 0 && $auction->getRuleset() !== "closed"))
+                {
+                    $value_failed = true;
+                }
+                else
+                {
+                    $bid = $this->bidRepository->findBidByAuctionAndUserId($auction_id, $user_id);
+                    $bid->setValue($value);
+                    $this->bidRepository->save($bid);
+                }
             }
         }
 

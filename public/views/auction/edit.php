@@ -15,10 +15,10 @@
         <label for="starting_bid"> Starting bid ($): </label> 
         <input type="number" name="starting_bid" value="<?=$auction->getStartingBid()?>"><br>
         <label for="minimum_bid_increase"> Minimum bid increase ($): </label>
-        <input type="number" name="minimum_bid_increase" value="<?=$auction->getMinimumBidIncrease()?>"><br>
+        <input type="number" name="minimum_bid_increase" id="bid_inc" value="<?=$auction->getMinimumBidIncrease()?>"><br>
 
         <label for="ruleset">Choose ruleset:</label>
-        <select name="ruleset" id="ruleset" onchange="check()">
+        <select name="ruleset" id="ruleset" onchange="checkRuleset()">
             <?php foreach ($rulesets as $ruleset){
                 if ($auction->getRuleset() === $ruleset->ruleset){ 
                     echo 'selected="selected"';
@@ -30,7 +30,7 @@
         <br>
 
         <label for="type">Choose type:</label>
-        <select name="type" id="type">
+        <select name="type" id="type" onchange="checkType()">
         <?php foreach ($types as $type){
             if ($auction->getType() === $type->type){ 
                 echo 'selected="selected"';
@@ -48,16 +48,28 @@
         document.getElementById("name").required = true;
         document.getElementById("desc").required = true;
 
-        function check()
+        function checkRuleset()
         {
             if (document.getElementById("ruleset").value === '2')
             {
-                document.getElementById('type').value = '1';
-                document.getElementById('type').disabled = true;
+                document.getElementById('bid_inc').disabled = true;
+                document.getElementById('bid_inc').value = 0;
             }
             else 
             {
-                document.getElementById('type').disabled = false;
+                document.getElementById('bid_inc').disabled = false;
+            }
+        }
+        function checkType()
+        {
+            if (document.getElementById("type").value === '2')
+            {
+                document.getElementById('bid_inc').disabled = true;
+                document.getElementById('bid_inc').value = 0;
+            }
+            else
+            {
+                document.getElementById('bid_inc').disabled = false;
             }
         }
         
